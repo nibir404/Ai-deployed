@@ -169,7 +169,10 @@ export default function HowWeWorkPage() {
           {/* Plain <img> rather than next/image: the SVG composites its
               own embedded raster at render time, so the Next image
               optimizer adds no value. The browser scales the SVG to
-              fill the section like a photo. */}
+              fill the section like a photo. The <img> tag is required
+              for SVG <image xlink:href> external references to work
+              reliably across browsers. */}
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
             src={ASSETS.howWeWork.closingIllustration}
             alt="Decorative chrome illustration"
