@@ -1,5 +1,4 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { PageHero } from "@/components/site/PageHero";
@@ -167,12 +166,14 @@ export default function HowWeWorkPage() {
       {/* Closing photo + line */}
       <section className="relative py-[120px] overflow-hidden border-b hairline">
         <div className="absolute inset-0 -z-0 opacity-30">
-          <Image
-            src={ASSETS.hero.architectural.lg}
-            alt="Architectural facade"
-            fill
-            sizes="100vw"
-            className="object-cover grayscale contrast-110"
+          {/* Plain <img> rather than next/image: the SVG composites its
+              own embedded raster at render time, so the Next image
+              optimizer adds no value. The browser scales the SVG to
+              fill the section like a photo. */}
+          <img
+            src={ASSETS.howWeWork.closingIllustration}
+            alt="Decorative chrome illustration"
+            className="absolute inset-0 w-full h-full object-cover grayscale contrast-110"
           />
           <div className="absolute inset-0 bg-gradient-to-b from-[var(--color-bg)]/60 via-[var(--color-bg)]/40 to-[var(--color-bg)]" />
         </div>

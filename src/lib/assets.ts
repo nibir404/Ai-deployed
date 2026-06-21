@@ -54,6 +54,17 @@ export const ASSETS = {
     government: "/img/casestudies/cs-government-1920.webp",
     healthcare: "/img/casestudies/cs-healthcare-1920.webp",
   },
+  howWeWork: {
+    /**
+     * Decorative chrome-ring illustration used as the closing photo on
+     * the How We Work page. The SVG is tiny (~1 KB) — the heavy
+     * raster content (a 3000×3000 chrome ring) is stored as a
+     * sibling WebP referenced by `xlink:href`. Render with a plain
+     * `<img>` rather than `next/image` because the SVG's external
+     * image reference is not subject to the Next image optimizer.
+     */
+    closingIllustration: "/img/how-we-work/closing-illustration.svg",
+  },
 } as const;
 
 /** Convenience type for any single asset path string. */
