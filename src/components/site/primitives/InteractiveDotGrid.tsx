@@ -1,12 +1,18 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 
 type Props = {
   /** Cell size in px. Each cell renders one character. Default 14. */
   cellSize?: number;
   /** Radius of the cursor influence (cells). Default 14. */
   radius?: number;
+  /**
+   * When true, render an "AI Deployed" wordmark in the background of the
+   * field. The logo is only visible at the exact cursor position via a
+   * radial mask that follows the pointer. Default: true.
+   */
+  showLogo?: boolean;
   /** Optional className. */
   className?: string;
 };
@@ -41,6 +47,12 @@ const ASCII_CHARS = [
  * and `var(--color-ink)` for the cursor-hot center, so the grid
  * reads on both dark and light themes without per-theme tweaks.
  *
+ * Background logo reveal:
+ * When `showLogo` is enabled, an "AI Deployed" wordmark is painted
+ * behind the dot grid. The wordmark is masked with a radial gradient
+ * whose center tracks the pointer, so the logo is only visible in a
+ * soft circular "flashlight" right where the cursor is.
+ *
  * Honors `prefers-reduced-motion`: skips the ambient drift and the
  * cursor influence — just a static dot field.
  *
@@ -50,16 +62,29 @@ const ASCII_CHARS = [
  *     60ms for ambient drift when idle).
  *   - The full grid of cells is precomputed once; only the per-cell
  *     character/color is recomputed per frame.
+ *   - The logo is a sibling DOM element (not drawn on the canvas)
+ *     with a CSS `mask-image: radial-gradient(...)` driven by two
+ *     CSS custom properties (`--mx`, `--my`) that are updated on
+ *     pointermove. This keeps the logo crisp (vector) and avoids
+ *     re-rasterizing it on every frame.
  */
 export function InteractiveDotGrid({
   cellSize = 14,
   radius = 14,
+  showLogo = true,
   className,
 }: Props) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const mouseRef = useRef({ x: -9999, y: -9999, active: false });
   const rafRef = useRef<number | null>(null);
+
+  // Mirror of mouse position in pixels (for the logo mask). Kept as
+  // state only when actively hovering so React doesn't re-render on
+  // every mousemove — we just write the CSS custom properties
+  // directly on the wrapper element from the pointer handler.
+  const logoWrapRef = useRef<HTMLDivElement | null>(null);
+  const [logoVisible, setLogoVisible] = useState(false);
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -177,12 +202,23 @@ export function InteractiveDotGrid({
 
     const onPointerMove = (e: PointerEvent) => {
       const rect = wrapper.getBoundingClientRect();
-      mouseRef.current.x = e.clientX - rect.left;
-      mouseRef.current.y = e.clientY - rect.top;
+      const x = e.clientX - rect.left;
+      const y = e.clientY - rect.top;
+      mouseRef.current.x = x;
+      mouseRef.current.y = y;
       mouseRef.current.active = true;
+      // Drive the logo mask directly via CSS custom properties on
+      // the wrapper — no React re-render, no per-frame work.
+      wrapper.style.setProperty("--mx", `${x}px`);
+      wrapper.style.setProperty("--my", `${y}px`);
+    };
+    const onPointerEnter = () => {
+      mouseRef.current.active = true;
+      if (showLogo) setLogoVisible(true);
     };
     const onPointerLeave = () => {
       mouseRef.current.active = false;
+      if (showLogo) setLogoVisible(false);
     };
 
     const onResize = () => setup();
@@ -190,9 +226,7 @@ export function InteractiveDotGrid({
 
     wrapper.addEventListener("pointermove", onPointerMove);
     wrapper.addEventListener("pointerleave", onPointerLeave);
-    wrapper.addEventListener("pointerenter", () => {
-      mouseRef.current.active = true;
-    });
+    wrapper.addEventListener("pointerenter", onPointerEnter);
 
     const ro = new ResizeObserver(() => setup());
     ro.observe(wrapper);
@@ -202,9 +236,15 @@ export function InteractiveDotGrid({
       window.removeEventListener("resize", onResize);
       wrapper.removeEventListener("pointermove", onPointerMove);
       wrapper.removeEventListener("pointerleave", onPointerLeave);
+      wrapper.removeEventListener("pointerenter", onPointerEnter);
       ro.disconnect();
     };
-  }, [cellSize, radius]);
+  }, [cellSize, radius, showLogo]);
+
+  // The logo mask radius. Slightly larger than the dot-grid's
+  // influence radius so the wordmark peeks through a touch
+  // beyond the densest ASCII glyph ring.
+  const maskRadius = Math.max(80, radius * cellSize * 0.9);
 
   return (
     <div
@@ -215,15 +255,68 @@ export function InteractiveDotGrid({
         inset: 0,
         pointerEvents: "auto",
         cursor: "crosshair",
+        // Defaults for the logo mask — overwritten on pointermove.
+        // Expressed in wrapper-local pixel coordinates.
+        ["--mx" as string]: "-9999px",
+        ["--my" as string]: "-9999px",
+        ["--mask-radius" as string]: `${maskRadius}px`,
       }}
       aria-hidden
     >
+      {showLogo && (
+        <div
+          ref={logoWrapRef}
+          className="logo-reveal-mask"
+          style={{
+            position: "absolute",
+            inset: 0,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            // The wordmark itself is just typography. We use
+            // `text-stroke` + transparent fill so the logo reads
+            // like a hairline outline on both dark and light
+            // themes via the `currentColor` token.
+            color: "var(--color-ink)",
+            opacity: logoVisible ? 1 : 0,
+            transition: "opacity 220ms ease-out",
+            pointerEvents: "none",
+          }}
+        >
+          <div
+            className="logo-reveal-wordmark"
+            style={{
+              fontFamily: "var(--font-display)",
+              fontWeight: 500,
+              fontSize: "clamp(72px, 14vw, 220px)",
+              letterSpacing: "0.04em",
+              lineHeight: 1,
+              // Centered horizontally; the wordmark is wide so
+              // keep it from clipping on small screens.
+              whiteSpace: "nowrap",
+              textTransform: "uppercase",
+              // Hairline outline look: transparent fill, ink stroke.
+              WebkitTextStroke: `1.25px currentColor`,
+              WebkitTextFillColor: "transparent",
+              // Soft inner padding so the descenders/ascenders are
+              // inside the mask circle.
+              padding: "0.1em 0.2em",
+            }}
+          >
+            AI Deployed
+          </div>
+        </div>
+      )}
       <canvas
         ref={canvasRef}
         style={{
+          position: "relative",
           display: "block",
           width: "100%",
           height: "100%",
+          // Keep the canvas above the logo so the dot field reads
+          // as the topmost layer (the logo peeks through the gaps).
+          zIndex: 1,
         }}
       />
     </div>

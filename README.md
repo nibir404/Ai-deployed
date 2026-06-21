@@ -52,6 +52,7 @@ This repository contains the company's public website. It is built as a server-r
 - **Glossy black primary CTA** — full-rounded squared (4px) pill with vertical gradient and white icon tile inset.
 - **Frosted-glass header** — permanent backdrop-blur with progressive enhancement (`@supports [backdrop-filter]`) and a fall-back dark-tint linear-gradient for browsers without backdrop-filter.
 - **Interactive ASCII dot field** — full-bleed `<canvas>` grid in the hero photo band; rest state is a quiet `·` field, near the cursor dots animate through ASCII glyphs (`·` → `●` → `█`) and shift to ink. Theme-aware via `getComputedStyle` — readable in both dark and light modes.
+- **Cursor-following logo reveal** — the "AI DEPLOYED" wordmark sits behind the dot field and is only visible inside a soft circular "flashlight" that follows the pointer. The mask center is driven by two CSS custom properties (`--mx` / `--my`) written directly on the wrapper from `pointermove` — no React re-renders, no per-frame JS. The wordmark uses `mix-blend-mode: screen` in dark mode and `multiply` in light mode so it sits *within* the field rather than punching a hard hole. Disabled when `prefers-reduced-motion: reduce` is active and toggleable via the `showLogo` prop on `<InteractiveDotGrid />`.
 - **GSAP-driven count-up** — Operating Metrics section uses a frame-locked GSAP ticker for smoother-than-RAF animation with rounded per-frame output and a 0.18s stagger between counters.
 - **GSAP smooth scroll** — anchor-link scrolling (`/#pricing`, `/capabilities`, etc.) is animated via the ScrollToPlugin with `power3.inOut` ease, replacing the browser's native jump and the CSS `scroll-behavior: smooth` baseline.
 - **AI CLI assistant** — a floating terminal-style panel that answers site-aware questions using a tokenized keyword matcher over a structured knowledge base. Streams character-by-character for an "AI typing" feel. Persists open/closed state in `localStorage`.
@@ -202,7 +203,7 @@ To retheme, override the CSS variables in `src/app/globals.css`.
 
 The site ships with a built-in AI-style terminal assistant (the `Cli` component, bottom-right floating launcher).
 
-**Knowledge source:** `src/lib/site-data.ts` — a structured array of 13 topics (services, industries, pricing, engagement models, outcomes, stats, case studies, research, FAQ, etc.) with keyword aliases, summaries, facts, and outbound links.
+**Knowledge source:** `src/lib/site-data.ts` — a structured array of 12 topics (what we do, forward-deployed engineering, services, industries, engagement models, pricing, outcomes, stats, case studies, research, why us, FAQ, plus a contact topic) with keyword aliases, summaries, facts, and outbound links.
 
 **Matcher:** `findTopic(query)` tokenizes the input, scores every topic by alias hits + title-word matches + phrase bonuses ("how much", "how long", "what is", "who are"), and returns the top-scoring topic.
 

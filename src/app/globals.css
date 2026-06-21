@@ -553,4 +553,63 @@
       display: none;
     }
   }
+
+  /* ---------------------------------------------------------------------
+   * Interactive field — cursor-following logo reveal
+   *
+   * The "AI Deployed" wordmark sits behind the dot field and is only
+   * visible inside a soft circular "flashlight" that follows the
+   * pointer. The mask center is driven by the `--mx` / `--my` CSS
+   * custom properties set inline on the wrapper, and the radius is
+   * `--mask-radius` (also inline).
+   *
+   * The two-stop radial gradient gives a hard inner core (where the
+   * wordmark is fully visible) and a feathered edge (where it fades
+   * into the dot field). Outside the gradient the element is fully
+   * transparent, so the dots are the only thing the user sees
+   * except directly under the cursor.
+   * ------------------------------------------------------------------- */
+  .logo-reveal-mask {
+    /* WebKit prefix first (Safari, older Chrome), then standard. */
+    -webkit-mask-image: radial-gradient(
+      circle var(--mask-radius, 140px) at var(--mx, -9999px) var(--my, -9999px),
+      #000 0%,
+      #000 35%,
+      rgba(0, 0, 0, 0.6) 65%,
+      transparent 100%
+    );
+    mask-image: radial-gradient(
+      circle var(--mask-radius, 140px) at var(--mx, -9999px) var(--my, -9999px),
+      #000 0%,
+      #000 35%,
+      rgba(0, 0, 0, 0.6) 65%,
+      transparent 100%
+    );
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    /* Match the wrapper's coordinate system — the radial gradient is
+       in pixel space, not relative to the element's own box. */
+    -webkit-mask-origin: border-box;
+    mask-origin: border-box;
+  }
+
+  .logo-reveal-wordmark {
+    /* Subtle blend so the wordmark sits *within* the dot field rather
+       than punching a hard hole. `screen` lightens the field where the
+       logo overlaps in dark mode; `multiply` darkens it in light mode. */
+    mix-blend-mode: screen;
+  }
+
+  html.light .logo-reveal-wordmark {
+    mix-blend-mode: multiply;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    /* Keep the reveal functional — it's a passive hover effect — but
+       disable the opacity fade-in transition for users who prefer no
+       motion. */
+    .logo-reveal-mask {
+      transition: none;
+    }
+  }
 }
