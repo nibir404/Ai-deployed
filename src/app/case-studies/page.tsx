@@ -6,6 +6,7 @@ import { PageHero } from "@/components/site/PageHero";
 import { StackReveal } from "@/components/site/primitives/StackReveal";
 import { ArrowUpRight } from "@/components/site/icons";
 import { ASSETS } from "@/lib/assets";
+import { gridFillProps } from "@/lib/gridFill";
 
 export const metadata: Metadata = {
   title: "Case studies — AI Deployed",
@@ -156,6 +157,7 @@ export default function CaseStudiesPage() {
               <article
                 key={s.title}
                 data-stack
+                {...gridFillProps(rest.length, 3, i)}
                 className="card-surface relative overflow-hidden group min-h-[380px] flex flex-col"
               >
                 <div className="relative aspect-[16/10] w-full overflow-hidden">

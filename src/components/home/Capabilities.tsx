@@ -16,6 +16,7 @@ import {
   type IconProps,
 } from "@/components/site/icons";
 import type { ComponentType } from "react";
+import { gridFillProps } from "@/lib/gridFill";
 
 type Group = {
   id: string;
@@ -98,6 +99,7 @@ function TabPanel({
         <div
           key={item}
           data-stack
+          {...gridFillProps(items.length, 3, idx)}
           className="card-surface p-6 md:p-8 min-h-[160px] flex flex-col gap-4 group hover:bg-[var(--color-surface)] transition-colors relative overflow-hidden"
         >
           {/* Big lime number index in the corner */}

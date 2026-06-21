@@ -353,21 +353,39 @@
   }
 
   /* ---------------------------------------------------------------------
-   * Glossy black CTA — primary button
+   * Glossy CTA — primary button
    *
-   * Squared-but-soft radius (14px), glossy vertical gradient body
+   * Squared-but-soft radius (4px), glossy vertical gradient body
    * (charcoal → near-black with a subtle top highlight for a glassy
    * 3D read). White text, white icon tile inset on the left via
    * `.btn-pill__icon` (rendered inside the button as a small
    * rounded white square).
    *
-   * Hover: subtle 1px lift, brighter highlight, and a hairline ring
-   * of soft white — no dramatic color flip.
+   * Hover — full color reversal.
+   * In dark mode the default is a dark gradient body with white text
+   * and a white icon tile. On hover the body becomes white, the text
+   * becomes ink, and the icon tile becomes ink with a white glyph —
+   * the entire visual treatment inverts cleanly.
+   * In light mode the same rules produce a flipped inversion
+   * (white → ink body, ink → white text) because the underlying
+   * tokens resolve to the inverted palette.
    *
    * The accompanying `.glow-pill` utility is kept for legacy sections
    * but is no longer tied to the CTA color.
    * ------------------------------------------------------------------- */
   .btn-pill {
+    --btn-body-from: #2a2a2a;
+    --btn-body-mid: #1a1a1a;
+    --btn-body-to: #0a0a0a;
+    --btn-text: #ffffff;
+    --btn-tile-bg: #ffffff;
+    --btn-tile-fg: #0a0a0a;
+    --btn-ring: rgba(255, 255, 255, 0.10);
+    --btn-shadow-1: rgba(0, 0, 0, 0.4);
+    --btn-shadow-2: rgba(0, 0, 0, 0.6);
+    --btn-highlight: rgba(255, 255, 255, 0.10);
+    --btn-press: rgba(0, 0, 0, 0.4);
+
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -378,35 +396,72 @@
     text-transform: none;
     letter-spacing: -0.005em;
     font-weight: 500;
-    color: #ffffff;
+    color: var(--btn-text);
     border: 0;
     border-radius: 4px;
     cursor: pointer;
-    background:
-      linear-gradient(
-        180deg,
-        #2a2a2a 0%,
-        #1a1a1a 55%,
-        #0a0a0a 100%
-      );
+    background: linear-gradient(
+      180deg,
+      var(--btn-body-from) 0%,
+      var(--btn-body-mid) 55%,
+      var(--btn-body-to) 100%
+    );
     box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.10),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.4),
-      0 0 0 1px rgba(255, 255, 255, 0.04),
-      0 8px 24px -8px rgba(0, 0, 0, 0.6);
+      inset 0 1px 0 var(--btn-highlight),
+      inset 0 -1px 0 var(--btn-press),
+      0 0 0 1px var(--btn-ring),
+      0 8px 24px -8px var(--btn-shadow-2);
     transition:
-      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      background 240ms cubic-bezier(0.22, 1, 0.36, 1),
       box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1),
-      filter 240ms ease;
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
   }
-  .btn-pill:hover {
+  /* Hover — full reversal.
+     Body gradient flips to a white→platinum→smoke ramp with a soft
+     inner-shadow ring instead of an outer drop shadow, so the
+     button reads as "raised" against either theme background. */
+  .btn-pill:hover,
+  .btn-pill:focus-visible {
+    --btn-body-from: #ffffff;
+    --btn-body-mid: #f5f5f5;
+    --btn-body-to: #e7e7e7;
+    --btn-text: #0a0a0a;
+    --btn-tile-bg: #0a0a0a;
+    --btn-tile-fg: #ffffff;
+    --btn-ring: rgba(0, 0, 0, 0.18);
+    --btn-shadow-2: rgba(0, 0, 0, 0.35);
+    --btn-highlight: rgba(255, 255, 255, 0.85);
+    --btn-press: rgba(0, 0, 0, 0.08);
     transform: translateY(-1px);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.16),
-      inset 0 -1px 0 rgba(0, 0, 0, 0.4),
-      0 0 0 1px rgba(255, 255, 255, 0.10),
-      0 12px 28px -8px rgba(0, 0, 0, 0.75);
-    filter: brightness(1.08);
+  }
+  /* In light mode the rest state starts light-on-light, so the hover
+     flips it dark-on-light — the inversion always lands contrast. */
+  html.light .btn-pill {
+    --btn-body-from: #f5f5f5;
+    --btn-body-mid: #e7e7e7;
+    --btn-body-to: #d6d6d6;
+    --btn-text: #0a0a0a;
+    --btn-tile-bg: #0a0a0a;
+    --btn-tile-fg: #ffffff;
+    --btn-ring: rgba(0, 0, 0, 0.12);
+    --btn-shadow-1: rgba(0, 0, 0, 0.18);
+    --btn-shadow-2: rgba(0, 0, 0, 0.18);
+    --btn-highlight: rgba(255, 255, 255, 0.85);
+    --btn-press: rgba(0, 0, 0, 0.05);
+  }
+  html.light .btn-pill:hover,
+  html.light .btn-pill:focus-visible {
+    --btn-body-from: #1a1a1a;
+    --btn-body-mid: #0f0f0f;
+    --btn-body-to: #050505;
+    --btn-text: #ffffff;
+    --btn-tile-bg: #ffffff;
+    --btn-tile-fg: #0a0a0a;
+    --btn-ring: rgba(0, 0, 0, 0.5);
+    --btn-shadow-2: rgba(0, 0, 0, 0.45);
+    --btn-highlight: rgba(255, 255, 255, 0.10);
+    --btn-press: rgba(0, 0, 0, 0.4);
   }
   .btn-pill:focus-visible {
     outline: 2px solid var(--color-ink);
@@ -414,8 +469,10 @@
     border-radius: 4px;
   }
 
-  /* White icon tile inset on the left — sits flush with the button's
-     squared (4px) corners. The icon glyph lives inside. */
+  /* Icon tile inset on the left — sits flush with the button's
+     squared (4px) corners. The icon glyph lives inside. Color tokens
+     are driven from the parent .btn-pill so the tile inverts together
+     with the body. */
   .btn-pill__icon {
     display: inline-flex;
     align-items: center;
@@ -423,9 +480,12 @@
     width: 2rem;
     height: 2rem;
     border-radius: 4px;
-    background: #ffffff;
-    color: #0a0a0a;
+    background: var(--btn-tile-bg);
+    color: var(--btn-tile-fg);
     flex-shrink: 0;
+    transition:
+      background 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      color 240ms cubic-bezier(0.22, 1, 0.36, 1);
   }
 
   /* Soft page-wash (kept for backwards compatibility with FinalCta
@@ -610,6 +670,32 @@
        motion. */
     .logo-reveal-mask {
       transition: none;
+    }
+  }
+
+  /* ---------------------------------------------------------------------
+   * Grid fill — close the last row of an odd-count card group.
+   *
+   * Some sections (Capabilities tabs, Case Studies index, …) have a
+   * card count that doesn't divide cleanly into the desktop column
+   * count (e.g. 5 cards in a 3-col grid → row 2 has 2 cards + a
+   * dangling empty cell). We mark the *last* card with
+   * `data-fill="<span>"` (via `gridFillProps` in
+   * `src/lib/gridFill.ts`) and these rules make it span the
+   * remaining columns of its row, so the last row is always full.
+   *
+   * Tailwind's responsive variants are escaped as `lg\:grid-cols-3`
+   * inside the selector.
+   * ------------------------------------------------------------------- */
+  @media (min-width: 1024px) {
+    .lg\:grid-cols-3 > [data-fill="2"] {
+      grid-column: span 2 / span 2;
+    }
+    .lg\:grid-cols-4 > [data-fill="2"] {
+      grid-column: span 2 / span 2;
+    }
+    .lg\:grid-cols-4 > [data-fill="3"] {
+      grid-column: span 3 / span 3;
     }
   }
 }

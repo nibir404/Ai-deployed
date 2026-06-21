@@ -14,6 +14,7 @@ import {
 } from "@/components/site/icons";
 import type { ComponentType } from "react";
 import { ASSETS } from "@/lib/assets";
+import { gridFillProps } from "@/lib/gridFill";
 
 export const metadata: Metadata = {
   title: "Capabilities — AI Deployed",
@@ -181,6 +182,7 @@ function CapPanel({ group }: { group: Group }) {
           <article
             key={item.title}
             data-stack
+            {...gridFillProps(group.items.length, 3, idx)}
             className="card-surface p-6 md:p-8 min-h-[180px] flex flex-col gap-4 group hover:bg-[var(--color-surface)] transition-colors"
           >
             <div className="flex items-center justify-between">
