@@ -130,23 +130,29 @@ export function Hero() {
         <div className="relative w-full aspect-[16/8] md:aspect-[16/6] overflow-hidden">
           <CornerCrosshairs size={18} className="z-20" />
           <Image
-            src="/img/hero/hero-control-room-1920.webp"
-            alt="Forward-deployed operations control room — engineers monitoring live AI infrastructure"
+            src="/Heroimage.png"
+            alt="AI architecture diagram — central node connected to eight capability modules (compute, data, identity, security, integrations, infrastructure, governance, and operations)"
             fill
             priority
             sizes="100vw"
-            className="object-cover grayscale contrast-110 scale-[1.02] hover:scale-100 transition-transform duration-[1200ms] ease-out"
+            className="object-contain scale-[1.02] hover:scale-100 transition-transform duration-[1200ms] ease-out"
           />
-          {/* Moderate opacity overlay — keeps the photo visible but subdued
-              so the editorial content above remains the focal point. */}
-          <div className="absolute inset-0 bg-[var(--color-bg)]/60" />
+          {/* Moderate opacity overlay — keeps the illustration visible
+              but subdued so the editorial content above remains the
+              focal point. */}
+          <div className="absolute inset-0 bg-[var(--color-bg)]/40" />
           <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg)] via-transparent to-transparent" />
 
+          {/* Film-grain noise overlay — rendered from an inline SVG
+              feTurbulence filter (see `.hero-noise` in globals.css).
+              pointer-events-none so it never blocks interactions. */}
+          <div className="hero-noise absolute inset-0 z-10" aria-hidden />
+
           {/* Caption strip — FIG · 01 sits on the photo edge */}
-          <div className="absolute bottom-4 left-0 right-0 z-10">
+          <div className="absolute bottom-4 left-0 right-0 z-20">
             <Container className="relative">
               <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted">
-                <span>FIG · 01 · Control room</span>
+                <span>FIG · 01 · AI capability map</span>
                 <span>04:21 UTC</span>
               </div>
             </Container>
