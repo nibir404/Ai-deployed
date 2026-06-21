@@ -29,6 +29,18 @@ const DO = [
   "Continuously optimize",
 ];
 
+/**
+ * ForwardDeployed — clean editorial 50/50 split.
+ *
+ * Layout:
+ *   Left  (5/12): eyebrow + display heading + tall architectural photo.
+ *   Right (7/12): roles in a tight 2-col list, then a 2x4 grid of
+ *                 on-site activities. Tightened spacing, no intro
+ *                 paragraph, no counter labels, no decorative line.
+ *
+ * Visually distinct from the 4-up service grid above and the
+ * oversized stat row below.
+ */
 export function ForwardDeployed() {
   return (
     <section
@@ -44,10 +56,6 @@ export function ForwardDeployed() {
             <DisplayHeading as="h2" className="mt-6">
               Engineers, embedded.
             </DisplayHeading>
-            <p className="mt-6 text-body text-ink-muted leading-relaxed max-w-xl">
-              Forward-Deployed Engineers sit with your teams — translating
-              ambition into outcomes that last.
-            </p>
             <div className="mt-8 relative aspect-[4/5] sm:aspect-[3/4] w-full overflow-hidden bg-[var(--color-surface)]">
               <Image
                 src={ASSETS.hero.controlRoom.md}
@@ -57,29 +65,33 @@ export function ForwardDeployed() {
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 className="absolute inset-0 w-full h-full object-cover grayscale contrast-110"
               />
+              {/* Platinum edge accent — thin vertical bar on the photo's
+                  left side, ties the photo to the palette. */}
+              <span
+                aria-hidden
+                className="absolute top-0 left-0 w-1 h-full bg-[var(--color-platinum)]"
+              />
             </div>
           </div>
 
           <div className="lg:col-span-7 lg:pt-20">
-            <div className="card-surface border hairline p-6 md:p-8">
-              <Eyebrow>Embedded Roles</Eyebrow>
-              <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm">
-                {ROLES.map((r) => (
-                  <li
-                    key={r}
-                    className="flex items-center gap-3 text-ink"
-                  >
-                    <span
-                      aria-hidden
-                      className="inline-block size-1 bg-current opacity-60"
-                    />
-                    {r}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            <Eyebrow>Embedded Roles</Eyebrow>
+            <ul className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-y-3 gap-x-6 text-sm">
+              {ROLES.map((r) => (
+                <li
+                  key={r}
+                  className="flex items-center gap-3 text-ink py-1.5 border-b hairline"
+                >
+                  <span
+                    aria-hidden
+                    className="inline-block size-1 bg-[var(--color-platinum)]"
+                  />
+                  {r}
+                </li>
+              ))}
+            </ul>
 
-            <div className="mt-10">
+            <div className="mt-12">
               <Eyebrow>What They Do On Site</Eyebrow>
               <ol className="mt-6 grid grid-cols-2 md:grid-cols-4 gap-px bg-[var(--color-line)]">
                 {DO.map((d, i) => (

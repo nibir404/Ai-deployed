@@ -65,7 +65,7 @@ export function RangeSlider({
         />
         <div
           aria-hidden
-          className="absolute top-1/2 -translate-y-1/2 left-0 h-px bg-[var(--color-ink)]"
+          className="absolute top-1/2 -translate-y-1/2 left-0 h-px bg-[var(--color-accent)]"
           style={{ width: `${pct}%` }}
         />
         <input
@@ -79,17 +79,17 @@ export function RangeSlider({
           className={cn(
             "relative w-full appearance-none bg-transparent cursor-pointer",
             "h-10 outline-none",
-            // Square thumb (no rounded) matches editorial aesthetic
+            // Square thumb — accent fill to match the Dispatch palette
             "[&::-webkit-slider-thumb]:appearance-none",
             "[&::-webkit-slider-thumb]:w-4 [&::-webkit-slider-thumb]:h-4",
-            "[&::-webkit-slider-thumb]:bg-[var(--color-ink)]",
+            "[&::-webkit-slider-thumb]:bg-[var(--color-accent)]",
             "[&::-webkit-slider-thumb]:border-0",
             "[&::-webkit-slider-thumb]:cursor-pointer",
             "[&::-webkit-slider-thumb]:transition-transform",
             "[&::-webkit-slider-thumb]:duration-150",
             "hover:[&::-webkit-slider-thumb]:scale-110",
             "[&::-moz-range-thumb]:w-4 [&::-moz-range-thumb]:h-4",
-            "[&::-moz-range-thumb]:bg-[var(--color-ink)]",
+            "[&::-moz-range-thumb]:bg-[var(--color-accent)]",
             "[&::-moz-range-thumb]:border-0",
             "[&::-moz-range-thumb]:cursor-pointer",
             // Use accent-color for native track fill where supported
@@ -98,7 +98,7 @@ export function RangeSlider({
             "[&::-moz-range-track]:h-px",
             "[&::-moz-range-track]:bg-[var(--color-line)]",
           )}
-          style={{ accentColor: "var(--color-ink)" }}
+          style={{ accentColor: "var(--color-accent)" }}
         />
       </div>
 

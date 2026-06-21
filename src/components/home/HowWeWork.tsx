@@ -1,6 +1,9 @@
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
+import { GridLines } from "@/components/site/primitives/GridLines";
+import { EnterpriseMap } from "@/components/home/EnterpriseMap";
+import { cn } from "@/lib/cn";
 import {
   Target,
   Workflow,
@@ -56,9 +59,22 @@ const STEPS: {
   },
 ];
 
+/**
+ * HowWeWork — Dispatch-style with embedded EnterpriseMap.
+ *
+ * Layout:
+ *   - Heading + intro on the left (5/12)
+ *   - The 6 step cards (2x3) take the right (7/12)
+ *   - A full-width EnterpriseMap diagram is promoted to the bottom,
+ *     visually anchoring the whole "how we work" narrative.
+ */
 export function HowWeWork() {
   return (
-    <section id="how-we-work" aria-label="How we work" className="border-b hairline py-[120px]">
+    <section
+      id="how-we-work"
+      aria-label="How we work"
+      className="border-b hairline py-[120px]"
+    >
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12">
           <div className="lg:col-span-5">
@@ -72,12 +88,14 @@ export function HowWeWork() {
             </p>
           </div>
 
-          {/* Mobile: vertical stack. lg+: 2-col grid of cards (timeline-like). */}
           <ol className="lg:col-span-7 grid grid-cols-1 md:grid-cols-2 gap-px bg-[var(--color-line)]">
-            {STEPS.map((s) => (
+            {STEPS.map((s, i) => (
               <li
                 key={s.n}
-                className="card-surface p-6 md:p-8 min-h-[200px] flex flex-col group"
+                className={cn(
+                  "card-surface p-6 md:p-8 min-h-[200px] flex flex-col group relative overflow-hidden",
+                  i === 2 && "border border-[var(--color-accent)]", // Step 3 (Deployment) — lime border to mark a "center" step
+                )}
               >
                 <div className="flex items-start justify-between">
                   <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
@@ -98,6 +116,25 @@ export function HowWeWork() {
               </li>
             ))}
           </ol>
+        </div>
+
+        {/* Enterprise operating map — promoted to a full-width band */}
+        <div className="mt-16 md:mt-20">
+          <div className="flex items-center gap-4 mb-6">
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-dim shrink-0">
+              FIG · 03
+            </span>
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-dim">
+              Operating framework
+            </span>
+            <span aria-hidden className="flex-1 h-px bg-[var(--color-line)]" />
+            <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-dim shrink-0">
+              8 nodes
+            </span>
+          </div>
+          <div className="card-surface border hairline p-2 md:p-4 text-ink">
+            <EnterpriseMap />
+          </div>
         </div>
       </Container>
     </section>

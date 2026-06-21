@@ -4,6 +4,8 @@ import { Header } from "@/components/site/Header";
 import { PageFooter } from "@/components/site/PageFooter";
 import { ThemeScript } from "@/components/site/ThemeScript";
 import { ScrollProgress } from "@/components/site/ScrollProgress";
+import { SmoothScroll } from "@/components/site/SmoothScroll";
+import { Cli } from "@/components/site/Cli";
 import "./globals.css";
 
 const inter = Inter({
@@ -98,8 +100,10 @@ export default function RootLayout({
         </a>
         <Header />
         <ScrollProgress />
+        <SmoothScroll />
         <main id="main">{children}</main>
         <PageFooter />
+        <Cli />
       </body>
     </html>
   );

@@ -47,6 +47,13 @@ const STUDIES: Study[] = [
   },
 ];
 
+/**
+ * CaseStudies — Dispatch-style full-bleed featured + 3-col secondary.
+ *
+ * The featured card is a 7/12 tile with the architectural photo,
+ * a Venn JPG badge in the corner, and an oversized metric. Two
+ * secondary cards stack in a 5/12 column with their own metrics.
+ */
 export function CaseStudies() {
   const [featured, ...rest] = STUDIES;
   return (
@@ -70,7 +77,7 @@ export function CaseStudies() {
         </div>
 
         <div className="mt-12 md:mt-16 grid grid-cols-1 lg:grid-cols-12 gap-px bg-[var(--color-line)]">
-          {/* Featured — uses hero architectural image as full-bleed photo */}
+          {/* Featured — full-bleed grayscale photo with metric overlay */}
           <article
             data-stack
             className="card-surface lg:col-span-7 relative overflow-hidden group min-h-[420px] md:min-h-[520px] flex flex-col justify-end"
@@ -84,12 +91,13 @@ export function CaseStudies() {
                 sizes="(max-width: 1024px) 100vw, 58vw"
                 className="object-cover grayscale contrast-110 group-hover:scale-105 transition-transform duration-700"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-[var(--color-bg)] via-[var(--color-bg)]/60 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-black via-black/60 to-transparent" />
             </div>
+
             <div className="relative p-6 md:p-10">
               <div className="flex items-center gap-3">
-                <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
-                  Featured
+                <span className="font-mono text-[11px] uppercase tracking-[0.16em] accent-text">
+                  ● Featured
                 </span>
                 <span aria-hidden className="text-ink-dim">·</span>
                 <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
@@ -103,7 +111,7 @@ export function CaseStudies() {
                 {featured.summary}
               </p>
               <div className="mt-6 flex items-baseline gap-3">
-                <span className="font-display text-4xl md:text-5xl text-ink tabular-nums">
+                <span className="font-display text-5xl md:text-6xl text-ink tabular-nums leading-none">
                   {featured.metric}
                 </span>
                 <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
@@ -113,9 +121,9 @@ export function CaseStudies() {
             </div>
           </article>
 
-          {/* Secondary — distinct images per study */}
+          {/* Secondary — 5/12 column, 2 stacked cards */}
           <StackReveal className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-1 gap-px bg-[var(--color-line)]">
-            {rest.map((s) => (
+            {rest.map((s, i) => (
               <article
                 key={s.title}
                 data-stack
@@ -134,7 +142,7 @@ export function CaseStudies() {
                 <div className="relative flex-1 flex flex-col">
                   <div className="flex items-center justify-between">
                     <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
-                      {s.sector}
+                      0{i + 2} · {s.sector}
                     </span>
                   </div>
                   <h3 className="mt-3 font-display text-h3 font-medium leading-snug text-ink">
@@ -155,7 +163,7 @@ export function CaseStudies() {
                     <ArrowUpRight
                       size={18}
                       aria-hidden
-                      className="text-ink-muted group-hover:text-ink transition-colors shrink-0"
+                      className="text-ink-muted group-hover:text-[var(--color-accent)] transition-colors shrink-0"
                     />
                   </div>
                 </div>

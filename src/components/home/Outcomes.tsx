@@ -3,38 +3,28 @@ import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
 import { StackReveal } from "@/components/site/primitives/StackReveal";
 import { GridLines } from "@/components/site/primitives/GridLines";
-import {
-  Bolt,
-  Gauge,
-  LineChart,
-  Target,
-  Star,
-  Sparkles,
-  Cloud,
-  Layers,
-  Shield,
-  ArrowUpRight,
-  type IconProps,
-} from "@/components/site/icons";
-import type { ComponentType } from "react";
 
-const OUTCOMES: {
-  t: string;
-  b: string;
-  Icon: ComponentType<IconProps>;
-}[] = [
-  { t: "Faster operations", b: "Lower latency, higher throughput.", Icon: Bolt },
-  { t: "Higher productivity", b: "Embedded automation, compounding.", Icon: Gauge },
-  { t: "Lower cost", b: "Quantified opex reduction.", Icon: LineChart },
-  { t: "Better decisions", b: "Decision intelligence, real-time.", Icon: Target },
-  { t: "Improved CX", b: "Quicker, higher-quality service.", Icon: Star },
-  { t: "Less manual work", b: "Repetitive work automated.", Icon: Sparkles },
-  { t: "Modern stack", b: "Cloud-native, observable.", Icon: Cloud },
-  { t: "Scalable AI", b: "Pilot to production, intact.", Icon: Layers },
-  { t: "Resilience", b: "Continuity through change.", Icon: Shield },
-  { t: "Quantifiable value", b: "Measured in outcomes, not deliverables.", Icon: ArrowUpRight },
+const OUTCOMES = [
+  { t: "Faster operations", b: "Lower latency, higher throughput." },
+  { t: "Higher productivity", b: "Embedded automation, compounding." },
+  { t: "Lower cost", b: "Quantified opex reduction." },
+  { t: "Better decisions", b: "Decision intelligence, real-time." },
+  { t: "Improved CX", b: "Quicker, higher-quality service." },
+  { t: "Less manual work", b: "Repetitive work automated." },
+  { t: "Modern stack", b: "Cloud-native, observable." },
+  { t: "Scalable AI", b: "Pilot to production, intact." },
+  { t: "Resilience", b: "Continuity through change." },
+  { t: "Quantifiable value", b: "Measured in outcomes, not deliverables." },
 ];
 
+/**
+ * Outcomes — Dispatch-style 5×2 dense grid.
+ *
+ * 10 outcomes laid out in a 5-col × 2-row grid. Each tile carries
+ * a giant lime display index and a one-line description. No icons —
+ * the index IS the icon. This contrasts with the 4-up service grid
+ * above and the 3-up pricing below.
+ */
 export function Outcomes() {
   return (
     <section
@@ -55,27 +45,23 @@ export function Outcomes() {
             </p>
           </div>
 
-          <StackReveal className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 gap-px bg-[var(--color-line)]">
+          <StackReveal className="lg:col-span-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-px bg-[var(--color-line)]">
             {OUTCOMES.map((o, i) => (
               <li
                 key={o.t}
                 data-stack
-                className="card-surface p-6 md:p-7 min-h-[140px] flex flex-col gap-4 group"
+                className="card-surface p-5 md:p-6 min-h-[180px] flex flex-col group"
               >
-                <div className="flex items-start justify-between">
-                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <o.Icon
-                    size={18}
-                    aria-hidden
-                    className="text-ink-muted group-hover:text-ink transition-colors"
-                  />
-                </div>
-                <h3 className="font-display text-h3 font-medium text-ink leading-snug">
+                <span
+                  aria-hidden
+                  className="font-display text-4xl md:text-5xl font-medium leading-none tracking-[-0.04em] text-ink"
+                >
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+                <h3 className="mt-4 font-display text-h3 font-medium text-ink leading-snug">
                   {o.t}
                 </h3>
-                <p className="text-sm text-ink-muted leading-relaxed">
+                <p className="mt-auto pt-4 text-sm text-ink-muted leading-relaxed">
                   {o.b}
                 </p>
               </li>

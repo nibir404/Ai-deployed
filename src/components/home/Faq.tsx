@@ -38,9 +38,20 @@ const QUESTIONS = [
   },
 ];
 
+/**
+ * Faq — Dispatch-style 4/8 split with a lime-bordered accordion.
+ *
+ * Left column (4/12): heading + body. Right column (8/12): the
+ * Accordion primitive, whose open rows now carry a 4px lime left
+ * border and lime `+` chevron.
+ */
 export function Faq() {
   return (
-    <section id="faq" aria-label="Frequently asked questions" className="border-b hairline py-[120px]">
+    <section
+      id="faq"
+      aria-label="Frequently asked questions"
+      className="border-b hairline py-[120px]"
+    >
       <Container>
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12">
           <div className="lg:col-span-4">
@@ -52,12 +63,13 @@ export function Faq() {
               If your question is not here, reach out — we are happy to
               discuss your specific context.
             </p>
+            <div className="mt-8 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-dim">
+              {QUESTIONS.length} questions · 0:00 read
+            </div>
           </div>
 
           <div className="lg:col-span-8">
-            <Accordion
-              items={QUESTIONS.map((q) => ({ id: q.q, ...q }))}
-            />
+            <Accordion items={QUESTIONS} />
           </div>
         </div>
       </Container>

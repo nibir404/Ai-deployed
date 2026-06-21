@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
@@ -19,7 +20,7 @@ type Tier = {
   title: string;
   body: string;
   monthly: number;
-  annual: number; // monthly equivalent when billed annually
+  annual: number;
   features: string[];
   featured?: boolean;
   cta: { label: string; href: string };
@@ -75,6 +76,14 @@ function formatPrice(n: number) {
   return n.toLocaleString("en-US");
 }
 
+/**
+ * Pricing — Dispatch-style with lime billing pill and lime middle card.
+ *
+ * The billing toggle becomes a lime segmented pill. The middle
+ * "Embedded" tier gets a lime border + lime ribbon + lime CTA. Prices
+ * use the display font. The "save 17%" hint is shown next to Annual
+ * when Annual isn't active.
+ */
 export function Pricing() {
   const [billing, setBilling] = useState<BillingPeriod>("monthly");
 
@@ -97,7 +106,11 @@ export function Pricing() {
             </p>
           </div>
           <div className="lg:col-span-5 flex lg:justify-end">
-            <BillingToggle value={billing} onChange={setBilling} />
+            <BillingToggle
+              value={billing}
+              onChange={setBilling}
+              variant="lime"
+            />
           </div>
         </div>
 
@@ -109,19 +122,25 @@ export function Pricing() {
                 <article
                   key={tier.title}
                   className={cn(
-                    "card-surface p-6 md:p-8 flex flex-col",
-                    tier.featured && "lg:py-10 border-t-2 border-[var(--color-ink)]",
+                    "card-surface p-6 md:p-8 flex flex-col relative overflow-hidden",
+                    tier.featured &&
+                      "border border-[var(--color-accent)] md:py-10",
                   )}
                 >
+                  {tier.featured && (
+                    <span className="absolute top-0 right-0 px-3 py-1 bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-mono text-[10px] uppercase tracking-[0.18em]">
+                      Most chosen
+                    </span>
+                  )}
                   <div className="flex items-center justify-between gap-2">
-                    <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
+                    <span
+                      className={cn(
+                        "font-mono text-[11px] uppercase tracking-[0.16em]",
+                        tier.featured ? "accent-text" : "text-ink-muted",
+                      )}
+                    >
                       {tier.label}
                     </span>
-                    {tier.featured && (
-                      <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink font-semibold">
-                        Most chosen
-                      </span>
-                    )}
                   </div>
 
                   <h3 className="mt-6 font-display text-h3 font-medium text-ink">
@@ -133,7 +152,14 @@ export function Pricing() {
 
                   <div className="mt-8 pb-8 border-b hairline">
                     <div className="flex items-baseline gap-2">
-                      <span className="font-display text-2xl text-ink-muted">
+                      <span
+                        className={cn(
+                          "font-display text-2xl",
+                          tier.featured
+                            ? "accent-text"
+                            : "text-ink-muted",
+                        )}
+                      >
                         $
                       </span>
                       <span className="font-display text-display font-medium text-ink tabular-nums">
@@ -158,7 +184,12 @@ export function Pricing() {
                       >
                         <Check
                           size={16}
-                          className="mt-0.5 shrink-0 text-ink"
+                          className={cn(
+                            "mt-0.5 shrink-0",
+                            tier.featured
+                              ? "text-[var(--color-accent)]"
+                              : "text-ink",
+                          )}
                           aria-hidden
                         />
                         <span>{f}</span>
@@ -167,14 +198,26 @@ export function Pricing() {
                   </ul>
 
                   <div className="mt-auto pt-8">
-                    <ButtonLink
-                      href={tier.cta.href}
-                      variant={tier.featured ? "primary" : "secondary"}
-                      className="w-full justify-center"
-                    >
-                      {tier.cta.label}
-                      <ArrowUpRight size={14} aria-hidden />
-                    </ButtonLink>
+                    {tier.featured ? (
+                      <Link
+                        href={tier.cta.href}
+                        className="btn-pill w-full justify-center"
+                      >
+                        <span className="btn-pill__icon" aria-hidden>
+                          <ArrowUpRight size={14} />
+                        </span>
+                        {tier.cta.label}
+                      </Link>
+                    ) : (
+                      <ButtonLink
+                        href={tier.cta.href}
+                        variant="secondary"
+                        className="w-full justify-center"
+                      >
+                        {tier.cta.label}
+                        <ArrowUpRight size={14} aria-hidden />
+                      </ButtonLink>
+                    )}
                   </div>
                 </article>
               );

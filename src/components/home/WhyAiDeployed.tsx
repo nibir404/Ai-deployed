@@ -31,6 +31,14 @@ const REASONS: {
   { t: "We own the lifecycle", b: "Strategy → deployment → operation → support.", Icon: Shield },
 ];
 
+/**
+ * WhyAiDeployed — 4×2 grid with 3-digit index.
+ *
+ * Each card carries a 3-digit display index, an icon, a heading,
+ * and a 1-line description. On hover the index and icon shift to
+ * platinum — subtle, editorial. Header is text-only — no decorative
+ * JPG illustration.
+ */
 export function WhyAiDeployed() {
   return (
     <section
@@ -52,11 +60,14 @@ export function WhyAiDeployed() {
             <li
               key={r.t}
               data-stack
-              className="card-surface p-6 md:p-7 min-h-[200px] flex flex-col gap-4 group"
+              className="card-surface p-6 md:p-7 min-h-[220px] flex flex-col gap-4 group relative overflow-hidden"
             >
               <div className="flex items-start justify-between">
-                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
-                  {String(i + 1).padStart(2, "0")}
+                <span
+                  aria-hidden
+                  className="font-display text-3xl md:text-4xl font-medium leading-none tracking-[-0.04em] text-ink-dim group-hover:accent-text transition-colors"
+                >
+                  {String(i + 1).padStart(3, "0")}
                 </span>
                 <r.Icon
                   size={20}

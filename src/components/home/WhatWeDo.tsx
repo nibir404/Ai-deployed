@@ -32,6 +32,14 @@ const SERVICES: {
   { n: "08", t: "Modernization", b: "Legacy environments, no disruption.", Icon: Server },
 ];
 
+/**
+ * WhatWeDo — Dispatch-style 4×2 service grid.
+ *
+ * Each card carries a giant display number top-left, a lime hairline
+ * underline that grows on hover, and a small icon. The 4-up grid is
+ * visually distinct from the 2-col micro-grid of struggles above and
+ * the 5/7 asymmetric layout of sections below.
+ */
 export function WhatWeDo() {
   return (
     <section
@@ -42,7 +50,10 @@ export function WhatWeDo() {
       <Container>
         <div className="max-w-4xl">
           <Eyebrow>Section 03 · What We Do</Eyebrow>
-          <TextReveal as="h2" className="mt-6 font-display text-section leading-[0.96] tracking-[-0.035em] font-medium text-ink">
+          <TextReveal
+            as="h2"
+            className="mt-6 font-display text-section leading-[0.96] tracking-[-0.035em] font-medium text-ink"
+          >
             We turn technology investments into operational outcomes.
           </TextReveal>
         </div>
@@ -52,26 +63,39 @@ export function WhatWeDo() {
             <article
               key={s.n}
               data-stack
-              className="card-surface p-6 md:p-8 min-h-[220px] flex flex-col group hover:bg-[var(--color-surface)] transition-colors"
+              className="card-surface p-6 md:p-8 min-h-[260px] flex flex-col group relative overflow-hidden hover:bg-[var(--color-surface)] transition-colors"
             >
-              <div>
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
-                    {s.n}
-                  </span>
-                  <s.Icon
-                    size={20}
-                    aria-hidden
-                    className="text-ink-muted group-hover:text-ink transition-colors"
-                  />
-                </div>
-                <h3 className="mt-6 font-display text-h3 font-medium leading-tight text-ink">
-                  {s.t}
-                </h3>
+              {/* Big numeric index — display font, lime on hover */}
+              <span
+                aria-hidden
+                className="font-display text-[3.5rem] md:text-[4rem] font-medium leading-none tracking-[-0.04em] text-ink-dim group-hover:text-[var(--color-accent)] transition-colors"
+              >
+                {s.n}
+              </span>
+
+              <div className="mt-6 flex items-center justify-between">
+                <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
+                  Service
+                </span>
+                <s.Icon
+                  size={20}
+                  aria-hidden
+                  className="text-ink-muted group-hover:text-ink transition-colors"
+                />
               </div>
+
+              <h3 className="mt-3 font-display text-h3 font-medium leading-tight text-ink">
+                {s.t}
+              </h3>
               <p className="mt-auto pt-6 text-sm text-ink-muted leading-relaxed">
                 {s.b}
               </p>
+
+              {/* Bottom hairline — invisible by default, lime on hover */}
+              <span
+                aria-hidden
+                className="absolute inset-x-6 bottom-0 h-px bg-[var(--color-line)] group-hover:bg-[var(--color-accent)] transition-colors"
+              />
             </article>
           ))}
         </StackReveal>

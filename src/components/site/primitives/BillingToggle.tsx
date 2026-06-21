@@ -9,6 +9,12 @@ type BillingToggleProps = {
   onChange: (v: BillingPeriod) => void;
   className?: string;
   annualSavingsLabel?: string;
+  /**
+   * Visual variant:
+   *   - "ink" (default) — segmented control with ink fill on active
+   *   - "lime" — segmented pill with lime fill on active (Dispatch-style)
+   */
+  variant?: "ink" | "lime";
 };
 
 const OPTIONS: { id: BillingPeriod; label: string }[] = [
@@ -19,21 +25,22 @@ const OPTIONS: { id: BillingPeriod; label: string }[] = [
 /**
  * BillingToggle — 2-option segmented control.
  *
- * Active option gets inverted styling (ink bg + bg text). No accent color.
- * Honors `prefers-reduced-motion` via global CSS rule.
+ * Active option gets inverted styling. Honors `prefers-reduced-motion`
+ * via global CSS rule.
  */
 export function BillingToggle({
   value,
   onChange,
   className,
   annualSavingsLabel = "Save 17%",
+  variant = "ink",
 }: BillingToggleProps) {
   return (
     <div
       role="group"
       aria-label="Billing period"
       className={cn(
-        "inline-flex items-center border hairline",
+        "inline-flex items-center border hairline p-1",
         className,
       )}
     >
@@ -46,11 +53,13 @@ export function BillingToggle({
             aria-pressed={isActive}
             onClick={() => onChange(opt.id)}
             className={cn(
-              "relative inline-flex items-center gap-2 px-5 py-3",
+              "relative inline-flex items-center gap-2 px-5 py-2.5",
               "font-mono text-[11px] uppercase tracking-[0.16em]",
               "transition-colors duration-200",
               isActive
-                ? "bg-[var(--color-ink)] text-[var(--color-bg)]"
+                ? variant === "lime"
+                  ? "bg-[var(--color-accent)] text-[var(--color-accent-ink)]"
+                  : "bg-[var(--color-ink)] text-[var(--color-bg)]"
                 : "text-ink-muted hover:text-ink",
             )}
           >

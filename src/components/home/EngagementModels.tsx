@@ -3,6 +3,7 @@ import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
 import { ButtonLink } from "@/components/site/primitives/Button";
 import { GridLines } from "@/components/site/primitives/GridLines";
+import { cn } from "@/lib/cn";
 
 const MODELS = [
   {
@@ -10,21 +11,32 @@ const MODELS = [
     title: "Outcome-defined delivery",
     body: "Define a clear scope, deliver a defined outcome. Ideal for targeted initiatives with measurable deliverables.",
     points: ["Defined scope", "Defined timeline", "Defined outcome"],
+    featured: false,
   },
   {
     label: "02 · Embedded",
     title: "Engineers inside the organization",
     body: "Engineers work as part of the internal team. Knowledge transfer, ownership, and capability are built in.",
     points: ["Embedded engineers", "Knowledge transfer", "Long-term ownership"],
+    featured: true,
   },
   {
     label: "03 · Managed",
     title: "Continuous operation at scale",
     body: "Operate, monitor, and continuously improve deployed systems with structured service delivery and SLAs.",
     points: ["24/7 operation", "Continuous improvement", "Operational SLAs"],
+    featured: false,
   },
 ];
 
+/**
+ * EngagementModels — Dispatch-style 3-up with lime middle card.
+ *
+ * The middle "Embedded" card carries a lime border, lime "Most chosen"
+ * badge, and lime accents. The outer two cards remain hairline. This
+ * contrasts with the tabbed pill control of capabilities above and
+ * the pricing tier toggle below.
+ */
 export function EngagementModels() {
   return (
     <section
@@ -45,9 +57,22 @@ export function EngagementModels() {
           {MODELS.map((m) => (
             <article
               key={m.title}
-              className="card-surface p-6 md:p-8 min-h-[400px] flex flex-col"
+              className={cn(
+                "card-surface p-6 md:p-8 min-h-[400px] flex flex-col relative overflow-hidden",
+                m.featured && "border border-[var(--color-accent)]",
+              )}
             >
-              <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
+              {m.featured && (
+                <span className="absolute top-0 right-0 px-3 py-1 bg-[var(--color-accent)] text-[var(--color-accent-ink)] font-mono text-[10px] uppercase tracking-[0.18em]">
+                  Most chosen
+                </span>
+              )}
+              <span
+                className={cn(
+                  "font-mono text-[11px] uppercase tracking-[0.16em]",
+                  m.featured ? "accent-text" : "text-ink-muted",
+                )}
+              >
                 {m.label}
               </span>
               <h3 className="mt-6 font-display text-h3 font-medium leading-tight text-ink">
@@ -64,7 +89,12 @@ export function EngagementModels() {
                   >
                     <span
                       aria-hidden
-                      className="inline-block size-1 bg-current opacity-70"
+                      className={cn(
+                        "inline-block size-1",
+                        m.featured
+                          ? "bg-[var(--color-accent)]"
+                          : "bg-current opacity-70",
+                      )}
                     />
                     {p}
                   </li>

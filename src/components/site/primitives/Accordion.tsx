@@ -5,6 +5,13 @@ import { cn } from "@/lib/cn";
 
 type AccordionItem = { q: string; a: string };
 
+/**
+ * Accordion — Dispatch-style FAQ accordion.
+ *
+ * Each row carries a 4px lime left border when open. The chevron
+ * glyph is lime, rotating 45° on open. Questions use the display
+ * font; answers are in the muted body style.
+ */
 export function Accordion({
   items,
   className,
@@ -22,7 +29,13 @@ export function Accordion({
         const panelId = `${baseId}-p-${i}`;
         const btnId = `${baseId}-b-${i}`;
         return (
-          <div key={it.q}>
+          <div
+            key={it.q}
+            className={cn(
+              "relative",
+              isOpen && "border-l-2 border-[var(--color-accent)] pl-4 -ml-4",
+            )}
+          >
             <h3>
               <button
                 id={btnId}
@@ -40,7 +53,7 @@ export function Accordion({
                 <span
                   aria-hidden
                   className={cn(
-                    "font-mono text-sm mt-1 transition-transform",
+                    "font-mono text-lg mt-1 transition-transform accent-text",
                     isOpen && "rotate-45",
                   )}
                 >

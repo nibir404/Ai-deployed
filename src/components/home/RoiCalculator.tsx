@@ -5,30 +5,17 @@ import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
 import { RangeSlider } from "@/components/site/primitives/RangeSlider";
-import { StatBlock } from "@/components/site/primitives/StatBlock";
 import { Reveal } from "@/components/site/primitives/Reveal";
+import { AccentGlow } from "@/components/site/primitives/AccentGlow";
 import { GridLines } from "@/components/site/primitives/GridLines";
 
 /**
- * RoiCalculator — Forward Deployed Engineering ROI model.
+ * RoiCalculator — Dispatch-style interactive ROI.
  *
- * Inputs (editable sliders):
- *   - teamSize        — internal engineering team size, 5–200
- *   - deploymentCycle — current average days from kickoff to production, 30–365
- *   - adoptionRate    — current % of organization actively using deployed systems, 10–80
- *
- * Formula (transparent, displayed as hints):
- *   accelerationFactor = 0.62                  — Forward Deployed accelerates delivery by ~62%
- *   newCycle           = deploymentCycle * (1 - accelerationFactor)
- *   daysSavedPerYear   = (deploymentCycle - newCycle) * 12 / newCycle
- *
- *   buildRate          = adoptionRate / 100    — current share of team using systems
- *   targetAdoption     = 0.85                  — Forward Deployed target
- *   additionalBuilders = (targetAdoption - buildRate) * teamSize
- *
- *   annualHours        = additionalBuilders * 1760 * 0.25
- *   capabilityMonths   = Math.round((deploymentCycle - newCycle) / 30)
- *   paybackMonths      = Math.max(2, Math.round(12 / (annualHours / 1000)))
+ * 4/12 split. The right card is a tall panel with a soft lime radial
+ * glow behind the slider area, and four output tiles in a 2×2 grid
+ * with oversized accent-tinted numbers. Sliders use lime fill via
+ * the updated RangeSlider primitive.
  */
 export function RoiCalculator() {
   const [teamSize, setTeamSize] = useState(40);
@@ -102,12 +89,15 @@ export function RoiCalculator() {
             </ul>
           </div>
 
-          <div className="lg:col-span-8 card-surface p-6 sm:p-8 md:p-10 lg:p-12">
+          <div className="lg:col-span-8 card-surface p-6 sm:p-8 md:p-10 lg:p-12 relative overflow-hidden">
+            {/* Soft lime radial glow behind the slider area. */}
+            <AccentGlow position="center" intensity={45} />
+
             <Reveal>
               <div
                 aria-live="polite"
                 aria-atomic="false"
-                className="space-y-8 md:space-y-10"
+                className="relative space-y-8 md:space-y-10"
               >
                 <RangeSlider
                   label="Internal engineering team"
@@ -140,26 +130,26 @@ export function RoiCalculator() {
                   hint="% of organization actively using deployed systems"
                 />
 
-                <div className="pt-6 border-t hairline grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-6">
-                  <StatBlock
+                <div className="pt-8 border-t hairline grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-6">
+                  <OutputTile
                     value={results.cycleReductionDays}
                     suffix=" days"
                     label="Faster to production"
                     caption="Average cycle reduction across new AI / systems work"
                   />
-                  <StatBlock
+                  <OutputTile
                     value={results.annualHours}
                     suffix=" hrs / yr"
                     label="Engineering capacity reclaimed"
                     caption="From embedded enablement and operational tooling"
                   />
-                  <StatBlock
+                  <OutputTile
                     value={results.capabilityMonths}
                     suffix=" mo"
                     label="Capabilities accelerated"
                     caption="Months of progress moved into the next two quarters"
                   />
-                  <StatBlock
+                  <OutputTile
                     value={results.paybackMonths}
                     suffix=" mo"
                     label="Time to measurable outcome"
@@ -172,5 +162,34 @@ export function RoiCalculator() {
         </div>
       </Container>
     </section>
+  );
+}
+
+function OutputTile({
+  value,
+  suffix,
+  label,
+  caption,
+}: {
+  value: number;
+  suffix: string;
+  label: string;
+  caption: string;
+}) {
+  return (
+    <div className="py-6 px-1 lg:px-4">
+      <div className="flex items-baseline gap-2 leading-none">
+        <span className="font-display text-[clamp(2.5rem,1.5rem+3vw,3.75rem)] font-medium tracking-[-0.04em] text-ink tabular-nums">
+          {value.toLocaleString("en-US")}
+        </span>
+        <span className="font-display text-lg md:text-xl font-medium text-ink-muted leading-none">
+          {suffix}
+        </span>
+      </div>
+      <div className="mt-4 font-mono text-[11px] uppercase tracking-[0.16em] text-ink">
+        {label}
+      </div>
+      <p className="mt-2 text-sm text-ink-muted leading-relaxed">{caption}</p>
+    </div>
   );
 }

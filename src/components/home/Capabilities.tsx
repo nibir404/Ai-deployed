@@ -1,7 +1,10 @@
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
-import { Tabs, type Tab } from "@/components/site/primitives/Tabs";
+import {
+  Tabs,
+  type Tab,
+} from "@/components/site/primitives/Tabs";
 import { StackReveal } from "@/components/site/primitives/StackReveal";
 import { GridLines } from "@/components/site/primitives/GridLines";
 import {
@@ -82,21 +85,33 @@ const GROUPS: Group[] = [
   },
 ];
 
-function TabPanel({ items, Icon }: { items: string[]; Icon: ComponentType<IconProps> }) {
+function TabPanel({
+  items,
+  Icon,
+}: {
+  items: string[];
+  Icon: ComponentType<IconProps>;
+}) {
   return (
     <StackReveal className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-px bg-[var(--color-line)]">
       {items.map((item, idx) => (
         <div
           key={item}
           data-stack
-          className="card-surface p-6 md:p-8 min-h-[160px] flex flex-col gap-4 group hover:bg-[var(--color-surface)] transition-colors"
+          className="card-surface p-6 md:p-8 min-h-[160px] flex flex-col gap-4 group hover:bg-[var(--color-surface)] transition-colors relative overflow-hidden"
         >
-          <div className="flex items-center justify-between">
-            <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
-              {String(idx + 1).padStart(2, "0")}
-            </span>
-            <Icon size={18} className="text-ink-muted group-hover:text-ink transition-colors" aria-hidden />
-          </div>
+          {/* Big lime number index in the corner */}
+          <span
+            aria-hidden
+            className="absolute top-3 right-4 font-display text-3xl font-medium leading-none accent-text"
+          >
+            {String(idx + 1).padStart(2, "0")}
+          </span>
+          <Icon
+            size={20}
+            className="text-ink-muted group-hover:text-ink transition-colors"
+            aria-hidden
+          />
           <h4 className="font-display text-h3 font-medium text-ink leading-snug">
             {item}
           </h4>
@@ -106,6 +121,13 @@ function TabPanel({ items, Icon }: { items: string[]; Icon: ComponentType<IconPr
   );
 }
 
+/**
+ * Capabilities — Dispatch-style lime-pill tabbed list.
+ *
+ * The tab strip becomes a segmented pill control. The active tab
+ * gets a lime fill with dark text. Tab content is a 3-up grid with
+ * a large lime number index in each card corner.
+ */
 export function Capabilities() {
   const tabs: Tab[] = GROUPS.map((g) => ({
     id: g.id,
@@ -129,7 +151,7 @@ export function Capabilities() {
         </div>
 
         <div className="mt-10 md:mt-12">
-          <Tabs tabs={tabs} ariaLabel="Capability categories" />
+          <Tabs tabs={tabs} ariaLabel="Capability categories" variant="pill" />
         </div>
       </Container>
     </section>

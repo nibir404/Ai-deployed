@@ -14,21 +14,29 @@ type TabsProps = {
   defaultId?: string;
   className?: string;
   ariaLabel?: string;
+  /**
+   * Visual variant for the tab strip:
+   *   - "underline" (default) — hairline bottom + 2px ink underline on active
+   *   - "pill" — segmented pill, lime fill on active, dark text
+   */
+  variant?: "underline" | "pill";
 };
 
 /**
- * Tabs — keyboard-accessible tabbed UI with hairline underline indicator.
+ * Tabs — keyboard-accessible tabbed UI.
  *
  * - ARIA: `role="tablist"`, `role="tab"`, `aria-selected`, `role="tabpanel"`, `aria-controls`.
  * - Keyboard: Left/Right arrows cycle tabs, Home/End jump to first/last.
- * - Visual: Hairline bottom border on the tab strip, active tab gets a 2px ink underline.
- * - No accent color — emphasis via weight + 2px ink rule.
+ * - Visual:
+ *     - `underline` (default): hairline bottom + 2px ink underline on active
+ *     - `pill`: segmented pill control with lime fill on active item
  */
 export function Tabs({
   tabs,
   defaultId,
   className,
   ariaLabel = "Tabs",
+  variant = "underline",
 }: TabsProps) {
   const baseId = useId();
   const initial = defaultId ?? tabs[0]?.id;
@@ -56,12 +64,32 @@ export function Tabs({
       <div
         role="tablist"
         aria-label={ariaLabel}
-        className="flex flex-wrap gap-x-6 gap-y-2 border-b hairline overflow-x-auto"
+        className={cn(
+          variant === "underline" &&
+            "flex flex-wrap gap-x-6 gap-y-2 border-b hairline overflow-x-auto",
+          variant === "pill" &&
+            "inline-flex flex-wrap gap-1 border hairline p-1",
+        )}
       >
         {tabs.map((t, idx) => {
           const isActive = t.id === active;
           const tabId = `${baseId}-tab-${t.id}`;
           const panelId = `${baseId}-panel-${t.id}`;
+          // Build the per-variant className.
+          const tabClasses =
+            variant === "underline"
+              ? cn(
+                  "relative -mb-px pb-3 pt-2 px-1",
+                  isActive
+                    ? "text-ink after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:bg-[var(--color-ink)]"
+                    : "text-ink-muted hover:text-ink",
+                )
+              : cn(
+                  "px-4 py-2",
+                  isActive
+                    ? "bg-[var(--color-accent)] text-[var(--color-accent-ink)]"
+                    : "text-ink-muted hover:text-ink hover:bg-[var(--color-surface)]",
+                );
           return (
             <button
               key={t.id}
@@ -77,13 +105,10 @@ export function Tabs({
               onClick={() => setActive(t.id)}
               onKeyDown={(e) => onKeyDown(e, idx)}
               className={cn(
-                "relative -mb-px pb-3 pt-2 px-1",
                 "font-mono text-[11px] uppercase tracking-[0.16em]",
                 "transition-colors duration-200",
                 "whitespace-nowrap",
-                isActive
-                  ? "text-ink after:absolute after:inset-x-0 after:-bottom-px after:h-0.5 after:bg-[var(--color-ink)]"
-                  : "text-ink-muted hover:text-ink",
+                tabClasses,
               )}
             >
               {t.label}

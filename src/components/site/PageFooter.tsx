@@ -59,7 +59,7 @@ export function PageFooter() {
             >
               <span
                 aria-hidden
-                className="inline-block size-1.5 bg-current"
+                className="inline-block size-1.5 bg-[var(--color-accent)]"
               />
               AI Deployed
             </Link>
@@ -83,7 +83,7 @@ export function PageFooter() {
                     <li key={item.label}>
                       <Link
                         href={item.href}
-                        className="text-sm text-ink-muted hover:text-ink transition-colors"
+                        className="text-sm text-ink-muted hover:text-[var(--color-accent)] transition-colors"
                       >
                         {item.label}
                       </Link>

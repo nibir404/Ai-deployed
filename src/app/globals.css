@@ -11,6 +11,29 @@
   --color-line: rgba(255, 255, 255, 0.08);
   --color-line-strong: rgba(255, 255, 255, 0.14);
 
+  /* Monochromatic accent system — Charcoal / Dark Silver /
+     Platinum / White Smoke. The "accent" slot is the LIGHT end
+     (Platinum) so it remains visible when used as a text or
+     border color against the dark base; the "accent-ink" slot
+     is the deep Charcoal we paint on top of platinum fills.
+     This swap keeps the existing JSX usage (`bg-[var(--color-accent)]`,
+     `text-[var(--color-accent-ink)]`, `border-[var(--color-accent)]`)
+     working without per-file edits — it just remaps the colors
+     from lime to platinum/charcoal. */
+  --color-accent: #e7e7e7;          /* Platinum — visible on dark */
+  --color-accent-soft: #707070;     /* Dark Silver — secondary accents */
+  --color-accent-rgb: 231, 231, 231;
+  --color-accent-glow: rgba(231, 231, 231, 0.18);
+  --color-accent-dim: rgba(231, 231, 231, 0.08);
+  --color-accent-ink: #323131;      /* Charcoal — text on platinum */
+
+  /* Extended palette tokens for utilities that need the light end */
+  --color-platinum: #e7e7e7;
+  --color-platinum-rgb: 231, 231, 231;
+  --color-smoke: #efefef;
+  --color-charcoal: #323131;
+  --color-silver: #707070;
+
   /* Light overrides — re-target the base tokens so arbitrary-value
      utilities (text-ink, bg-[var(--color-ink)], etc.) automatically
      pick up light values without per-component rewrites. The
@@ -89,6 +112,24 @@
     --color-ink-dim: var(--color-ink-dim-light);
     --color-line: var(--color-line-light);
     --color-line-strong: var(--color-line-strong-light);
+    /* In light mode the "accent" slot flips from the light end
+       (platinum) to the dark end (charcoal) so it stays visible on
+       the paper-cream background. Every consumer of --color-accent
+       automatically follows: text emphasis, borders, the lime
+       ribbons on Pricing/EngagementModels, the hover invert, etc.
+       --color-accent-ink inverts (cream paper on charcoal fill)
+       so the text on accent fills remains readable. */
+    --color-accent: var(--color-charcoal);
+    --color-accent-soft: var(--color-silver);
+    --color-accent-rgb: 50, 49, 49;
+    --color-accent-glow: rgba(50, 49, 49, 0.18);
+    --color-accent-dim: rgba(50, 49, 49, 0.08);
+    --color-accent-ink: var(--color-bg-light);
+    /* --color-platinum flips to charcoal too so `accent-text` (which
+       uses platinum directly) reads as a dark highlight on paper
+       instead of an invisible near-white-on-cream. */
+    --color-platinum: var(--color-charcoal);
+    --color-platinum-rgb: 50, 49, 49;
     background: var(--color-bg);
     color: var(--color-ink);
   }
@@ -260,6 +301,189 @@
 
   html.light .card-surface {
     background: var(--color-card-light);
+  }
+
+  /* ---------------------------------------------------------------------
+   * Monochromatic accent utilities
+   *
+   * Pair with text-ink, text-ink-muted, etc. — they only set the
+   * accent color/border/glow, not the surrounding typography. With
+   * a grayscale palette, "accent" reads as a tonal highlight:
+   *   - text emphasis: platinum (slightly cooler than pure white —
+   *     a quiet "patina" highlight that reads as emphasis without
+   *     being loud, distinguished from `text-ink` headings)
+   *   - filled surfaces: platinum (with charcoal text on top)
+   *   - lines / borders: platinum (visible on the dark base)
+   * ------------------------------------------------------------------- */
+  .accent-text {
+    color: var(--color-platinum);
+  }
+
+  .accent-bg {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+  }
+
+  .accent-border {
+    border-color: var(--color-accent);
+  }
+
+  .accent-line {
+    background: var(--color-accent);
+  }
+
+  /* Radial glow used behind hero / CTAs. Sits behind content; pair
+     with `-z-0` on the glow and `relative` on the parent. The glow
+     is a soft platinum wash — no chromatic color, just a hint of
+     luminance that lifts the headline off the page. */
+  .glow-accent {
+    background-image: radial-gradient(
+      ellipse 80% 60% at 50% 0%,
+      rgba(var(--color-platinum-rgb), 0.18) 0%,
+      transparent 60%
+    );
+  }
+
+  .glow-accent-radial {
+    background-image: radial-gradient(
+      circle at center,
+      rgba(var(--color-platinum-rgb), 0.18) 0%,
+      transparent 60%
+    );
+  }
+
+  /* ---------------------------------------------------------------------
+   * Glossy black CTA — primary button
+   *
+   * Squared-but-soft radius (14px), glossy vertical gradient body
+   * (charcoal → near-black with a subtle top highlight for a glassy
+   * 3D read). White text, white icon tile inset on the left via
+   * `.btn-pill__icon` (rendered inside the button as a small
+   * rounded white square).
+   *
+   * Hover: subtle 1px lift, brighter highlight, and a hairline ring
+   * of soft white — no dramatic color flip.
+   *
+   * The accompanying `.glow-pill` utility is kept for legacy sections
+   * but is no longer tied to the CTA color.
+   * ------------------------------------------------------------------- */
+  .btn-pill {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.625rem;
+    padding: 0.4rem 1.1rem 0.4rem 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.9375rem;
+    text-transform: none;
+    letter-spacing: -0.005em;
+    font-weight: 500;
+    color: #ffffff;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    background:
+      linear-gradient(
+        180deg,
+        #2a2a2a 0%,
+        #1a1a1a 55%,
+        #0a0a0a 100%
+      );
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.10),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.04),
+      0 8px 24px -8px rgba(0, 0, 0, 0.6);
+    transition:
+      transform 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1),
+      filter 240ms ease;
+  }
+  .btn-pill:hover {
+    transform: translateY(-1px);
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.16),
+      inset 0 -1px 0 rgba(0, 0, 0, 0.4),
+      0 0 0 1px rgba(255, 255, 255, 0.10),
+      0 12px 28px -8px rgba(0, 0, 0, 0.75);
+    filter: brightness(1.08);
+  }
+  .btn-pill:focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 3px;
+    border-radius: 4px;
+  }
+
+  /* White icon tile inset on the left — sits flush with the button's
+     squared (4px) corners. The icon glyph lives inside. */
+  .btn-pill__icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 2rem;
+    height: 2rem;
+    border-radius: 4px;
+    background: #ffffff;
+    color: #0a0a0a;
+    flex-shrink: 0;
+  }
+
+  /* Soft page-wash (kept for backwards compatibility with FinalCta
+     and any other section that wants a colored aura around the
+     button). Now neutral charcoal so it doesn't fight the button. */
+  .glow-pill {
+    background-image: radial-gradient(
+      ellipse 50% 60% at 50% 50%,
+      rgba(255, 255, 255, 0.05) 0%,
+      transparent 70%
+    );
+  }
+
+  /* Card hover — flips the card to platinum with charcoal text. */
+  .hover-accent-invert {
+    transition: background-color 220ms ease, color 220ms ease,
+      border-color 220ms ease;
+  }
+  .hover-accent-invert:hover {
+    background: var(--color-accent);
+    color: var(--color-accent-ink);
+    border-color: var(--color-accent);
+  }
+
+  .hover-accent-border {
+    transition: border-color 220ms ease, box-shadow 220ms ease;
+  }
+  .hover-accent-border:hover {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px var(--color-accent);
+  }
+
+  .hover-accent-glow {
+    transition: box-shadow 280ms ease, transform 280ms ease;
+  }
+  .hover-accent-glow:hover {
+    box-shadow:
+      0 0 0 1px var(--color-accent),
+      0 8px 32px -8px var(--color-accent-glow);
+  }
+
+  /* Underline accent — 2px platinum that grows from the left on hover. */
+  .accent-underline {
+    position: relative;
+  }
+  .accent-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -4px;
+    height: 2px;
+    width: 0;
+    background: var(--color-accent);
+    transition: width 280ms cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .accent-underline:hover::after,
+  .group:hover .accent-underline::after {
+    width: 100%;
   }
 
   .text-muted {

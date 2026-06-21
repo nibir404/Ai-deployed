@@ -65,6 +65,18 @@ export const ASSETS = {
      */
     closingIllustration: "/img/how-we-work/closing-illustration.svg",
   },
+  /**
+   * Editorial cream-tone JPG illustrations used as small visual
+   * accents in the Dispatch-style home redesign. Each is a 3D
+   * product render on a warm off-white background, rendered as a
+   * plain `<img>` (small files, no optimization needed).
+   */
+  illustrations: {
+    hexNut: "/img/sTkDNWiGSgNVYUobZW2EbLqOmLk.jpg",
+    venn: "/img/GowFEHJy2dAOEojE8Z3i45XSzq0.jpg",
+    diamond: "/img/Dem7tgvYd5xIdkhs6RVMC8Sgaeo.jpg",
+    sphere: "/img/GZbGeCw2EwQ8flQ19dRFmvyJbI.jpg",
+  },
 } as const;
 
 /** Convenience type for any single asset path string. */
