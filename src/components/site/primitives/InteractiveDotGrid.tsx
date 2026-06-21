@@ -13,6 +13,23 @@ type Props = {
    * radial mask that follows the pointer. Default: true.
    */
   showLogo?: boolean;
+  /**
+   * Overall opacity of the resting dot field. Use a value < 1 to keep
+   * the grid readable as a background layer rather than a focal
+   * element. The cursor-hot glyphs are not affected — they always
+   * render at full contrast. Default: 1.
+   */
+  restAlpha?: number;
+  /**
+   * Multiplier for the wordmark font size. Lets a parent section
+   * dial the logo up or down without forking the component.
+   * Default: 1.
+   */
+  logoScale?: number;
+  /**
+   * Stroke width (px) of the wordmark outline. Default: 1.25.
+   */
+  logoStroke?: number;
   /** Optional className. */
   className?: string;
 };
@@ -72,6 +89,9 @@ export function InteractiveDotGrid({
   cellSize = 14,
   radius = 14,
   showLogo = true,
+  restAlpha = 1,
+  logoScale = 1,
+  logoStroke = 1.25,
   className,
 }: Props) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -172,9 +192,17 @@ export function InteractiveDotGrid({
           }
 
           if (intensity < 0.04) {
-            // Quiet dot — use line color
+            // Quiet dot — use line color, optionally dimmed via
+            // `restAlpha` so the field can read as a soft background
+            // layer without losing the cursor-hot glyphs.
+            if (restAlpha < 1) {
+              ctx.globalAlpha = restAlpha;
+            }
             ctx.fillStyle = lineColor;
             ctx.fillText("·", x, y);
+            if (restAlpha < 1) {
+              ctx.globalAlpha = 1;
+            }
           } else {
             // Map intensity (0–1) to a character index and color.
             const charIdx = Math.min(
@@ -239,7 +267,7 @@ export function InteractiveDotGrid({
       wrapper.removeEventListener("pointerenter", onPointerEnter);
       ro.disconnect();
     };
-  }, [cellSize, radius, showLogo]);
+  }, [cellSize, radius, showLogo, restAlpha, logoScale, logoStroke]);
 
   // The logo mask radius. Slightly larger than the dot-grid's
   // influence radius so the wordmark peeks through a touch
@@ -288,7 +316,7 @@ export function InteractiveDotGrid({
             style={{
               fontFamily: "var(--font-display)",
               fontWeight: 500,
-              fontSize: "clamp(72px, 14vw, 220px)",
+              fontSize: `clamp(56px, ${12 * logoScale}vw, ${180 * logoScale}px)`,
               letterSpacing: "0.04em",
               lineHeight: 1,
               // Centered horizontally; the wordmark is wide so
@@ -296,7 +324,7 @@ export function InteractiveDotGrid({
               whiteSpace: "nowrap",
               textTransform: "uppercase",
               // Hairline outline look: transparent fill, ink stroke.
-              WebkitTextStroke: `1.25px currentColor`,
+              WebkitTextStroke: `${logoStroke}px currentColor`,
               WebkitTextFillColor: "transparent",
               // Soft inner padding so the descenders/ascenders are
               // inside the mask circle.

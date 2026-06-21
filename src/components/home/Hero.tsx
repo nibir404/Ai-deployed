@@ -7,6 +7,7 @@ import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
 import { ButtonLink } from "@/components/site/primitives/Button";
 import { GridLines } from "@/components/site/primitives/GridLines";
 import { AccentGlow } from "@/components/site/primitives/AccentGlow";
+import { InteractiveDotGrid } from "@/components/site/primitives/InteractiveDotGrid";
 import { ArrowUpRight } from "@/components/site/icons";
 
 /**
@@ -18,6 +19,9 @@ import { ArrowUpRight } from "@/components/site/icons";
  *   - Two CTAs side-by-side: primary "Start a conversation" and
  *     secondary "See how it works →"
  *   - Soft lime radial glow behind the heading (top-left + top-right)
+ *   - Subtle ASCII dot field with a cursor-following "AI DEPLOYED"
+ *     wordmark hidden behind the dots — only visible in the soft
+ *     "flashlight" right under the pointer
  */
 export function Hero() {
   return (
@@ -30,7 +34,26 @@ export function Hero() {
       <AccentGlow position="corner-tl" intensity={50} />
       <AccentGlow position="corner-tr" intensity={50} />
 
-      <Container className="relative">
+      {/* Interactive dot field with cursor-following logo reveal.
+          Sits behind the copy and never intercepts pointer events on
+          the CTAs — the grid itself reads them, the clickable buttons
+          remain on top. */}
+      <div
+        aria-hidden
+        className="absolute inset-0 z-0 pointer-events-none"
+      >
+        <div className="pointer-events-auto absolute inset-0">
+          <InteractiveDotGrid
+            cellSize={18}
+            radius={9}
+            restAlpha={0.32}
+            logoScale={0.78}
+            logoStroke={1}
+          />
+        </div>
+      </div>
+
+      <Container className="relative z-10">
         <div className="max-w-4xl mx-auto text-center">
           <Eyebrow>AI Deployed · Custom agents</Eyebrow>
           <DisplayHeading

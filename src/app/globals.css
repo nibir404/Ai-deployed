@@ -370,6 +370,14 @@
    * (white → ink body, ink → white text) because the underlying
    * tokens resolve to the inverted palette.
    *
+   * Cross-fade architecture: the body gradient is held on a
+   * `::before` pseudo-element so the visible body color and the
+   * gradient ramp can both transition smoothly (the native `background`
+   * shorthand and `background-image` are not animatable). The base
+   * `.btn-pill` carries a flat fill (`background-color`) that
+   * transitions with the same duration, so even before the gradient
+   * catches up the user sees a smooth tonal shift, never a hard flip.
+   *
    * The accompanying `.glow-pill` utility is kept for legacy sections
    * but is no longer tied to the CTA color.
    * ------------------------------------------------------------------- */
@@ -377,6 +385,7 @@
     --btn-body-from: #2a2a2a;
     --btn-body-mid: #1a1a1a;
     --btn-body-to: #0a0a0a;
+    --btn-body-flat: #141414;
     --btn-text: #ffffff;
     --btn-tile-bg: #ffffff;
     --btn-tile-fg: #0a0a0a;
@@ -393,10 +402,10 @@
        transform and box-shadow are quicker so the lift still
        feels responsive. */
     --btn-ease: cubic-bezier(0.4, 0, 0.2, 1);
-    --btn-dur-body: 380ms;
-    --btn-dur-icon: 320ms;
-    --btn-dur-lift: 220ms;
-    --btn-dur-shadow: 320ms;
+    --btn-dur-body: 480ms;
+    --btn-dur-icon: 360ms;
+    --btn-dur-lift: 280ms;
+    --btn-dur-shadow: 380ms;
 
     position: relative;
     display: inline-flex;
@@ -412,12 +421,10 @@
     border: 0;
     border-radius: 4px;
     cursor: pointer;
-    background: linear-gradient(
-      180deg,
-      var(--btn-body-from) 0%,
-      var(--btn-body-mid) 55%,
-      var(--btn-body-to) 100%
-    );
+    /* Flat fill — this is the color that animates smoothly across
+       the hover boundary. The gradient ramp sits on `::before`
+       above it and cross-fades its opacity. */
+    background-color: var(--btn-body-flat);
     box-shadow:
       inset 0 1px 0 var(--btn-highlight),
       inset 0 -1px 0 var(--btn-press),
@@ -425,13 +432,40 @@
       0 8px 24px -8px var(--btn-shadow-2);
     transition:
       color var(--btn-dur-body) var(--btn-ease),
-      background var(--btn-dur-body) var(--btn-ease),
+      background-color var(--btn-dur-body) var(--btn-ease),
       box-shadow var(--btn-dur-shadow) var(--btn-ease),
       transform var(--btn-dur-lift) var(--btn-ease);
     /* GPU layer for the lift — keeps the transform on the
        compositor so the body cross-fade doesn't cause layout
        thrash. */
     will-change: transform, background-color, color;
+    isolation: isolate;
+  }
+  /* Gradient layer — sits over the flat fill and cross-fades its
+     opacity on hover. Slightly inset so the squared corners and
+     ring still read at the edges. */
+  .btn-pill::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: linear-gradient(
+      180deg,
+      var(--btn-body-from) 0%,
+      var(--btn-body-mid) 55%,
+      var(--btn-body-to) 100%
+    );
+    opacity: 1;
+    pointer-events: none;
+    z-index: 0;
+    transition:
+      background-image var(--btn-dur-body) var(--btn-ease),
+      opacity var(--btn-dur-body) var(--btn-ease);
+  }
+  /* Keep all children above the gradient layer. */
+  .btn-pill > * {
+    position: relative;
+    z-index: 1;
   }
   /* Hover — full reversal.
      Body gradient flips to a white→platinum→smoke ramp with a soft
@@ -442,6 +476,7 @@
     --btn-body-from: #ffffff;
     --btn-body-mid: #f5f5f5;
     --btn-body-to: #e7e7e7;
+    --btn-body-flat: #f7f7f7;
     --btn-text: #0a0a0a;
     --btn-tile-bg: #0a0a0a;
     --btn-tile-fg: #ffffff;
@@ -457,6 +492,7 @@
     --btn-body-from: #f5f5f5;
     --btn-body-mid: #e7e7e7;
     --btn-body-to: #d6d6d6;
+    --btn-body-flat: #ececec;
     --btn-text: #0a0a0a;
     --btn-tile-bg: #0a0a0a;
     --btn-tile-fg: #ffffff;
@@ -471,6 +507,7 @@
     --btn-body-from: #1a1a1a;
     --btn-body-mid: #0f0f0f;
     --btn-body-to: #050505;
+    --btn-body-flat: #0c0c0c;
     --btn-text: #ffffff;
     --btn-tile-bg: #ffffff;
     --btn-tile-fg: #0a0a0a;
