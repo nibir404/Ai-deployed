@@ -370,22 +370,34 @@
    * (white → ink body, ink → white text) because the underlying
    * tokens resolve to the inverted palette.
    *
-   * Cross-fade architecture: the body gradient is held on a
-   * `::before` pseudo-element so the visible body color and the
-   * gradient ramp can both transition smoothly (the native `background`
-   * shorthand and `background-image` are not animatable). The base
-   * `.btn-pill` carries a flat fill (`background-color`) that
-   * transitions with the same duration, so even before the gradient
-   * catches up the user sees a smooth tonal shift, never a hard flip.
+   * Cross-fade architecture (silky hover):
+   *   The button's body is composed of TWO stacked pseudo-elements
+   *   that sit BEHIND the text and the icon tile. Each pseudo
+   *   carries one half of the inversion — `::before` paints the
+   *   rest-state gradient, `::after` paints the hover-state
+   *   gradient. Their opacities cross-fade on hover, giving a
+   *   smooth tonal transition that the browser can actually
+   *   animate (the native `background` shorthand and
+   *   `background-image` are not animatable — this dodge is what
+   *   removes the blink).
+   *
+   *   Text and icon tile are explicitly promoted to z-index 1 so
+   *   they always paint above the gradient layers, including bare
+   *   text nodes that cannot receive a `z-index` of their own
+   *   (the icon tile selector covers the child element, the
+   *   parent `position: relative` + `isolation: isolate` keeps
+   *   the text node's paint order above the pseudo-elements).
    *
    * The accompanying `.glow-pill` utility is kept for legacy sections
    * but is no longer tied to the CTA color.
    * ------------------------------------------------------------------- */
   .btn-pill {
-    --btn-body-from: #2a2a2a;
-    --btn-body-mid: #1a1a1a;
-    --btn-body-to: #0a0a0a;
-    --btn-body-flat: #141414;
+    --btn-rest-from: #2a2a2a;
+    --btn-rest-mid: #1a1a1a;
+    --btn-rest-to: #0a0a0a;
+    --btn-hover-from: #ffffff;
+    --btn-hover-mid: #f5f5f5;
+    --btn-hover-to: #e7e7e7;
     --btn-text: #ffffff;
     --btn-tile-bg: #ffffff;
     --btn-tile-fg: #0a0a0a;
@@ -396,11 +408,9 @@
     --btn-press: rgba(0, 0, 0, 0.4);
 
     /* Shared timing. Easing is a soft "standard" curve (close to
-       Material's standard) — silky, never abrupt. Duration is
-       tuned per-property below: the body cross-fade is the
-       "hero" of the hover and gets the longest duration; the
-       transform and box-shadow are quicker so the lift still
-       feels responsive. */
+       Material's standard) — silky, never abrupt. The body
+       cross-fade gets the longest duration; the transform is
+       quicker so the lift still feels responsive. */
     --btn-ease: cubic-bezier(0.4, 0, 0.2, 1);
     --btn-dur-body: 480ms;
     --btn-dur-icon: 360ms;
@@ -421,10 +431,7 @@
     border: 0;
     border-radius: 4px;
     cursor: pointer;
-    /* Flat fill — this is the color that animates smoothly across
-       the hover boundary. The gradient ramp sits on `::before`
-       above it and cross-fades its opacity. */
-    background-color: var(--btn-body-flat);
+    background: transparent;
     box-shadow:
       inset 0 1px 0 var(--btn-highlight),
       inset 0 -1px 0 var(--btn-press),
@@ -432,18 +439,12 @@
       0 8px 24px -8px var(--btn-shadow-2);
     transition:
       color var(--btn-dur-body) var(--btn-ease),
-      background-color var(--btn-dur-body) var(--btn-ease),
       box-shadow var(--btn-dur-shadow) var(--btn-ease),
       transform var(--btn-dur-lift) var(--btn-ease);
-    /* GPU layer for the lift — keeps the transform on the
-       compositor so the body cross-fade doesn't cause layout
-       thrash. */
-    will-change: transform, background-color, color;
+    will-change: transform, color;
     isolation: isolate;
   }
-  /* Gradient layer — sits over the flat fill and cross-fades its
-     opacity on hover. Slightly inset so the squared corners and
-     ring still read at the edges. */
+  /* Rest-state gradient (full opacity at rest, fades out on hover). */
   .btn-pill::before {
     content: "";
     position: absolute;
@@ -451,18 +452,33 @@
     border-radius: inherit;
     background-image: linear-gradient(
       180deg,
-      var(--btn-body-from) 0%,
-      var(--btn-body-mid) 55%,
-      var(--btn-body-to) 100%
+      var(--btn-rest-from) 0%,
+      var(--btn-rest-mid) 55%,
+      var(--btn-rest-to) 100%
     );
     opacity: 1;
     pointer-events: none;
     z-index: 0;
-    transition:
-      background-image var(--btn-dur-body) var(--btn-ease),
-      opacity var(--btn-dur-body) var(--btn-ease);
+    transition: opacity var(--btn-dur-body) var(--btn-ease);
   }
-  /* Keep all children above the gradient layer. */
+  /* Hover-state gradient (transparent at rest, fades in on hover). */
+  .btn-pill::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: linear-gradient(
+      180deg,
+      var(--btn-hover-from) 0%,
+      var(--btn-hover-mid) 55%,
+      var(--btn-hover-to) 100%
+    );
+    opacity: 0;
+    pointer-events: none;
+    z-index: 0;
+    transition: opacity var(--btn-dur-body) var(--btn-ease);
+  }
+  /* Children sit above both gradient layers. */
   .btn-pill > * {
     position: relative;
     z-index: 1;
@@ -471,12 +487,12 @@
      Body gradient flips to a white→platinum→smoke ramp with a soft
      inner-shadow ring instead of an outer drop shadow, so the
      button reads as "raised" against either theme background. */
+  /* Hover — cross-fade the gradient layers and flip the text/tile
+     color. The body itself is unchanged in size; only the visible
+     gradient swaps, so the hover reads as a smooth tonal shift
+     rather than a jump. */
   .btn-pill:hover,
   .btn-pill:focus-visible {
-    --btn-body-from: #ffffff;
-    --btn-body-mid: #f5f5f5;
-    --btn-body-to: #e7e7e7;
-    --btn-body-flat: #f7f7f7;
     --btn-text: #0a0a0a;
     --btn-tile-bg: #0a0a0a;
     --btn-tile-fg: #ffffff;
@@ -486,13 +502,25 @@
     --btn-press: rgba(0, 0, 0, 0.08);
     transform: translateY(-1px);
   }
+  .btn-pill:hover::before,
+  .btn-pill:focus-visible::before {
+    opacity: 0;
+  }
+  .btn-pill:hover::after,
+  .btn-pill:focus-visible::after {
+    opacity: 1;
+  }
   /* In light mode the rest state starts light-on-light, so the hover
-     flips it dark-on-light — the inversion always lands contrast. */
+     flips it dark-on-light — the inversion always lands contrast.
+     Both pseudo-elements swap their gradient tokens; the cross-fade
+     behaviour is identical. */
   html.light .btn-pill {
-    --btn-body-from: #f5f5f5;
-    --btn-body-mid: #e7e7e7;
-    --btn-body-to: #d6d6d6;
-    --btn-body-flat: #ececec;
+    --btn-rest-from: #f5f5f5;
+    --btn-rest-mid: #e7e7e7;
+    --btn-rest-to: #d6d6d6;
+    --btn-hover-from: #1a1a1a;
+    --btn-hover-mid: #0f0f0f;
+    --btn-hover-to: #050505;
     --btn-text: #0a0a0a;
     --btn-tile-bg: #0a0a0a;
     --btn-tile-fg: #ffffff;
@@ -504,10 +532,6 @@
   }
   html.light .btn-pill:hover,
   html.light .btn-pill:focus-visible {
-    --btn-body-from: #1a1a1a;
-    --btn-body-mid: #0f0f0f;
-    --btn-body-to: #050505;
-    --btn-body-flat: #0c0c0c;
     --btn-text: #ffffff;
     --btn-tile-bg: #ffffff;
     --btn-tile-fg: #0a0a0a;
