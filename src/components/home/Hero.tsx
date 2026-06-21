@@ -9,6 +9,7 @@ import { ButtonLink } from "@/components/site/primitives/Button";
 import { GridLines } from "@/components/site/primitives/GridLines";
 import { CornerCrosshairs } from "@/components/site/primitives/CornerCrosshairs";
 import { ArrowUpRight } from "@/components/site/icons";
+import { ASSETS } from "@/lib/assets";
 
 const TRUST = [
   { v: "47+", l: "deployments" },
@@ -130,7 +131,7 @@ export function Hero() {
         <div className="relative w-full aspect-[16/8] md:aspect-[16/6] overflow-hidden">
           <CornerCrosshairs size={18} className="z-20" />
           <Image
-            src="/img/hero/Heroimage.png"
+            src={ASSETS.hero.capabilityMap}
             alt="AI architecture diagram — central node connected to eight capability modules (compute, data, identity, security, integrations, infrastructure, governance, and operations)"
             fill
             priority

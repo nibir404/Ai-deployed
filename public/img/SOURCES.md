@@ -8,6 +8,21 @@ Photos for the Ai-Deployed landing page redesign, sourced from Unsplash.
 - Each photo is downloaded at **3 sizes** (640, 1024, 1920px wide) as `.webp` for `next/image` responsive loading.
 - Filename pattern: `<section>-<descriptor>-<width>.webp`
 
+## Folder convention
+Section folders in `public/img/` are **single-word** to match the source-code
+references (e.g. `casestudies`, `whatwedo`, `reality`, `industries`, `hero`).
+This keeps path strings short and `next/image` URLs cacheable.
+
+If a section grows long enough to warrant a hyphenated name (e.g.
+`case-studies`), it should be renamed **and** all source references updated
+together — there is no automatic mapping. Empty hyphenated folders present
+at provisioning time (e.g. `case-studies/`, `what-we-do/`, `calculator/`,
+`pricing/`) are placeholders and are not currently consumed by the build.
+
+The list of paths the app actually uses is centralized in
+`src/lib/assets.ts`. If you add or rename an asset here, update the
+registry too — `grep -r '/img/' src/` should return only that file.
+
 ## Run the fetcher
 ```bash
 pnpm fetch:assets

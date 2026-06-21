@@ -5,6 +5,7 @@ import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { PageHero } from "@/components/site/PageHero";
 import { StackReveal } from "@/components/site/primitives/StackReveal";
 import { ArrowUpRight } from "@/components/site/icons";
+import { ASSETS } from "@/lib/assets";
 
 export const metadata: Metadata = {
   title: "Case studies — AI Deployed",
@@ -21,7 +22,7 @@ const STUDIES = [
     metric: "47%",
     metricLabel: "manual processing reduction",
     duration: "14 months",
-    img: "/img/casestudies/cs-banking-1920.webp",
+    img: ASSETS.caseStudies.banking,
     featured: true,
   },
   {
@@ -32,7 +33,7 @@ const STUDIES = [
     metric: "98%",
     metricLabel: "service continuity",
     duration: "11 months",
-    img: "/img/casestudies/cs-government-1920.webp",
+    img: ASSETS.caseStudies.government,
   },
   {
     sector: "Healthcare",
@@ -42,7 +43,7 @@ const STUDIES = [
     metric: "3.4x",
     metricLabel: "throughput per clinician",
     duration: "9 months",
-    img: "/img/casestudies/cs-healthcare-1920.webp",
+    img: ASSETS.caseStudies.healthcare,
   },
   {
     sector: "Telecom",
@@ -52,7 +53,7 @@ const STUDIES = [
     metric: "12mo",
     metricLabel: "assessment to scale",
     duration: "12 months",
-    img: "/img/industries/ind-telecom-1920.webp",
+    img: ASSETS.industries.telecom,
   },
   {
     sector: "Manufacturing",
@@ -62,7 +63,7 @@ const STUDIES = [
     metric: "28%",
     metricLabel: "yield improvement",
     duration: "8 months",
-    img: "/img/industries/ind-manufacturing-1920.webp",
+    img: ASSETS.industries.manufacturing,
   },
   {
     sector: "Education",
@@ -72,7 +73,7 @@ const STUDIES = [
     metric: "2.1x",
     metricLabel: "student service throughput",
     duration: "7 months",
-    img: "/img/industries/ind-education-1920.webp",
+    img: ASSETS.industries.education,
   },
 ];
 
@@ -87,7 +88,7 @@ export default function CaseStudiesPage() {
         title="Long-term engagements. Lasting outcomes."
         description="Each engagement is measured against operational outcome — not deliverables shipped. Average duration: 11 months."
         image={{
-          src: "/img/hero/hero-architectural-1920.webp",
+          src: ASSETS.hero.architectural.lg,
           alt: "Architectural facade",
         }}
       />

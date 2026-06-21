@@ -6,6 +6,7 @@ import { ButtonLink } from "@/components/site/primitives/Button";
 import { StackReveal } from "@/components/site/primitives/StackReveal";
 import { GridLines } from "@/components/site/primitives/GridLines";
 import { ArrowUpRight } from "@/components/site/icons";
+import { ASSETS } from "@/lib/assets";
 
 type Study = {
   sector: string;
@@ -24,7 +25,7 @@ const STUDIES: Study[] = [
       "Embedded engineers deployed intelligent operations across service, risk, and compliance.",
     metric: "47%",
     metricLabel: "manual processing reduction",
-    img: "/img/casestudies/cs-banking-1024.webp",
+    img: ASSETS.caseStudies.banking,
   },
   {
     sector: "Government",
@@ -33,7 +34,7 @@ const STUDIES: Study[] = [
       "Re-architected service delivery with cloud, integration, and AI.",
     metric: "98%",
     metricLabel: "service continuity",
-    img: "/img/casestudies/cs-government-1024.webp",
+    img: ASSETS.caseStudies.government,
   },
   {
     sector: "Healthcare",
@@ -42,7 +43,7 @@ const STUDIES: Study[] = [
       "Deployed clinical AI workflows integrated with EHR and billing.",
     metric: "3.4x",
     metricLabel: "throughput per clinician",
-    img: "/img/casestudies/cs-healthcare-1024.webp",
+    img: ASSETS.caseStudies.healthcare,
   },
 ];
 
@@ -76,7 +77,7 @@ export function CaseStudies() {
           >
             <div className="absolute inset-0 -z-0">
               <Image
-                src="/img/hero/hero-architectural-1024.webp"
+                src={ASSETS.hero.architectural.md}
                 alt="Modern enterprise operations — architectural facade"
                 fill
                 priority

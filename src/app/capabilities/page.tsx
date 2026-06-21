@@ -13,6 +13,7 @@ import {
   type IconProps,
 } from "@/components/site/icons";
 import type { ComponentType } from "react";
+import { ASSETS } from "@/lib/assets";
 
 export const metadata: Metadata = {
   title: "Capabilities — AI Deployed",
@@ -219,7 +220,7 @@ export default function CapabilitiesPage() {
         title="Twenty-three capabilities. One operating discipline."
         description="Five disciplines. Embedded end-to-end. Outcome-defined, time-bound, and engineered for measurable operational impact."
         image={{
-          src: "/img/hero/hero-architectural-1920.webp",
+          src: ASSETS.hero.architectural.lg,
           alt: "Architectural facade",
         }}
       />

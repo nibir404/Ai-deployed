@@ -3,50 +3,51 @@ import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
 import { ArrowUpRight } from "@/components/site/icons";
+import { ASSETS } from "@/lib/assets";
 
 const INDUSTRIES = [
   {
     n: "01",
     t: "Banking & Financial Services",
     b: "Operations, risk, compliance, service.",
-    img: "/img/industries/ind-finance-1024.webp",
+    img: ASSETS.industries.finance,
     featured: true,
   },
   {
     n: "02",
     t: "Telecommunications & ISPs",
     b: "Network intelligence, CX, optimization.",
-    img: "/img/industries/ind-telecom-1024.webp",
+    img: ASSETS.industries.telecom,
   },
   {
     n: "03",
     t: "Government",
     b: "Citizen services, transformation, data.",
-    img: "/img/industries/ind-government-1024.webp",
+    img: ASSETS.industries.government,
   },
   {
     n: "04",
     t: "Healthcare",
     b: "Clinical ops, engagement, analytics.",
-    img: "/img/industries/ind-healthcare-1024.webp",
+    img: ASSETS.industries.healthcare,
   },
   {
     n: "05",
     t: "Education",
     b: "Learning systems, modernization.",
-    img: "/img/industries/ind-education-1024.webp",
+    img: ASSETS.industries.education,
   },
   {
     n: "06",
     t: "Manufacturing",
     b: "Production, forecasting, quality.",
-    img: "/img/industries/ind-manufacturing-1024.webp",
+    img: ASSETS.industries.manufacturing,
   },
   {
     n: "07",
     t: "Enterprise & Conglomerates",
     b: "Integration, data, transformation.",
-    img: "/img/industries/ind-logistics-1024.webp",
+    img: ASSETS.industries.logistics,
   },
 ];
 

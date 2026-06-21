@@ -3,6 +3,7 @@ import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
 import { GridLines } from "@/components/site/primitives/GridLines";
+import { ASSETS } from "@/lib/assets";
 
 const ROLES = [
   "Forward-Deployed Engineers",
@@ -49,7 +50,7 @@ export function ForwardDeployed() {
             </p>
             <div className="mt-8 relative aspect-[4/5] sm:aspect-[3/4] w-full overflow-hidden bg-[var(--color-surface)]">
               <Image
-                src="/img/hero/hero-control-room-1024.webp"
+                src={ASSETS.hero.controlRoom.md}
                 alt="Engineers in an operations control room"
                 width={1024}
                 height={1365}

@@ -4,6 +4,7 @@ import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { PageHero } from "@/components/site/PageHero";
 import { StackReveal } from "@/components/site/primitives/StackReveal";
+import { ASSETS } from "@/lib/assets";
 
 export const metadata: Metadata = {
   title: "How we work — AI Deployed",
@@ -69,7 +70,7 @@ export default function HowWeWorkPage() {
         title="Structured. Embedded. Accountable."
         description="Four phases. Embedded engineers. Outcome-defined, time-bound, measured against operational reality."
         image={{
-          src: "/img/hero/hero-control-room-1920.webp",
+          src: ASSETS.hero.controlRoom.lg,
           alt: "Operations control room",
         }}
       />
@@ -167,7 +168,7 @@ export default function HowWeWorkPage() {
       <section className="relative py-[120px] overflow-hidden border-b hairline">
         <div className="absolute inset-0 -z-0 opacity-30">
           <Image
-            src="/img/hero/hero-architectural-1920.webp"
+            src={ASSETS.hero.architectural.lg}
             alt="Architectural facade"
             fill
             sizes="100vw"
