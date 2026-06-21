@@ -30,11 +30,11 @@ export function FinalCta() {
             size="section"
             className="mt-6"
           >
-            Let&apos;s <span className="text-ink">operationalize</span>.
+            Let&apos;s <span className="text-ink">talk</span>.
           </DisplayHeading>
           <p className="mt-8 text-ink-muted text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-            A 30-minute conversation. We help you assess context and define
-            the path forward.
+            A short conversation. We will tell you when we are not the
+            right fit.
           </p>
         </div>
 
@@ -43,10 +43,10 @@ export function FinalCta() {
             <span className="btn-pill__icon" aria-hidden>
               <ArrowUpRight size={14} />
             </span>
-            Book Consultation
+            Talk to us
           </Link>
-          <ButtonLink href="/case-studies" variant="secondary">
-            See selected work
+          <ButtonLink href="/platform" variant="secondary">
+            See the platform
           </ButtonLink>
         </div>
       </Container>

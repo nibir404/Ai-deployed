@@ -11,8 +11,8 @@ export const metadata: Metadata = {
 };
 
 const META = [
-  { k: "Response", v: "Within 1 business day" },
-  { k: "First call", v: "30 minutes, senior engineer" },
+  { k: "Response", v: "From a senior engineer" },
+  { k: "First call", v: "Short, with a founder or engineer" },
   { k: "Format", v: "Video or in-person" },
   { k: "Cost", v: "No fee, no obligation" },
 ];
@@ -21,9 +21,9 @@ export default function ContactPage() {
   return (
     <main id="main">
       <PageHero
-        eyebrow="Contact · Section 16"
+        eyebrow="Contact"
         title="Start the conversation."
-        description="Tell us about your context. A senior engineer will respond within one business day — no slide decks, no qualification calls, no sales pipeline."
+        description="Tell us about your context. A senior engineer will respond — no slide decks, no qualification calls, no sales pipeline."
       />
 
       <section className="py-[120px] border-b hairline">

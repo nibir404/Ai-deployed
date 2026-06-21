@@ -6,46 +6,34 @@ import { StackReveal } from "@/components/site/primitives/StackReveal";
 import { ASSETS } from "@/lib/assets";
 
 export const metadata: Metadata = {
-  title: "How we work — AI Deployed",
+  title: "How a DeployCo engagement works — AI Deployed",
   description:
-    "Structured, embedded, accountable. The four phases of every engagement.",
+    "Four steps from a discovery call to an agent running in production.",
 };
 
 const PHASES = [
   {
-    n: "01",
-    title: "Discover",
-    duration: "1–2 weeks",
-    body: "Workflows, systems, operating model, constraints. We listen before we propose.",
-    outputs: ["Stakeholder map", "System inventory", "Opportunity register"],
+    title: "Discovery call",
+    body: "We learn about the work you want an agent to do, your existing systems, and your governance requirements.",
   },
   {
-    n: "02",
-    title: "Design",
-    duration: "2–4 weeks",
-    body: "Architecture, integration points, data flows, governance, rollout plan.",
-    outputs: ["Target architecture", "Roadmap", "Risk register"],
+    title: "Design and build",
+    body: "We design the agent — goal, tools, guardrails, approval mode — and build it against your systems.",
   },
   {
-    n: "03",
-    title: "Deploy",
-    duration: "6–18 months",
-    body: "Embedded engineers build, integrate, and operationalize in production.",
-    outputs: ["Working systems", "Runbooks", "Trained teams"],
+    title: "Review outputs",
+    body: "Your team reviews the agent's drafts. We tune the configuration based on what your team edits.",
   },
   {
-    n: "04",
-    title: "Operate",
-    duration: "Ongoing",
-    body: "Continuous optimization, managed services, knowledge transfer.",
-    outputs: ["Measured outcomes", "Capability transfer", "Operational ownership"],
+    title: "Monitor and improve",
+    body: "We run the agent in production, monitor the queue, and improve the configuration as your business changes.",
   },
 ];
 
 const PRINCIPLES = [
   {
-    t: "Embedded",
-    b: "Our engineers sit with your teams. Knowledge transfers in the work.",
+    t: "Embedded delivery",
+    b: "We sit with your team. Knowledge transfer is built in by design.",
   },
   {
     t: "Outcome-defined",
@@ -57,7 +45,7 @@ const PRINCIPLES = [
   },
   {
     t: "Time-bound",
-    b: "Each phase has a clear exit. No infinite discovery.",
+    b: "Each phase has a clear exit. We are not the right fit for every business.",
   },
 ];
 
@@ -65,9 +53,9 @@ export default function HowWeWorkPage() {
   return (
     <main id="main">
       <PageHero
-        eyebrow="How we work · Section 04"
-        title="Structured. Embedded. Accountable."
-        description="Four phases. Embedded engineers. Outcome-defined, time-bound, measured against operational reality."
+        eyebrow="How it works"
+        title="From a discovery call to an agent in production."
+        description="Four steps. Most engagements are running in production by week four. After that, we run the agent for you and tune the configuration as your business changes."
         image={{
           src: ASSETS.hero.controlRoom.lg,
           alt: "Operations control room",
@@ -87,43 +75,20 @@ export default function HowWeWorkPage() {
           <StackReveal className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--color-line)]">
             {PHASES.map((p) => (
               <article
-                key={p.n}
+                key={p.title}
                 data-stack
-                className="card-surface p-6 md:p-8 min-h-[320px] flex flex-col gap-5 group hover:bg-[var(--color-surface)] transition-colors"
+                className="card-surface p-6 md:p-8 min-h-[260px] flex flex-col gap-5 group hover:bg-[var(--color-surface)] transition-colors"
               >
-                <div className="flex items-baseline justify-between">
-                  <span className="font-mono text-[11px] uppercase tracking-[0.16em] text-ink-muted">
-                    {p.n}
-                  </span>
-                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-dim">
-                    {p.duration}
-                  </span>
-                </div>
-                <h3 className="font-display text-display font-medium text-ink leading-tight">
+                <span
+                  aria-hidden
+                  className="inline-block size-1.5 bg-[var(--color-accent)]"
+                />
+                <h3 className="font-display text-h3 font-medium text-ink leading-snug">
                   {p.title}
                 </h3>
                 <p className="text-sm text-ink-muted leading-relaxed">
                   {p.body}
                 </p>
-                <div className="mt-auto pt-6 border-t hairline">
-                  <div className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-dim mb-3">
-                    Outputs
-                  </div>
-                  <ul className="space-y-2">
-                    {p.outputs.map((o) => (
-                      <li
-                        key={o}
-                        className="text-xs text-ink-muted leading-snug flex items-baseline gap-2"
-                      >
-                        <span
-                          aria-hidden
-                          className="inline-block size-1 bg-current opacity-50 shrink-0"
-                        />
-                        {o}
-                      </li>
-                    ))}
-                  </ul>
-                </div>
               </article>
             ))}
           </StackReveal>
@@ -147,8 +112,8 @@ export default function HowWeWorkPage() {
                   key={p.t}
                   className="card-surface p-6 md:p-8 min-h-[180px] flex flex-col gap-4 group"
                 >
-                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-muted">
-                    {String(i + 1).padStart(2, "0")}
+                  <span className="font-mono text-[10px] uppercase tracking-[0.16em] text-ink-dim">
+                    Principle
                   </span>
                   <h3 className="font-display text-h3 font-medium text-ink leading-snug">
                     {p.t}

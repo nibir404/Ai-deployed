@@ -9,11 +9,12 @@ import { ArrowUpRight } from "./icons";
 import { cn } from "@/lib/cn";
 
 const NAV = [
-  { href: "/capabilities", label: "Capabilities" },
-  { href: "/how-we-work", label: "How We Work" },
-  { href: "/#roi", label: "ROI" },
-  { href: "/#pricing", label: "Pricing" },
-  { href: "/#contact", label: "Contact" },
+  { href: "/research", label: "Research" },
+  { href: "/platform", label: "Platform" },
+  { href: "/governance", label: "Governance" },
+  { href: "/how-we-work", label: "How it works" },
+  { href: "/about", label: "About" },
+  { href: "/faq", label: "FAQ" },
 ];
 
 export function Header() {
@@ -70,7 +71,7 @@ export function Header() {
             <span className="btn-pill__icon" aria-hidden>
               <ArrowUpRight size={14} />
             </span>
-            Book Consultation
+            Sign in
           </Link>
 
           <button
@@ -110,7 +111,7 @@ export function Header() {
                 <span className="btn-pill__icon" aria-hidden>
                   <ArrowUpRight size={14} />
                 </span>
-                Book Consultation
+                Sign in
               </Link>
             </div>
           </div>

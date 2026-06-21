@@ -1,9 +1,9 @@
 # AI Deployed
 
-> **Technology is easy. Operational adoption is hard.**
-> We deploy, integrate, and operate AI systems inside enterprise environments — through embedded engineering.
+> **Custom AI agents. Built and run for you.**
+> We design, build, and operate AI agents for businesses that need a real, governed system in production.
 
-**AI Deployed** is the marketing site for an enterprise AI deployment consultancy. It introduces the company, its capabilities, engagement models, case studies, ROI tooling, and contact flow, and is built as a fast, content-dense, editorial-style Next.js application with a Dispatch-inspired visual language: hairline-grid sections, oversized display headlines, monochromatic platinum-on-charcoal accents, and a built-in AI CLI assistant for site-aware Q&A.
+**AI Deployed** is the marketing site for an enterprise AI deployment consultancy. It introduces the company, its platform, governance model, and contact flow, and is built as a fast, content-dense, editorial-style Next.js application with a Dispatch-inspired visual language: hairline-grid sections, oversized display headlines, monochromatic platinum-on-charcoal accents, and a built-in AI CLI assistant for site-aware Q&A.
 
 Live site: **https://ai-deployed.example.com** *(placeholder — update before launch)*
 
@@ -29,36 +29,39 @@ Live site: **https://ai-deployed.example.com** *(placeholder — update before l
 
 ## About the Project
 
-Most AI projects stall after the demo. **AI Deployed** solves the last-mile problem — the part between "the model works" and "the business depends on it" — by embedding senior engineers inside the customer's environment to ship, integrate, and operate AI systems in production.
+Most AI projects stall after the demo. **AI Deployed** solves the last-mile problem — the part between "the model works" and "the business depends on it" — by designing, building, and operating custom AI agents in production against the customer's existing systems. Each agent has a goal, a tool allowlist, a set of guardrails, and an approval gate the customer controls.
 
 This repository contains the company's public website. It is built as a server-rendered, statically optimizable Next.js 15 app with a deliberately editorial visual language: long-form sections, monochrome photography, hairline rules, GSAP-driven micro-interactions, an interactive cursor-reactive ASCII field, and a built-in CLI assistant.
 
 ### What the site covers
 
-- **Home** — Hero (with interactive ASCII dot field), trust bar, "the reality" problem framing, services overview, forward-deployed engineering pitch, stats, ROI calculator, industries, capabilities, how-we-work, engagement models, pricing, outcomes, case studies, research, why-us, FAQ, and a final CTA.
-- **Capabilities** (`/capabilities`) — Detailed capability areas.
-- **How We Work** (`/how-we-work`) — Engagement methodology.
-- **Case Studies** (`/case-studies`) — Selected deployments.
-- **Resources** (`/resources`) — Research, writing, references.
+- **Home** — Hero (with interactive ASCII dot field + cursor-following logo reveal), Live Demo (a campaign dashboard mock with six function tabs), Where Agents Work (six labeled cards), Differentiators (three stacked editorial blocks), Engagement (four-step timeline with the operating capability map), Commitments (three operational guarantees), Company Note, and a closing CTA.
+- **Platform** (`/platform`) — Build, approve, govern, audit, integrate, operate, measure — seven anchored sections with mock interfaces.
+- **Governance** (`/governance`) — Approval queues, policy stack, fail-closed behavior, and the audit trail.
+- **How it works** (`/how-we-work`) — The four-phase engagement model.
+- **About** (`/about`) — Why we exist, what we believe, our products, where we are.
+- **Research** (`/research`) — Short-form writing on AI agents, deployment, and governance.
+- **FAQ** (`/faq`) — Common questions and answers.
 - **Contact** (`/contact`) — Senior-engineer intake form.
+- **Legal** (`/legal/privacy`, `/legal/terms`) — Privacy and terms summaries.
 
 ---
 
 ## Features
 
 - **Editorial-grade design system** — bespoke typography (Inter / IBM Plex Mono / Geist), hairline rules, baseline grid, corner crosshairs, and section-level "FIG · NN" captions.
-- **Dispatch-style visual language** — every section gets a distinct layout (5-up grid with big numerals, 4-up icon grid, photo + 6-card feature, centered accordion, etc.) so no two adjacent sections read as the same template.
+- **Dispatch-style visual language** — every section gets a distinct layout (centered hero, 6-tab live demo, 3-up use-case grid, stacked editorial blocks, 4-step timeline with operating map, 2-col closing CTA) so no two adjacent sections read as the same template.
 - **Monochromatic palette** — Platinum `#e7e7e7` / Charcoal `#323131` / Dark Silver `#707070` / White Smoke `#efefef`. No chromatic accent — every "highlight" is a tonal shift.
-- **Glossy black primary CTA** — full-rounded squared (4px) pill with vertical gradient and white icon tile inset.
+- **Glossy black primary CTA** — full-rounded squared (4px) pill with vertical gradient and white icon tile inset. Hover inverts body and text color in both light and dark modes with a smooth cross-fade.
 - **Frosted-glass header** — permanent backdrop-blur with progressive enhancement (`@supports [backdrop-filter]`) and a fall-back dark-tint linear-gradient for browsers without backdrop-filter.
 - **Interactive ASCII dot field** — full-bleed `<canvas>` grid in the hero photo band; rest state is a quiet `·` field, near the cursor dots animate through ASCII glyphs (`·` → `●` → `█`) and shift to ink. Theme-aware via `getComputedStyle` — readable in both dark and light modes.
 - **Cursor-following logo reveal** — the "AI DEPLOYED" wordmark sits behind the dot field and is only visible inside a soft circular "flashlight" that follows the pointer. The mask center is driven by two CSS custom properties (`--mx` / `--my`) written directly on the wrapper from `pointermove` — no React re-renders, no per-frame JS. The wordmark uses `mix-blend-mode: screen` in dark mode and `multiply` in light mode so it sits *within* the field rather than punching a hard hole. Disabled when `prefers-reduced-motion: reduce` is active and toggleable via the `showLogo` prop on `<InteractiveDotGrid />`.
-- **GSAP-driven count-up** — Operating Metrics section uses a frame-locked GSAP ticker for smoother-than-RAF animation with rounded per-frame output and a 0.18s stagger between counters.
-- **GSAP smooth scroll** — anchor-link scrolling (`/#pricing`, `/capabilities`, etc.) is animated via the ScrollToPlugin with `power3.inOut` ease, replacing the browser's native jump and the CSS `scroll-behavior: smooth` baseline.
+- **Live demo tabbed dashboard** — six function tabs (Marketing, Sales, Support, Operations, Analysis, Finance) sharing a single campaign card with role-specific drafts, approvals, and live metrics.
+- **Operating capability map** — a two-grid (2×2 left, 2×2 right) flanking a tall central engine tile. Eight modules with hover/click interactions, focus-aware edges, and a data-flow pulse animation.
+- **GSAP smooth scroll** — anchor-link scrolling is animated via the ScrollToPlugin with `power3.inOut` ease, replacing the browser's native jump and the CSS `scroll-behavior: smooth` baseline.
 - **AI CLI assistant** — a floating terminal-style panel that answers site-aware questions using a tokenized keyword matcher over a structured knowledge base. Streams character-by-character for an "AI typing" feel. Persists open/closed state in `localStorage`.
 - **Pointer-driven parallax** — Hero headline and trust strip drift on cursor movement via CSS custom properties — no `requestAnimationFrame`, no WebGL.
-- **GSAP-powered motion** — scroll-triggered reveals, count-ups, and section transitions.
-- **ROI calculator** — interactive client component with live recompute and animated output.
+- **GSAP-powered motion** — scroll-triggered reveals and section transitions.
 - **Light & dark themes** — controlled via a no-flash inline script and persisted in `localStorage`. The accent system flips direction in light mode (Platinum → Charcoal) so every token-driven consumer stays readable.
 - **Static asset pipeline** — a Node script (`scripts/fetch-assets.mjs`) downloads responsive WebP variants from Unsplash based on a `SOURCES.md` manifest.
 - **Accessibility-first** — skip link, semantic landmarks, focus rings, `prefers-reduced-motion` respected everywhere, scroll progress indicator, and color-contrast-tested tokens.
@@ -145,18 +148,21 @@ Re-runs are idempotent — existing files are skipped. Delete a file to re-downl
 ├── src/
 │   ├── app/                       # Next.js App Router
 │   │   ├── layout.tsx             # Root layout (fonts, metadata, header, footer, CLI)
-│   │   ├── page.tsx               # Home — composes 17 home components
+│   │   ├── page.tsx               # Home — composes 8 home sections
 │   │   ├── globals.css            # Tailwind layer + design tokens + light/dark themes
-│   │   ├── capabilities/page.tsx
-│   │   ├── case-studies/page.tsx
+│   │   ├── about/page.tsx
 │   │   ├── contact/page.tsx
+│   │   ├── faq/page.tsx
+│   │   ├── governance/page.tsx
 │   │   ├── how-we-work/page.tsx
-│   │   └── resources/page.tsx
+│   │   ├── legal/{privacy,terms}/page.tsx
+│   │   ├── platform/page.tsx
+│   │   └── research/page.tsx
 │   ├── components/
-│   │   ├── home/                  # Home page sections (Hero, Stats, Pricing, …)
+│   │   ├── home/                  # Home page sections (Hero, LiveDemo, UseCases, …)
 │   │   ├── site/                  # Chrome — Header, Footer, Cli, SmoothScroll, primitives
 │   │   └── forms/                 # ContactForm
-│   └── lib/                       # cn(), motion helpers, countUp, site-data, useGsapCountUp
+│   └── lib/                       # cn(), motion helpers, site-data
 ├── next.config.ts
 ├── tailwind / postcss configs
 ├── tsconfig.json
@@ -203,7 +209,7 @@ To retheme, override the CSS variables in `src/app/globals.css`.
 
 The site ships with a built-in AI-style terminal assistant (the `Cli` component, bottom-right floating launcher).
 
-**Knowledge source:** `src/lib/site-data.ts` — a structured array of 12 topics (what we do, forward-deployed engineering, services, industries, engagement models, pricing, outcomes, stats, case studies, research, why us, FAQ, plus a contact topic) with keyword aliases, summaries, facts, and outbound links.
+**Knowledge source:** `src/lib/site-data.ts` — a structured array of topics (what we do, agents, governance, platform, engagement, use cases, differentiators, research, about, contact, FAQ) with keyword aliases, summaries, facts, and outbound links.
 
 **Matcher:** `findTopic(query)` tokenizes the input, scores every topic by alias hits + title-word matches + phrase bonuses ("how much", "how long", "what is", "who are"), and returns the top-scoring topic.
 
@@ -211,9 +217,9 @@ The site ships with a built-in AI-style terminal assistant (the `Cli` component,
 
 **Try it:** open the site, click the `▸_ Ask the CLI · ~ai-deployed` pill in the bottom-right, then try:
 - *"What does AI Deployed do?"*
-- *"How much does it cost?"*
-- *"What industries do you serve?"*
-- *"How long does an engagement last?"*
+- *"How does governance work?"*
+- *"Where do agents work?"*
+- *"How does an engagement start?"*
 
 The panel persists its open/closed state in `localStorage` and respects `prefers-reduced-motion`.
 
@@ -235,11 +241,11 @@ Set the production metadata URL in `src/app/layout.tsx` (`metadataBase`) and upd
 
 ## Performance & Accessibility
 
-- Server components by default; client components are opted into with `"use client"` only where needed (Hero parallax, GSAP timelines, theme toggle, ROI calculator, CLI panel, dot field, forms).
+- Server components by default; client components are opted into with `"use client"` only where needed (Hero parallax, GSAP timelines, theme toggle, dot field, CLI panel, tabs, forms).
 - Images use `next/image` with explicit `sizes` and `priority` on the hero.
 - Fonts use `display: swap` and a single subset (`latin`).
 - `reactStrictMode` is on; `poweredByHeader` is off; `compress` is on.
-- Accessibility: skip link, semantic `<main>`/`<header>`/`<footer>`, labelled sections, keyboard-focusable CTAs, motion respects `prefers-reduced-motion` (count-up, dot field drift, and CLI typing are all gated).
+- Accessibility: skip link, semantic `<main>`/`<header>`/`<footer>`, labelled sections, keyboard-focusable CTAs, motion respects `prefers-reduced-motion` (parallax, dot-field drift, and CLI typing are all gated).
 
 ---
 
@@ -259,4 +265,4 @@ Set the production metadata URL in `src/app/layout.tsx` (`metadataBase`) and upd
 
 Source code: **All rights reserved** unless a `LICENSE` file is added. Photography from Unsplash is subject to the [Unsplash License](https://unsplash.com/license).
 
-For licensing inquiries, contact **engineering@aideployed.com**.
+For licensing inquiries, contact **hello@ai-deployed.com**.
