@@ -9,12 +9,12 @@ import { cn } from "@/lib/cn";
  *
  * Concept:
  *   The firm deploys AI across eight interlocking disciplines. We
- *   show them as a 4×2 grid of rounded-square "modules" connected
- *   by hairline edges to a central rounded-square "ENGINE" hub.
- *   This replaces the older radial-circle diagram with a tighter,
- *   semirounded, more context-relevant map that actually matches
- *   the rest of the site (rounded-4px cards, hairline rules,
- *   tabular mono labels).
+ *   show them as two 2×2 grids of rounded-square "modules" — one
+ *   on the left of a tall central "ENGINE" tile, one on the right
+ *   — connected by hairline edges. This layout keeps the engine as
+ *   the visual centerpiece without overlapping any module, and uses
+ *   semirounded (6px) corners that match the rest of the site's
+ *   card grammar.
  *
  * Interactivity:
  *   - Hover a module: it brightens (ink stroke), its two edges
@@ -26,13 +26,13 @@ import { cn } from "@/lib/cn";
  *   - The "data flow" pulse animates continuously along every
  *     edge, with a stronger pulse along the edges of the
  *     currently hovered/active module.
- *   - Full keyboard support: each module is a real <button>,
- *     focusable, activatable with Enter/Space. Focus uses the
- *     same hover styling.
+ *   - Full keyboard support: each module is a focusable <rect>
+ *     with role="button", activatable with Enter/Space.
  *   - Honors `prefers-reduced-motion`: skips the pulse and the
  *     entry timeline, keeps hover/click state.
  */
 
+type Side = "L" | "R";
 type Mod = {
   id: string;
   code: string;
@@ -40,38 +40,67 @@ type Mod = {
   desc: string;
   metric: string;
   metricLabel: string;
-  /** x, y in 0..1000 viewBox space */
-  x: number;
-  y: number;
-  /** Index into EDGES for the two edges that connect this module
-   *  to the central engine — one for "in", one for "out". */
-  edgeIn: number;
-  edgeOut: number;
+  /** Which side of the engine the module sits on. */
+  side: Side;
+  /** Column within its side grid (0 or 1). */
+  col: number;
+  /** Row within its side grid (0 or 1). */
+  row: number;
 };
 
 const VIEW_W = 1000;
 const VIEW_H = 600;
 
-/* 4 cols × 2 rows of modules around a centered engine tile.
-   Coordinates are tuned so each module is ~140px square and the
-   engine tile is 220px square. The grid is symmetric, so on any
-   aspect ratio the modules sit cleanly within the viewBox. */
-const COLS = 4;
-const ROWS = 2;
-const COL_GAP = 200;
-const ROW_GAP = 200;
+/* Module geometry. Each side is a 2×2 grid. Modules are 160×110
+   with 30px horizontal gap and 30px vertical gap between them.
+   The engine sits between the two side grids, with breathing room
+   on every side. The viewBox is 1000×600, so:
+     - Two side grids (370 wide each) + 30px outer pad each + 40px
+       gap each side of engine + 220px engine = 370+30+40+220+40+30+370
+       = 1100. That doesn't fit, so we reduce: modules 160 wide, two
+       cols fit in 350 with 30 gap; engine 200; outer pad 20.
+       350+20+30+200+30+20+350 = 1000. Fits exactly. */
 const MOD_W = 160;
-const MOD_H = 100;
-const GRID_W = (COLS - 1) * COL_GAP + MOD_W;
-const GRID_H = (ROWS - 1) * ROW_GAP + MOD_H;
-const ORIGIN_X = (VIEW_W - GRID_W) / 2;
-const ORIGIN_Y = (VIEW_H - GRID_H) / 2;
-const ENGINE_W = 240;
-const ENGINE_H = 240;
-const ENGINE_X = (VIEW_W - ENGINE_W) / 2;
-const ENGINE_Y = (VIEW_H - ENGINE_H) / 2;
+const MOD_H = 110;
+const SIDE_COL_GAP = 30;
+const SIDE_ROW_GAP = 30;
+const SIDE_INNER_W = MOD_W * 2 + SIDE_COL_GAP; // 350
+const SIDE_INNER_H = MOD_H * 2 + SIDE_ROW_GAP; // 250
+const ENGINE_W = 200;
+const ENGINE_H = 280;
+// X position for the engine — centered
+const ENGINE_X = (VIEW_W - ENGINE_W) / 2; // 400
+// Y position for the engine — vertically centered
+const ENGINE_Y = (VIEW_H - ENGINE_H) / 2; // 160
+const ENGINE_CX = ENGINE_X + ENGINE_W / 2; // 500
+const ENGINE_CY = ENGINE_Y + ENGINE_H / 2; // 300
+
+// Horizontal positions for the side grids. With engine at x=400
+// and SIDE_INNER_W=350, we have:
+//   left grid right edge at 400 - 30 (gap) = 370 → left grid starts at 370-350=20
+//   right grid left edge at 400 + 200 + 30 = 630 → right grid ends at 630+350=980
+// Both grids fit cleanly with 20px of margin to the viewBox edges.
+const SIDE_GAP_TO_ENGINE = 30;
+const LEFT_GRID_X = ENGINE_X - SIDE_GAP_TO_ENGINE - SIDE_INNER_W; // 20
+const RIGHT_GRID_X = ENGINE_X + ENGINE_W + SIDE_GAP_TO_ENGINE; // 630
+// Vertically center each side grid in the viewBox.
+const LEFT_GRID_Y = (VIEW_H - SIDE_INNER_H) / 2; // 175
+const RIGHT_GRID_Y = LEFT_GRID_Y;
+
+function moduleOrigin(side: Side, col: number, row: number): [number, number] {
+  const baseX = side === "L" ? LEFT_GRID_X : RIGHT_GRID_X;
+  const x = baseX + col * (MOD_W + SIDE_COL_GAP);
+  const y = LEFT_GRID_Y + row * (MOD_H + SIDE_ROW_GAP);
+  return [x, y];
+}
+
+function moduleCenter(side: Side, col: number, row: number): [number, number] {
+  const [x, y] = moduleOrigin(side, col, row);
+  return [x + MOD_W / 2, y + MOD_H / 2];
+}
 
 const MODULES: Mod[] = [
+  // Left side — top row: Strategy + Architecture
   {
     id: "strategy",
     code: "M01",
@@ -79,7 +108,7 @@ const MODULES: Mod[] = [
     desc: "Frameworks for sequencing AI initiatives. Outcome-defined, time-bound, tied to operational reality.",
     metric: "30 / 60 / 90",
     metricLabel: "day milestones",
-    x: 0, y: 0, edgeIn: 0, edgeOut: 8,
+    side: "L", col: 0, row: 0,
   },
   {
     id: "architecture",
@@ -88,26 +117,9 @@ const MODULES: Mod[] = [
     desc: "Translates strategy into an executable plan: AI systems, integration, governance, rollout.",
     metric: "1 → N",
     metricLabel: "target state",
-    x: 1, y: 0, edgeIn: 1, edgeOut: 9,
+    side: "L", col: 1, row: 0,
   },
-  {
-    id: "deployment",
-    code: "M03",
-    label: "Deployment",
-    desc: "Engineers deploy and integrate solutions in production — applications, data, operations.",
-    metric: "6–18 mo",
-    metricLabel: "avg. engagement",
-    x: 2, y: 0, edgeIn: 2, edgeOut: 10,
-  },
-  {
-    id: "integration",
-    code: "M04",
-    label: "Integration",
-    desc: "Connects existing systems — applications, data, processes — into one operational fabric.",
-    metric: "API · event",
-    metricLabel: "contract patterns",
-    x: 3, y: 0, edgeIn: 3, edgeOut: 11,
-  },
+  // Left side — bottom row: Data + Governance
   {
     id: "data",
     code: "M05",
@@ -115,7 +127,7 @@ const MODULES: Mod[] = [
     desc: "Pipelines, products, and the systems that feed AI. Warehouses, lakes, and the layers between.",
     metric: "T+0",
     metricLabel: "decision latency",
-    x: 0, y: 1, edgeIn: 4, edgeOut: 12,
+    side: "L", col: 0, row: 1,
   },
   {
     id: "governance",
@@ -124,8 +136,28 @@ const MODULES: Mod[] = [
     desc: "Risk, compliance, observability, and accountability for AI in production environments.",
     metric: "100%",
     metricLabel: "audit coverage",
-    x: 1, y: 1, edgeIn: 5, edgeOut: 13,
+    side: "L", col: 1, row: 1,
   },
+  // Right side — top row: Deployment + Integration
+  {
+    id: "deployment",
+    code: "M03",
+    label: "Deployment",
+    desc: "Engineers deploy and integrate solutions in production — applications, data, operations.",
+    metric: "6–18 mo",
+    metricLabel: "avg. engagement",
+    side: "R", col: 0, row: 0,
+  },
+  {
+    id: "integration",
+    code: "M04",
+    label: "Integration",
+    desc: "Connects existing systems — applications, data, processes — into one operational fabric.",
+    metric: "API · event",
+    metricLabel: "contract patterns",
+    side: "R", col: 1, row: 0,
+  },
+  // Right side — bottom row: Operations + Optimization
   {
     id: "operations",
     code: "M07",
@@ -133,7 +165,7 @@ const MODULES: Mod[] = [
     desc: "Operate, monitor, and continuously improve deployed systems with structured service delivery.",
     metric: "24 / 7",
     metricLabel: "operational SLA",
-    x: 2, y: 1, edgeIn: 6, edgeOut: 14,
+    side: "R", col: 0, row: 1,
   },
   {
     id: "optimization",
@@ -142,35 +174,37 @@ const MODULES: Mod[] = [
     desc: "Iterate based on feedback, expand adoption, optimize performance as needs grow.",
     metric: "47+",
     metricLabel: "deployments benchmarked",
-    x: 3, y: 1, edgeIn: 7, edgeOut: 15,
+    side: "R", col: 1, row: 1,
   },
 ];
 
 /* Edges. Each module has two: one "in" (drawn from the module to
    the engine) and one "out" (drawn from the engine back to the
    module). The animation can independently draw the dash for
-   each. */
+   each. Edges are computed at module level so the geometry stays
+   in sync with the layout. */
 type Edge = { from: [number, number]; to: [number, number] };
 
-const ENGINE_CX = ENGINE_X + ENGINE_W / 2;
-const ENGINE_CY = ENGINE_Y + ENGINE_H / 2;
-
-function moduleCenter(m: Mod): [number, number] {
-  return [
-    ORIGIN_X + m.x * COL_GAP + MOD_W / 2,
-    ORIGIN_Y + m.y * ROW_GAP + MOD_H / 2,
-  ];
-}
-
-const EDGES: Edge[] = MODULES.flatMap((m) => {
-  const [mx, my] = moduleCenter(m);
-  // "in" edge: module → engine (drawn from module toward engine)
-  // "out" edge: engine → module (drawn from engine back to module)
-  return [
-    { from: [mx, my], to: [ENGINE_CX, ENGINE_CY] },
-    { from: [ENGINE_CX, ENGINE_CY], to: [mx, my] },
-  ];
-});
+/* Pre-compute the edges once, with a stable index. We tag each
+   edge with the module id it belongs to so the focus-aware pulse
+   can find the right pair when a module is hovered. */
+const EDGES_BY_MODULE: { id: string; edges: [Edge, Edge] }[] = MODULES.map(
+  (m) => {
+    const [mx, my] = moduleCenter(m.side, m.col, m.row);
+    return {
+      id: m.id,
+      edges: [
+        { from: [mx, my], to: [ENGINE_CX, ENGINE_CY] },
+        { from: [ENGINE_CX, ENGINE_CY], to: [mx, my] },
+      ],
+    };
+  },
+);
+const EDGES: Edge[] = EDGES_BY_MODULE.flatMap((e) => e.edges);
+const EDGE_MODULE_ID: string[] = EDGES_BY_MODULE.flatMap((e) => [
+  e.id,
+  e.id,
+]);
 
 export function EnterpriseMap() {
   const { ref, ready } = useGsapContext((gsap) => {
@@ -296,8 +330,7 @@ export function EnterpriseMap() {
         <g aria-hidden>
           {EDGES.map((e, i) => {
             const isFocused =
-              focusModule != null &&
-              (focusModule.edgeIn === i || focusModule.edgeOut === i);
+              focusModule != null && EDGE_MODULE_ID[i] === focusModule.id;
             return (
               <line
                 key={i}
@@ -505,17 +538,19 @@ export function EnterpriseMap() {
           )}
         </g>
 
-        {/* Modules — 8 rounded-square tiles in a 4×2 grid. */}
+        {/* Modules — 8 rounded-square tiles in two 2×2 grids flanking
+             the central engine. Each side is a 2×2 layout with
+             hairline gaps between the columns and rows. */}
         <g>
           {MODULES.map((m) => {
-            const [cx, cy] = moduleCenter(m);
+            const [ox, oy] = moduleOrigin(m.side, m.col, m.row);
             const isFocus = focusModule?.id === m.id;
             const isDim = focusModule != null && !isFocus;
             return (
               <g
                 key={m.id}
                 className="em-module"
-                transform={`translate(${cx - MOD_W / 2} ${cy - MOD_H / 2})`}
+                transform={`translate(${ox} ${oy})`}
                 style={{
                   opacity: isDim ? 0.45 : 1,
                   transition: "opacity 220ms ease",

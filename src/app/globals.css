@@ -386,6 +386,18 @@
     --btn-highlight: rgba(255, 255, 255, 0.10);
     --btn-press: rgba(0, 0, 0, 0.4);
 
+    /* Shared timing. Easing is a soft "standard" curve (close to
+       Material's standard) — silky, never abrupt. Duration is
+       tuned per-property below: the body cross-fade is the
+       "hero" of the hover and gets the longest duration; the
+       transform and box-shadow are quicker so the lift still
+       feels responsive. */
+    --btn-ease: cubic-bezier(0.4, 0, 0.2, 1);
+    --btn-dur-body: 380ms;
+    --btn-dur-icon: 320ms;
+    --btn-dur-lift: 220ms;
+    --btn-dur-shadow: 320ms;
+
     position: relative;
     display: inline-flex;
     align-items: center;
@@ -412,10 +424,14 @@
       0 0 0 1px var(--btn-ring),
       0 8px 24px -8px var(--btn-shadow-2);
     transition:
-      color 240ms cubic-bezier(0.22, 1, 0.36, 1),
-      background 240ms cubic-bezier(0.22, 1, 0.36, 1),
-      box-shadow 240ms cubic-bezier(0.22, 1, 0.36, 1),
-      transform 240ms cubic-bezier(0.22, 1, 0.36, 1);
+      color var(--btn-dur-body) var(--btn-ease),
+      background var(--btn-dur-body) var(--btn-ease),
+      box-shadow var(--btn-dur-shadow) var(--btn-ease),
+      transform var(--btn-dur-lift) var(--btn-ease);
+    /* GPU layer for the lift — keeps the transform on the
+       compositor so the body cross-fade doesn't cause layout
+       thrash. */
+    will-change: transform, background-color, color;
   }
   /* Hover — full reversal.
      Body gradient flips to a white→platinum→smoke ramp with a soft
@@ -472,7 +488,10 @@
   /* Icon tile inset on the left — sits flush with the button's
      squared (4px) corners. The icon glyph lives inside. Color tokens
      are driven from the parent .btn-pill so the tile inverts together
-     with the body. */
+     with the body. A tiny delay (40ms) makes the tile "lead" the
+     body cross-fade by a hair, so the eye reads the icon flip first
+     and then the body catches up — feels more deliberate than a
+     simultaneous jump. */
   .btn-pill__icon {
     display: inline-flex;
     align-items: center;
@@ -484,8 +503,8 @@
     color: var(--btn-tile-fg);
     flex-shrink: 0;
     transition:
-      background 240ms cubic-bezier(0.22, 1, 0.36, 1),
-      color 240ms cubic-bezier(0.22, 1, 0.36, 1);
+      background var(--btn-dur-icon) var(--btn-ease) 40ms,
+      color var(--btn-dur-icon) var(--btn-ease) 40ms;
   }
 
   /* Soft page-wash (kept for backwards compatibility with FinalCta
