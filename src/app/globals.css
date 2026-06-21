@@ -1,0 +1,298 @@
+@import "tailwindcss";
+
+@theme {
+  /* Palette — dark first */
+  --color-bg: #0a0a0a;
+  --color-surface: #111111;
+  --color-card: #171717;
+  --color-ink: #ffffff;
+  --color-ink-muted: #a1a1a1;
+  --color-ink-dim: #6b6b6b;
+  --color-line: rgba(255, 255, 255, 0.08);
+  --color-line-strong: rgba(255, 255, 255, 0.14);
+
+  /* Light overrides — re-target the base tokens so arbitrary-value
+     utilities (text-ink, bg-[var(--color-ink)], etc.) automatically
+     pick up light values without per-component rewrites. The
+     `*-light` aliases below are kept for backward compatibility.
+     Palette: paper-white cream — warmer than #fff, less clinical. */
+  --color-bg-light: #f6f1e7;
+  --color-surface-light: #efe9dc;
+  --color-card-light: #fbf8f1;
+  --color-ink-light: #1a1611;
+  --color-ink-muted-light: #574e3e;
+  --color-ink-dim-light: #7d7363;
+  --color-line-light: rgba(26, 22, 17, 0.10);
+  --color-line-strong-light: rgba(26, 22, 17, 0.18);
+
+  /* Type */
+  --font-display: "Geist", ui-sans-serif, system-ui, -apple-system,
+    "Segoe UI", sans-serif;
+  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "Menlo",
+    monospace;
+
+  /* Scale (fluid clamps) — reduced per responsive overhaul */
+  --text-hero: clamp(2.25rem, 1rem + 3.5vw, 4rem);         /* 36px → 64px @1440 */
+  --text-section: clamp(1.75rem, 1.25rem + 2.5vw, 3.5rem); /* 28px → 56px */
+  --text-display: clamp(1.5rem, 1.125rem + 1.5vw, 2.25rem); /* 24px → 36px */
+  --text-h3: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);      /* 18px → 22px */
+  --text-body: clamp(0.9375rem, 0.875rem + 0.25vw, 1.0625rem); /* 15px → 17px */
+  --text-eyebrow: 0.75rem;
+  --text-mono-sm: 0.8125rem;
+
+  /* Tracking */
+  --tracking-display: -0.035em;
+  --tracking-body: -0.011em;
+  --tracking-eyebrow: 0.16em;
+
+  /* Spacing */
+  --space-section: 120px;
+  --space-gutter: clamp(1rem, 0.75rem + 1vw, 1.75rem);
+
+  /* Radius */
+  --radius-sm: 4px;
+  --radius-md: 8px;
+  --radius-lg: 14px;
+
+  /* Layout */
+  --container-max: 1280px;
+}
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    font-family: var(--font-body);
+    letter-spacing: var(--tracking-body);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  html.light {
+    color-scheme: light;
+    /* Re-target the base tokens so every consumer (text-ink,
+       bg-[var(--color-ink)], text-ink-muted, etc.) follows the theme
+       without per-component overrides. */
+    --color-bg: var(--color-bg-light);
+    --color-surface: var(--color-surface-light);
+    --color-card: var(--color-card-light);
+    --color-ink: var(--color-ink-light);
+    --color-ink-muted: var(--color-ink-muted-light);
+    --color-ink-dim: var(--color-ink-dim-light);
+    --color-line: var(--color-line-light);
+    --color-line-strong: var(--color-line-strong-light);
+    background: var(--color-bg);
+    color: var(--color-ink);
+  }
+
+  body {
+    background: var(--color-bg);
+    color: var(--color-ink);
+    min-height: 100dvh;
+    overflow-x: hidden;
+  }
+
+  html.light body {
+    background: var(--color-bg-light);
+    color: var(--color-ink-light);
+  }
+
+  ::selection {
+    background: var(--color-ink);
+    color: var(--color-bg);
+  }
+
+  html.light ::selection {
+    background: var(--color-ink-light);
+    color: var(--color-bg-light);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-display);
+    letter-spacing: var(--tracking-display);
+    font-weight: 500;
+    line-height: 0.96;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  button {
+    background: transparent;
+    color: inherit;
+    border: 0;
+    font: inherit;
+    cursor: pointer;
+  }
+
+  /* Hairlines default */
+  hr {
+    border: 0;
+    border-top: 1px solid var(--color-line);
+  }
+
+  html.light hr {
+    border-top-color: var(--color-line-light);
+  }
+
+  /* Focus rings */
+  :focus-visible {
+    outline: 2px solid var(--color-ink);
+    outline-offset: 2px;
+    border-radius: 2px;
+  }
+
+  html.light :focus-visible {
+    outline-color: var(--color-ink-light);
+  }
+
+  /* Reduced motion */
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.001ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.001ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+}
+
+@layer utilities {
+  .container-editorial {
+    width: 100%;
+    max-width: var(--container-max);
+    margin-inline: auto;
+    padding-inline: var(--space-gutter);
+  }
+
+  .font-display {
+    font-family: var(--font-display);
+    letter-spacing: var(--tracking-display);
+  }
+
+  .font-body {
+    font-family: var(--font-body);
+    letter-spacing: var(--tracking-body);
+  }
+
+  .font-mono {
+    font-family: var(--font-mono);
+  }
+
+  .text-hero {
+    font-size: var(--text-hero);
+    line-height: 0.92;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .text-section {
+    font-size: var(--text-section);
+    line-height: 0.96;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .text-display {
+    font-size: var(--text-display);
+    line-height: 1.04;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .text-h3 {
+    font-size: var(--text-h3);
+    line-height: 1.2;
+    letter-spacing: var(--tracking-display);
+  }
+
+  .text-body {
+    font-size: var(--text-body);
+    line-height: 1.6;
+    letter-spacing: var(--tracking-body);
+  }
+
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: var(--text-eyebrow);
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-eyebrow);
+    color: var(--color-ink-muted);
+  }
+
+  html.light .eyebrow {
+    color: var(--color-ink-muted-light);
+  }
+
+  .hairline {
+    border-color: var(--color-line);
+  }
+
+  html.light .hairline {
+    border-color: var(--color-line-light);
+  }
+
+  .surface {
+    background: var(--color-surface);
+  }
+
+  html.light .surface {
+    background: var(--color-surface-light);
+  }
+
+  .card-surface {
+    background: var(--color-card);
+  }
+
+  html.light .card-surface {
+    background: var(--color-card-light);
+  }
+
+  .text-muted {
+    color: var(--color-ink-muted);
+  }
+
+  html.light .text-muted {
+    color: var(--color-ink-muted-light);
+  }
+
+  /* Skip link */
+  .skip-link {
+    position: absolute;
+    inset-inline-start: 1rem;
+    inset-block-start: 1rem;
+    padding: 0.5rem 0.75rem;
+    background: var(--color-ink);
+    color: var(--color-bg);
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: var(--tracking-eyebrow);
+    transform: translateY(-200%);
+    transition: transform 0.2s ease;
+    z-index: 100;
+  }
+
+  .skip-link:focus-visible {
+    transform: translateY(0);
+  }
+
+  html.light .skip-link {
+    background: var(--color-ink-light);
+    color: var(--color-bg-light);
+  }
+}
