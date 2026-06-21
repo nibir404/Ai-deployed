@@ -31,24 +31,23 @@ export function Header() {
   return (
     <header
       className={cn(
-        // Always glassy — backdrop-blur is on at all times so the
-        // header reads as a frosted layer over the page content.
-        // The scrolled state deepens the tint and adds a hairline
-        // divider, but the blur is permanent.
-        "fixed inset-x-0 top-0 z-50 backdrop-blur-xl backdrop-saturate-150",
+        // Dark mode: the header reads as a frosted layer over the
+        // page content (translucent so the hero shines through).
+        // Light mode: the header is fully opaque so the nav text
+        // and CTA stay readable against the cream paper background
+        // — a translucent header over paper washes the text out.
+        "fixed inset-x-0 top-0 z-50 transition-colors duration-300",
+        "backdrop-blur-xl backdrop-saturate-150",
         "-webkit-backdrop-blur-xl",
-        "transition-colors duration-300",
         scrolled
           ? "bg-[var(--color-bg)]/70 border-b hairline supports-[backdrop-filter]:bg-[var(--color-bg)]/55"
           : "bg-[var(--color-bg)]/30 supports-[backdrop-filter]:bg-[var(--color-bg)]/20",
+        "html.light:bg-[var(--color-bg)]",
+        "html.light:supports-[backdrop-filter]:bg-[var(--color-bg)]",
+        scrolled
+          ? "html.light:border-b html.light:hairline"
+          : "html.light:border-b-0",
       )}
-      style={{
-        // Fallback layered gradient that adds a subtle dark tint on
-        // top of the blurred content — gives the glass extra body
-        // even on browsers with limited backdrop-filter support.
-        backgroundImage:
-          "linear-gradient(to bottom, rgba(10,10,10,0.55), rgba(10,10,10,0.25))",
-      }}
     >
       <div className="container-editorial flex items-center justify-between h-16 md:h-20">
         <div className="flex items-center gap-10">

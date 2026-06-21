@@ -49,6 +49,7 @@ export function Hero() {
             restAlpha={0.32}
             logoScale={0.78}
             logoStroke={1}
+            trackGlobally
           />
         </div>
       </div>

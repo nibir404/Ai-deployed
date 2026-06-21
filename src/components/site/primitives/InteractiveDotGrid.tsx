@@ -30,6 +30,16 @@ type Props = {
    * Stroke width (px) of the wordmark outline. Default: 1.25.
    */
   logoStroke?: number;
+  /**
+   * When true, the pointermove listener is bound to `window` rather
+   * than the wrapper. The visual effect (bright dots, logo
+   * flashlight) is still confined to the canvas, but the cursor
+   * can be anywhere on the page and the grid still responds.
+   * Use this when the grid is a background layer that should
+   * track the cursor across the entire viewport.
+   * Default: false (wrapper-bound).
+   */
+  trackGlobally?: boolean;
   /** Optional className. */
   className?: string;
 };
@@ -92,6 +102,7 @@ export function InteractiveDotGrid({
   restAlpha = 1,
   logoScale = 1,
   logoStroke = 1.25,
+  trackGlobally = false,
   className,
 }: Props) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
@@ -234,27 +245,49 @@ export function InteractiveDotGrid({
       const y = e.clientY - rect.top;
       mouseRef.current.x = x;
       mouseRef.current.y = y;
-      mouseRef.current.active = true;
+      // Mark active only when the cursor is actually within the
+      // canvas bounds. This keeps the visual effect confined to
+      // the grid even when the listener is bound to `window`.
+      const inside =
+        x >= 0 && x <= rect.width && y >= 0 && y <= rect.height;
+      mouseRef.current.active = inside;
       // Drive the logo mask directly via CSS custom properties on
       // the wrapper — no React re-render, no per-frame work.
+      // We push the actual cursor position regardless of `inside`
+      // so the wordmark reveal follows the cursor smoothly as it
+      // crosses the canvas boundary; the radial mask's transparent
+      // outer ring means the wordmark only paints where the cursor
+      // is near the canvas anyway.
       wrapper.style.setProperty("--mx", `${x}px`);
       wrapper.style.setProperty("--my", `${y}px`);
-    };
-    const onPointerEnter = () => {
-      mouseRef.current.active = true;
-      if (showLogo) setLogoVisible(true);
     };
     const onPointerLeave = () => {
       mouseRef.current.active = false;
       if (showLogo) setLogoVisible(false);
     };
+    const onPointerEnter = () => {
+      if (showLogo) setLogoVisible(true);
+    };
 
     const onResize = () => setup();
     window.addEventListener("resize", onResize);
 
-    wrapper.addEventListener("pointermove", onPointerMove);
-    wrapper.addEventListener("pointerleave", onPointerLeave);
-    wrapper.addEventListener("pointerenter", onPointerEnter);
+    if (trackGlobally) {
+      // Bind to window so the cursor effect responds anywhere on
+      // the page, not just when the cursor is over the wrapper.
+      // The `inside` check inside onPointerMove keeps the visible
+      // bright-dot ring confined to the canvas.
+      window.addEventListener("pointermove", onPointerMove);
+      // Show/hide the logo reveal based on whether the cursor is
+      // anywhere in the viewport — flipping the boolean on
+      // pointerover/pointerout of the document is enough.
+      document.addEventListener("pointerenter", onPointerEnter);
+      document.addEventListener("pointerleave", onPointerLeave);
+    } else {
+      wrapper.addEventListener("pointermove", onPointerMove);
+      wrapper.addEventListener("pointerleave", onPointerLeave);
+      wrapper.addEventListener("pointerenter", onPointerEnter);
+    }
 
     const ro = new ResizeObserver(() => setup());
     ro.observe(wrapper);
@@ -262,12 +295,18 @@ export function InteractiveDotGrid({
     return () => {
       if (rafRef.current !== null) cancelAnimationFrame(rafRef.current);
       window.removeEventListener("resize", onResize);
-      wrapper.removeEventListener("pointermove", onPointerMove);
-      wrapper.removeEventListener("pointerleave", onPointerLeave);
-      wrapper.removeEventListener("pointerenter", onPointerEnter);
+      if (trackGlobally) {
+        window.removeEventListener("pointermove", onPointerMove);
+        document.removeEventListener("pointerenter", onPointerEnter);
+        document.removeEventListener("pointerleave", onPointerLeave);
+      } else {
+        wrapper.removeEventListener("pointermove", onPointerMove);
+        wrapper.removeEventListener("pointerleave", onPointerLeave);
+        wrapper.removeEventListener("pointerenter", onPointerEnter);
+      }
       ro.disconnect();
     };
-  }, [cellSize, radius, showLogo, restAlpha, logoScale, logoStroke]);
+  }, [cellSize, radius, showLogo, restAlpha, logoScale, logoStroke, trackGlobally]);
 
   // The logo mask radius. Slightly larger than the dot-grid's
   // influence radius so the wordmark peeks through a touch
@@ -281,8 +320,11 @@ export function InteractiveDotGrid({
       style={{
         position: "absolute",
         inset: 0,
-        pointerEvents: "auto",
-        cursor: "crosshair",
+        // Only set a crosshair cursor when the grid is the local
+        // interactive element (i.e. not tracking globally). When
+        // tracking globally, a crosshair over the whole viewport
+        // would feel invasive.
+        cursor: trackGlobally ? "default" : "crosshair",
         // Defaults for the logo mask — overwritten on pointermove.
         // Expressed in wrapper-local pixel coordinates.
         ["--mx" as string]: "-9999px",
