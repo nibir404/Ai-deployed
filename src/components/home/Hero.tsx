@@ -130,7 +130,7 @@ export function Hero() {
         <div className="relative w-full aspect-[16/8] md:aspect-[16/6] overflow-hidden">
           <CornerCrosshairs size={18} className="z-20" />
           <Image
-            src="/Heroimage.png"
+            src="/img/hero/Heroimage.png"
             alt="AI architecture diagram — central node connected to eight capability modules (compute, data, identity, security, integrations, infrastructure, governance, and operations)"
             fill
             priority
