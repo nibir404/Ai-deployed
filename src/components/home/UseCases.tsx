@@ -1,7 +1,6 @@
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
-import { GridLines } from "@/components/site/primitives/GridLines";
 import { StackReveal } from "@/components/site/primitives/StackReveal";
 
 const CASES = [
@@ -44,7 +43,6 @@ export function UseCases() {
       className="relative border-b hairline py-[100px] md:py-[120px]"
     >
       <Container className="relative">
-        <GridLines sideRules />
         <div className="max-w-3xl">
           <Eyebrow>Use cases</Eyebrow>
           <DisplayHeading

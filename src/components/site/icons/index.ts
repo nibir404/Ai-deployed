@@ -32,3 +32,6 @@ export * from "./Zap";
 export * from "./Quote";
 export * from "./Star";
 export * from "./Menu";
+export * from "./Play";
+export * from "./Pause";
+export * from "./RotateCcw";

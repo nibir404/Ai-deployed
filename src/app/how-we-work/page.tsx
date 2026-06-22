@@ -4,31 +4,13 @@ import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { PageHero } from "@/components/site/PageHero";
 import { StackReveal } from "@/components/site/primitives/StackReveal";
 import { ASSETS } from "@/lib/assets";
+import { ENGAGEMENT_PHASES } from "@/lib/copy/engagementSteps";
 
 export const metadata: Metadata = {
-  title: "How a DeployCo engagement works — AI Deployed",
+  title: "How an AI Deployed engagement works",
   description:
-    "Four steps from a discovery call to an agent running in production.",
+    "Four steps from a discovery call to a custom AI agent running in production.",
 };
-
-const PHASES = [
-  {
-    title: "Discovery call",
-    body: "We learn about the work you want an agent to do, your existing systems, and your governance requirements.",
-  },
-  {
-    title: "Design and build",
-    body: "We design the agent — goal, tools, guardrails, approval mode — and build it against your systems.",
-  },
-  {
-    title: "Review outputs",
-    body: "Your team reviews the agent's drafts. We tune the configuration based on what your team edits.",
-  },
-  {
-    title: "Monitor and improve",
-    body: "We run the agent in production, monitor the queue, and improve the configuration as your business changes.",
-  },
-];
 
 const PRINCIPLES = [
   {
@@ -73,9 +55,9 @@ export default function HowWeWorkPage() {
           </div>
 
           <StackReveal className="mt-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--color-line)]">
-            {PHASES.map((p) => (
+            {ENGAGEMENT_PHASES.map((p) => (
               <article
-                key={p.title}
+                key={p.t}
                 data-stack
                 className="card-surface p-6 md:p-8 min-h-[260px] flex flex-col gap-5 group hover:bg-[var(--color-surface)] transition-colors"
               >
@@ -84,10 +66,10 @@ export default function HowWeWorkPage() {
                   className="inline-block size-1.5 bg-[var(--color-accent)]"
                 />
                 <h3 className="font-display text-h3 font-medium text-ink leading-snug">
-                  {p.title}
+                  {p.t}
                 </h3>
                 <p className="text-sm text-ink-muted leading-relaxed">
-                  {p.body}
+                  {p.d}
                 </p>
               </article>
             ))}

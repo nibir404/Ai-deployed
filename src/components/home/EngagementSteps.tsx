@@ -1,7 +1,6 @@
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
-import { GridLines } from "@/components/site/primitives/GridLines";
 import { EnterpriseMap } from "@/components/home/EnterpriseMap";
 import { cn } from "@/lib/cn";
 import {
@@ -12,37 +11,21 @@ import {
   type IconProps,
 } from "@/components/site/icons";
 import type { ComponentType } from "react";
+import { ENGAGEMENT_PHASES } from "@/lib/copy/engagementSteps";
 
-const STEPS: {
-  t: string;
-  d: string;
+/**
+ * Maps each phase to the icon and duration label rendered on the
+ * homepage. The descriptive copy lives in @/lib/copy/engagementSteps
+ * so /how-we-work can share it.
+ */
+const PHASE_META: {
   dur: string;
   Icon: ComponentType<IconProps>;
 }[] = [
-  {
-    t: "Discovery call",
-    d: "We learn about the work you want an agent to do, your existing systems, and your governance requirements.",
-    dur: "First",
-    Icon: Target,
-  },
-  {
-    t: "Design and build",
-    d: "We design the agent — goal, tools, guardrails, approval mode — and build it against your systems.",
-    dur: "Build",
-    Icon: Workflow,
-  },
-  {
-    t: "Review outputs",
-    d: "Your team reviews the agent's drafts. We tune the configuration based on what your team edits.",
-    dur: "Review",
-    Icon: Settings,
-  },
-  {
-    t: "Monitor and improve",
-    d: "We run the agent in production, monitor the queue, and improve the configuration as your business changes.",
-    dur: "Operate",
-    Icon: BarChart,
-  },
+  { dur: "First", Icon: Target },
+  { dur: "Build", Icon: Workflow },
+  { dur: "Review", Icon: Settings },
+  { dur: "Operate", Icon: BarChart },
 ];
 
 /**
@@ -50,19 +33,16 @@ const STEPS: {
  *
  * Layout: a vertical 4-step timeline with a connecting hairline
  * rule on the left. Each step carries an icon, a short title, a
- * one-line description, and a duration label. Mirrors DeployCo's
- * &ldquo;From discovery to a working agent in production&rdquo;
- * section.
+ * one-line description, and a duration label.
  */
 export function EngagementSteps() {
   return (
     <section
       id="engagement"
-      aria-label="How a DeployCo engagement works"
+      aria-label="How an AI Deployed engagement works"
       className="relative border-b hairline py-[100px] md:py-[140px] overflow-hidden"
     >
       <Container className="relative">
-        <GridLines sideRules edgeRule />
         <div className="max-w-3xl">
           <Eyebrow>Engagement</Eyebrow>
           <DisplayHeading
@@ -74,41 +54,45 @@ export function EngagementSteps() {
           </DisplayHeading>
           <p className="mt-6 text-body text-ink-muted leading-relaxed max-w-xl">
             Four steps. Most engagements are running in production by week
-            four. After that, we run the agent for you and tune the
+            four. After that, we operate the agent for you and tune the
             configuration as your business changes.
           </p>
         </div>
 
         <ol className="mt-14 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-px bg-[var(--color-line)]">
-          {STEPS.map((s, idx) => (
-            <li
-              key={s.t}
-              className={cn(
-                "card-surface p-6 md:p-7 min-h-[260px] flex flex-col group",
-                idx === 1 && "border border-[var(--color-accent)]",
-              )}
-            >
-              <div className="flex items-center justify-between">
-                <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-dim">
-                  Step {String(idx + 1).padStart(2, "0")}
+          {ENGAGEMENT_PHASES.map((s, idx) => {
+            const meta = PHASE_META[idx];
+            const Icon = meta.Icon;
+            return (
+              <li
+                key={s.t}
+                className={cn(
+                  "card-surface p-6 md:p-7 min-h-[260px] flex flex-col group",
+                  idx === 1 && "border border-[var(--color-accent)]",
+                )}
+              >
+                <div className="flex items-center justify-between">
+                  <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-dim">
+                    Step {String(idx + 1).padStart(2, "0")}
+                  </span>
+                  <Icon
+                    size={18}
+                    aria-hidden
+                    className="text-ink-muted group-hover:text-ink transition-colors"
+                  />
+                </div>
+                <h3 className="mt-6 font-display text-h3 font-medium text-ink leading-snug">
+                  {s.t}
+                </h3>
+                <p className="mt-3 text-sm text-ink-muted leading-relaxed flex-1">
+                  {s.d}
+                </p>
+                <span className="mt-6 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-dim">
+                  {meta.dur}
                 </span>
-                <s.Icon
-                  size={18}
-                  aria-hidden
-                  className="text-ink-muted group-hover:text-ink transition-colors"
-                />
-              </div>
-              <h3 className="mt-6 font-display text-h3 font-medium text-ink leading-snug">
-                {s.t}
-              </h3>
-              <p className="mt-3 text-sm text-ink-muted leading-relaxed flex-1">
-                {s.d}
-              </p>
-              <span className="mt-6 font-mono text-[10px] uppercase tracking-[0.18em] text-ink-dim">
-                {s.dur}
-              </span>
-            </li>
-          ))}
+              </li>
+            );
+          })}
         </ol>
 
         {/* Operating map — full-width band, kept as a supporting diagram */}

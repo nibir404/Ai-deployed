@@ -539,6 +539,14 @@
       background var(--btn-dur-icon) var(--btn-ease) 40ms,
       color var(--btn-dur-icon) var(--btn-ease) 40ms;
   }
+  /* Text label — wrapped in its own span so the bare text inside the
+     anchor isn't painted beneath the absolute-positioned ::before
+     gradient. Forms its own stacking layer via the .btn-pill > * rule
+     above and inherits --btn-text from the parent. */
+  .btn-pill__label {
+    display: inline-block;
+    color: inherit;
+  }
 
   /* Soft page-wash (kept for backwards compatibility with FinalCta
      and any other section that wants a colored aura around the

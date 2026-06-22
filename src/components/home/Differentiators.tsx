@@ -1,7 +1,6 @@
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
-import { GridLines } from "@/components/site/primitives/GridLines";
 import { StackReveal } from "@/components/site/primitives/StackReveal";
 
 const PRINCIPLES = [
@@ -43,13 +42,14 @@ const PRINCIPLES = [
     body: (
       <>
         <p>
-          We run the runtime, monitor the agents, and improve the
-          configurations as your business changes. You get a weekly report
-          and an approval queue.
+          Your team reviews the queue. We handle the rest — runtime,
+          monitoring, configuration drift, model updates. You never have
+          to operate an agent you did not build.
         </p>
         <p>
           If the agent does not perform, we change the configuration, the
-          model, or the policy. We do not ask you to operate it.
+          model, or the policy. You get a weekly report and an approval
+          queue.
         </p>
       </>
     ),
@@ -71,7 +71,6 @@ export function Differentiators() {
       className="relative border-b hairline py-[100px] md:py-[140px]"
     >
       <Container className="relative">
-        <GridLines sideRules edgeRule />
         <div className="max-w-3xl mb-16">
           <Eyebrow>Differentiators</Eyebrow>
           <DisplayHeading

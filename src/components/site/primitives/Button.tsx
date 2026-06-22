@@ -17,7 +17,7 @@ function classes(
   glow?: boolean,
 ) {
   const base =
-    "inline-flex items-center gap-2 px-5 py-3 rounded-[4px] font-mono text-[11px] uppercase tracking-[0.16em] transition-colors duration-200 select-none";
+    "inline-flex items-center gap-2 h-12 px-5 py-3 rounded-[4px] font-mono text-[11px] uppercase tracking-[0.16em] transition-colors duration-200 select-none";
   return cn(
     base,
     variant === "primary" &&

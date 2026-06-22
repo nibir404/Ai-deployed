@@ -2,7 +2,6 @@ import Image from "next/image";
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { TextReveal } from "@/components/site/primitives/TextReveal";
-import { GridLines } from "@/components/site/primitives/GridLines";
 import type { ReactNode } from "react";
 
 type Props = {
@@ -44,7 +43,6 @@ export function PageHero({ eyebrow, title, description, image }: Props) {
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-[var(--color-bg)]/40 to-[var(--color-bg)]" />
         </div>
       )}
-      <GridLines sideRules edgeRule baselineGrid />
       <Container className="relative">
         <div className="max-w-4xl">
           <Eyebrow>{eyebrow}</Eyebrow>

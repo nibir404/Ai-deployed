@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 
 type Props = {
   /** Cell size in px. Each cell renders one character. Default 14. */
@@ -76,9 +76,11 @@ const ASCII_CHARS = [
  *
  * Background logo reveal:
  * When `showLogo` is enabled, an "AI Deployed" wordmark is painted
- * behind the dot grid. The wordmark is masked with a radial gradient
- * whose center tracks the pointer, so the logo is only visible in a
- * soft circular "flashlight" right where the cursor is.
+ * over the dot grid (zIndex 2 vs the canvas at zIndex 1) but masked
+ * with a radial gradient whose center tracks the pointer, so the
+ * logo is only visible in a soft circular "flashlight" right where
+ * the cursor is. Outside that circle the wordmark is fully
+ * transparent and the dot field reads as the topmost visible layer.
  *
  * Honors `prefers-reduced-motion`: skips the ambient drift and the
  * cursor influence — just a static dot field.
@@ -110,12 +112,12 @@ export function InteractiveDotGrid({
   const mouseRef = useRef({ x: -9999, y: -9999, active: false });
   const rafRef = useRef<number | null>(null);
 
-  // Mirror of mouse position in pixels (for the logo mask). Kept as
-  // state only when actively hovering so React doesn't re-render on
-  // every mousemove — we just write the CSS custom properties
-  // directly on the wrapper element from the pointer handler.
-  const logoWrapRef = useRef<HTMLDivElement | null>(null);
-  const [logoVisible, setLogoVisible] = useState(false);
+  // Mouse position is stored in a ref so we don't re-render on every
+  // pointermove — we write the CSS custom properties directly on the
+  // wrapper element from the pointer handler. The radial mask in
+  // `.logo-reveal-mask` keeps the wordmark invisible everywhere
+  // except inside the cursor's "flashlight" circle, so no React
+  // state is needed to toggle visibility.
 
   useEffect(() => {
     const wrapper = wrapperRef.current;
@@ -263,10 +265,6 @@ export function InteractiveDotGrid({
     };
     const onPointerLeave = () => {
       mouseRef.current.active = false;
-      if (showLogo) setLogoVisible(false);
-    };
-    const onPointerEnter = () => {
-      if (showLogo) setLogoVisible(true);
     };
 
     const onResize = () => setup();
@@ -278,15 +276,15 @@ export function InteractiveDotGrid({
       // The `inside` check inside onPointerMove keeps the visible
       // bright-dot ring confined to the canvas.
       window.addEventListener("pointermove", onPointerMove);
-      // Show/hide the logo reveal based on whether the cursor is
-      // anywhere in the viewport — flipping the boolean on
-      // pointerover/pointerout of the document is enough.
-      document.addEventListener("pointerenter", onPointerEnter);
-      document.addEventListener("pointerleave", onPointerLeave);
+      // Deactivate the bright-dot ring when the cursor leaves the
+      // viewport. `mouseleave` is the only document-level event
+      // that reliably fires when the pointer exits the window —
+      // `pointerleave` doesn't bubble and isn't dispatched on
+      // `document`.
+      document.addEventListener("mouseleave", onPointerLeave);
     } else {
       wrapper.addEventListener("pointermove", onPointerMove);
       wrapper.addEventListener("pointerleave", onPointerLeave);
-      wrapper.addEventListener("pointerenter", onPointerEnter);
     }
 
     const ro = new ResizeObserver(() => setup());
@@ -297,16 +295,14 @@ export function InteractiveDotGrid({
       window.removeEventListener("resize", onResize);
       if (trackGlobally) {
         window.removeEventListener("pointermove", onPointerMove);
-        document.removeEventListener("pointerenter", onPointerEnter);
-        document.removeEventListener("pointerleave", onPointerLeave);
+        document.removeEventListener("mouseleave", onPointerLeave);
       } else {
         wrapper.removeEventListener("pointermove", onPointerMove);
         wrapper.removeEventListener("pointerleave", onPointerLeave);
-        wrapper.removeEventListener("pointerenter", onPointerEnter);
       }
       ro.disconnect();
     };
-  }, [cellSize, radius, showLogo, restAlpha, logoScale, logoStroke, trackGlobally]);
+  }, [cellSize, radius, restAlpha, logoScale, logoStroke, trackGlobally]);
 
   // The logo mask radius. Slightly larger than the dot-grid's
   // influence radius so the wordmark peeks through a touch
@@ -335,7 +331,6 @@ export function InteractiveDotGrid({
     >
       {showLogo && (
         <div
-          ref={logoWrapRef}
           className="logo-reveal-mask"
           style={{
             position: "absolute",
@@ -348,8 +343,12 @@ export function InteractiveDotGrid({
             // like a hairline outline on both dark and light
             // themes via the `currentColor` token.
             color: "var(--color-ink)",
-            opacity: logoVisible ? 1 : 0,
-            transition: "opacity 220ms ease-out",
+            // Sit above the canvas (zIndex: 1) so the wordmark
+            // strokes paint over the dot field inside the
+            // radial "flashlight" mask. Outside the mask, the
+            // element is fully transparent and the dots read as
+            // the topmost layer.
+            zIndex: 2,
             pointerEvents: "none",
           }}
         >
@@ -384,8 +383,11 @@ export function InteractiveDotGrid({
           display: "block",
           width: "100%",
           height: "100%",
-          // Keep the canvas above the logo so the dot field reads
-          // as the topmost layer (the logo peeks through the gaps).
+          // Sit below the wordmark container (zIndex: 2) so the
+          // wordmark strokes paint on top of the dots inside the
+          // cursor's radial "flashlight" mask. Outside the mask,
+          // the wordmark is fully transparent and the dot field
+          // reads as the topmost visible layer.
           zIndex: 1,
         }}
       />

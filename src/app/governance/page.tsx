@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
-import { GridLines } from "@/components/site/primitives/GridLines";
 import { Reveal } from "@/components/site/primitives/Reveal";
 import { PageHero } from "@/components/site/PageHero";
 import { ButtonLink } from "@/components/site/primitives/Button";
@@ -31,7 +30,6 @@ function Section({ id, eyebrow, title, body }: SectionProps) {
       className="relative border-b hairline py-[100px] md:py-[120px] scroll-mt-24"
     >
       <Container className="relative">
-        <GridLines sideRules />
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
           <div className="lg:col-span-4">
             <Eyebrow>{eyebrow}</Eyebrow>
@@ -276,7 +274,7 @@ export default function GovernancePage() {
                 <span className="btn-pill__icon" aria-hidden>
                   <ArrowUpRight size={14} />
                 </span>
-                Start a conversation
+                <span className="btn-pill__label">Start a conversation</span>
               </Link>
             </div>
           </Reveal>

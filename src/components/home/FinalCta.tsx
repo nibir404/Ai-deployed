@@ -3,7 +3,6 @@ import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
 import { ButtonLink } from "@/components/site/primitives/Button";
-import { GridLines } from "@/components/site/primitives/GridLines";
 import { ArrowUpRight } from "@/components/site/icons";
 
 /**
@@ -21,7 +20,6 @@ export function FinalCta() {
       className="relative border-b hairline py-[120px]"
     >
       <Container className="relative">
-        <GridLines sideRules edgeRule baselineGrid />
 
         <div className="max-w-4xl mx-auto text-center">
           <Eyebrow>Start the conversation</Eyebrow>
@@ -43,7 +41,7 @@ export function FinalCta() {
             <span className="btn-pill__icon" aria-hidden>
               <ArrowUpRight size={14} />
             </span>
-            Talk to us
+            <span className="btn-pill__label">Talk to us</span>
           </Link>
           <ButtonLink href="/platform" variant="secondary">
             See the platform

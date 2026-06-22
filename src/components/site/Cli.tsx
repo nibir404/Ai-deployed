@@ -481,6 +481,6 @@ function composeFallback(query: string): string {
     `Or reach out directly:`,
     `↳ Book consultation  /contact`,
     ``,
-    `Tip: keywords like "services", "pricing", "industries", "engagement", "case", "stats", "research", and "FAQ" all map to specific topics.`,
+    `Tip: keywords like "services", "pricing", "industries", "engagement", "case", "stats", and "FAQ" all map to specific topics.`,
   ].join("\n");
 }

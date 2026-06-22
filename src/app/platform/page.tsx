@@ -3,7 +3,6 @@ import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
 import { ButtonLink } from "@/components/site/primitives/Button";
-import { GridLines } from "@/components/site/primitives/GridLines";
 import { AccentGlow } from "@/components/site/primitives/AccentGlow";
 import { ArrowUpRight } from "@/components/site/icons";
 import Link from "next/link";
@@ -103,7 +102,6 @@ function TwoColSection({
       className="relative border-b hairline py-[100px] md:py-[120px] scroll-mt-24"
     >
       <Container className="relative">
-        <GridLines sideRules />
         <div
           className={cn(
             "grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16 items-start",
@@ -159,7 +157,6 @@ export default function PlatformPage() {
         className="relative pt-[140px] pb-[100px] md:pb-[120px] border-b hairline overflow-hidden"
       >
         <AccentGlow position="corner-tr" intensity={70} />
-        <GridLines sideRules edgeRule baselineGrid />
         <Container className="relative">
           <div className="max-w-4xl">
             <Eyebrow>Platform</Eyebrow>
@@ -228,7 +225,7 @@ export default function PlatformPage() {
           "Configurable approval mode — auto, review, or strict.",
         ]}
         mock={
-          <MockCard url="deployco.co / agents / configure" title="Customer reply">
+          <MockCard url="ai-deployed.com / engagements / configure" title="Customer reply">
             <div className="space-y-0">
               <MockField label="Agent name" value="Customer reply" />
               <MockField
@@ -280,7 +277,7 @@ export default function PlatformPage() {
         ]}
         reverse
         mock={
-          <MockCard url="deployco.co / queue" title="3 pending">
+          <MockCard url="ai-deployed.com / handoff" title="3 pending">
             <ul className="space-y-3">
               {[
                 {
@@ -350,7 +347,7 @@ export default function PlatformPage() {
           "Versioned policies — every change is logged and reversible.",
         ]}
         mock={
-          <MockCard url="deployco.co / policies" title="Customer reply">
+          <MockCard url="ai-deployed.com / runbook" title="Customer reply">
             <div className="space-y-3">
               {[
                 {
@@ -427,7 +424,7 @@ export default function PlatformPage() {
         ]}
         reverse
         mock={
-          <MockCard url="deployco.co / audit" title="last 24h">
+          <MockCard url="ai-deployed.com / changelog" title="last 24h">
             <div className="mb-3 flex items-center justify-between">
               <span className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted">
                 Showing 7 of 1,284 events
@@ -496,7 +493,7 @@ export default function PlatformPage() {
           "Internal — REST and GraphQL APIs, with auth handled by the platform.",
         ]}
         mock={
-          <MockCard url="deployco.co / integrations" title="Customer reply">
+          <MockCard url="ai-deployed.com / systems" title="Customer reply">
             <div className="space-y-4">
               {[
                 {
@@ -550,10 +547,10 @@ export default function PlatformPage() {
         }
         body={
           <p>
-            You do not need a platform team to operate this. We run the
-            runtime, monitor the agents, and improve the configurations as
-            your business changes. You get a regular report and a queue to
-            review.
+            You do not need a platform team to operate this. We handle
+            model selection, retries, monitoring, and configuration drift
+            so the agents stay sharp after launch. You see a regular
+            report and a queue to review.
           </p>
         }
         bullets={[
@@ -564,7 +561,7 @@ export default function PlatformPage() {
         ]}
         reverse
         mock={
-          <MockCard url="deployco.co / operations" title="Live">
+          <MockCard url="ai-deployed.com / engagement" title="Live">
             <div className="grid grid-cols-3 gap-px bg-[var(--color-line)] border hairline">
               {[
                 { l: "Agents running", v: "live" },
@@ -639,7 +636,7 @@ export default function PlatformPage() {
           "Trend — week over week, month over month.",
         ]}
         mock={
-          <MockCard url="deployco.co / reports" title="Customer reply">
+          <MockCard url="ai-deployed.com / weekly" title="Customer reply">
             <div className="flex items-center justify-between">
               <div>
                 <div className="font-mono text-[10px] uppercase tracking-[0.18em] text-ink-muted">
@@ -703,7 +700,7 @@ export default function PlatformPage() {
                 <span className="btn-pill__icon" aria-hidden>
                   <ArrowUpRight size={14} />
                 </span>
-                Start a conversation
+                <span className="btn-pill__label">Start a conversation</span>
               </Link>
               <ButtonLink href="/how-we-work" variant="secondary">
                 How an engagement works

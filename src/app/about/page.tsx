@@ -2,23 +2,24 @@ import type { Metadata } from "next";
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
-import { GridLines } from "@/components/site/primitives/GridLines";
 import { PageHero } from "@/components/site/PageHero";
 import { ButtonLink } from "@/components/site/primitives/Button";
 import Link from "next/link";
 import { ArrowUpRight } from "@/components/site/icons";
 import { cn } from "@/lib/cn";
+import { COMMITMENTS } from "@/lib/copy/commitments";
+import { COMPANY_NOTE_LONG } from "@/lib/copy/companyNote";
 
 export const metadata: Metadata = {
   title: "About — AI Deployed",
   description:
-    "Every business deserves its own AI agent — without building one. The team behind AI Deployed.",
+    "A small team of engineers and operators in California. We design, build, and run custom AI agents for businesses that would rather review the output than staff the project.",
 };
 
 const PRINCIPLES = [
   {
     t: "Operated",
-    d: "An agent you do not run is a pilot. We operate the runtime, monitor the agents, and improve the configurations as your business changes.",
+    d: "An agent you do not run is a pilot. We run the runtime, monitor the queue, and keep the configuration in step with how your business actually moves.",
   },
   {
     t: "Governed",
@@ -27,21 +28,6 @@ const PRINCIPLES = [
   {
     t: "Accountable",
     d: "We own the outcome. If the agent does not perform, we change the configuration, the model, or the policy — and we tell you what we changed.",
-  },
-];
-
-const COMMITMENTS = [
-  {
-    t: "Approval gate",
-    d: "Every agent has an approval queue. Drafts land there first. Nothing leaves without you.",
-  },
-  {
-    t: "Full audit",
-    d: "Two synced audit logs. Every input, output, and decision — append-only, reconstructable.",
-  },
-  {
-    t: "Data discipline",
-    d: "Sensitive fields are stripped before the model sees them. PII never reaches the model.",
   },
 ];
 
@@ -69,14 +55,13 @@ export default function AboutPage() {
     <main id="main">
       <PageHero
         eyebrow="About"
-        title="Every business deserves its own AI agent. Without building one."
-        description="AI Deployed is a small team of engineers and operators building and running custom AI agents for businesses. We do the work — you review the output."
+        title="A small team. Custom agents. We do the work."
+        description="AI Deployed is a team of engineers and operators in California. We design, build, and run the agents for you. Your team reviews the queue. We handle the rest."
       />
 
       {/* Why we exist */}
       <section className="relative border-b hairline py-[100px] md:py-[120px]">
         <Container className="relative">
-          <GridLines sideRules />
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
             <div className="lg:col-span-5">
               <Eyebrow>Why we exist</Eyebrow>
@@ -113,7 +98,7 @@ export default function AboutPage() {
 
       {/* What we believe */}
       <section className="relative border-b hairline py-[100px] md:py-[120px] overflow-hidden">
-        <Container>
+        <Container className="relative">
           <div className="max-w-4xl">
             <Eyebrow>What we believe</Eyebrow>
             <blockquote className="mt-8 font-display text-section leading-[0.98] tracking-[-0.035em] text-ink font-medium">
@@ -144,7 +129,7 @@ export default function AboutPage() {
 
       {/* Our products */}
       <section className="relative border-b hairline py-[100px] md:py-[120px]">
-        <Container>
+        <Container className="relative">
           <div className="max-w-3xl">
             <Eyebrow>Our products</Eyebrow>
             <DisplayHeading
@@ -210,7 +195,7 @@ export default function AboutPage() {
               <span className="btn-pill__icon" aria-hidden>
                 <ArrowUpRight size={14} />
               </span>
-              See the platform
+              <span className="btn-pill__label">See the platform</span>
             </Link>
           </div>
         </Container>
@@ -218,7 +203,7 @@ export default function AboutPage() {
 
       {/* What we commit to */}
       <section className="relative border-b hairline py-[100px] md:py-[120px]">
-        <Container>
+        <Container className="relative">
           <div className="max-w-3xl">
             <Eyebrow>What we commit to</Eyebrow>
             <DisplayHeading
@@ -253,7 +238,7 @@ export default function AboutPage() {
 
       {/* Where we are */}
       <section className="relative border-b hairline py-[100px] md:py-[120px]">
-        <Container>
+        <Container className="relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
             <div className="lg:col-span-5">
               <Eyebrow>Where we are</Eyebrow>
@@ -267,20 +252,9 @@ export default function AboutPage() {
               </DisplayHeading>
             </div>
             <div className="lg:col-span-6 lg:col-start-7 space-y-5 text-body text-ink-muted leading-relaxed">
-              <p>
-                We are based in California and we are a small team by design.
-                Every customer engagement is delivered by named engineers,
-                not a pool.
-              </p>
-              <p>
-                We hire slowly. We pay well. We do not believe in a sales
-                pipeline. If you are reading this and considering us, you
-                will probably talk to one of the founders in the first call.
-              </p>
-              <p>
-                We are not the right fit for every business. We will tell
-                you when we are not.
-              </p>
+              {COMPANY_NOTE_LONG.map((p, i) => (
+                <p key={i}>{p}</p>
+              ))}
             </div>
           </div>
         </Container>
@@ -288,7 +262,7 @@ export default function AboutPage() {
 
       {/* Closing CTA */}
       <section className="relative border-b hairline py-[100px] md:py-[140px] overflow-hidden">
-        <Container>
+        <Container className="relative">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-center">
             <div className="lg:col-span-7">
               <DisplayHeading
@@ -309,7 +283,7 @@ export default function AboutPage() {
                 <span className="btn-pill__icon" aria-hidden>
                   <ArrowUpRight size={14} />
                 </span>
-                Start a conversation
+                <span className="btn-pill__label">Start a conversation</span>
               </Link>
               <ButtonLink href="/platform" variant="secondary">
                 See how the platform works

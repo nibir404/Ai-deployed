@@ -27,7 +27,7 @@ const QUESTIONS = [
   },
   {
     q: "What does &ldquo;operated&rdquo; mean?",
-    a: "We run the runtime, monitor the agents, and update the configurations. If the model drifts, we change it. If the policy needs to evolve, we update it. You see a weekly report and an approval queue.",
+    a: "We own the runtime after launch — picking the model, tuning retries, watching the queue, and shipping configuration updates as your business changes. If the model drifts, we change it. If the policy needs to evolve, we update it. You see a weekly report and an approval queue.",
   },
   {
     q: "What does the approval gate look like?",

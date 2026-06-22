@@ -182,18 +182,6 @@ export const SITE_DATA: SiteTopic[] = [
     ],
   },
   {
-    id: "research",
-    keywords: ["research", "writing", "essay", "report", "publication"],
-    title: "Research",
-    summary:
-      "A small body of writing on what it actually takes to put agents in production.",
-    facts: [
-      "We publish short pieces on agent design, approval gates, audit, and the operational reality of running agents.",
-      "Field notes from real engagements. Honest about what works and what does not.",
-    ],
-    links: [{ label: "Research", href: "/research" }],
-  },
-  {
     id: "about",
     keywords: ["about", "team", "california", "who", "founders"],
     title: "About AI Deployed",

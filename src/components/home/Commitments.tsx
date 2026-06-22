@@ -1,22 +1,7 @@
 import { Container } from "@/components/site/primitives/Container";
 import { Eyebrow } from "@/components/site/primitives/Eyebrow";
 import { DisplayHeading } from "@/components/site/primitives/DisplayHeading";
-import { GridLines } from "@/components/site/primitives/GridLines";
-
-const COMMITMENTS = [
-  {
-    t: "Approval gate",
-    d: "Every agent has an approval queue. Drafts land there first. Nothing leaves without you.",
-  },
-  {
-    t: "Full audit",
-    d: "Two synced audit logs. Every input, output, and decision — append-only, reconstructable.",
-  },
-  {
-    t: "Data discipline",
-    d: "Sensitive fields are stripped before the model sees them. PII never reaches the model.",
-  },
-];
+import { COMMITMENTS } from "@/lib/copy/commitments";
 
 /**
  * Commitments — three operational guarantees.
@@ -33,7 +18,6 @@ export function Commitments() {
       className="relative border-b hairline py-[100px] md:py-[120px]"
     >
       <Container className="relative">
-        <GridLines sideRules />
         <div className="max-w-3xl">
           <Eyebrow>Commitments</Eyebrow>
           <DisplayHeading

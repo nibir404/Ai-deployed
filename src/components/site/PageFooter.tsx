@@ -1,13 +1,11 @@
 import Link from "next/link";
 import { Container } from "@/components/site/primitives/Container";
-import { GridLines } from "@/components/site/primitives/GridLines";
 import { Logo } from "./Logo";
 
 const PRODUCT = [
   { href: "/platform", label: "Platform" },
   { href: "/governance", label: "Governance" },
   { href: "/how-we-work", label: "How it works" },
-  { href: "/research", label: "Research" },
 ];
 
 const COMPANY = [
@@ -25,13 +23,11 @@ const LEGAL = [
  * PageFooter — 4-column site footer (brand + tagline, Product,
  * Company, Legal) over a thin copyright/disclaimer/email bar.
  *
- * Matches DeployCo's footer pattern: clean columns, mono labels,
- * hairline rules, no decorative imagery.
+ * Clean columns, mono labels, hairline rules, no decorative imagery.
  */
 export function PageFooter() {
   return (
     <footer className="relative border-t hairline">
-      <GridLines sideRules edgeRule />
       <Container className="relative">
         {/* Top row — 4-column grid: brand | product | company | legal */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 lg:gap-8 pt-20 pb-12">
