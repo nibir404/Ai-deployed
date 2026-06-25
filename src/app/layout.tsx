@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-import { Inter, IBM_Plex_Mono, Geist } from "next/font/google";
+import { Inter, IBM_Plex_Mono } from "next/font/google";
+import localFont from "next/font/local";
 import { Header } from "@/components/site/Header";
 import { PageFooter } from "@/components/site/PageFooter";
 import { ThemeScript } from "@/components/site/ThemeScript";
@@ -22,11 +23,15 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500"],
 });
 
-const geist = Geist({
-  subsets: ["latin"],
+const geist = localFont({
+  src: [
+    { path: "../../public/fonts/geist/geist-sans-300.woff2", weight: "300", style: "normal" },
+    { path: "../../public/fonts/geist/geist-sans-400.woff2", weight: "400", style: "normal" },
+    { path: "../../public/fonts/geist/geist-sans-500.woff2", weight: "500", style: "normal" },
+    { path: "../../public/fonts/geist/geist-sans-600.woff2", weight: "600", style: "normal" },
+  ],
   display: "swap",
   variable: "--font-display-loaded",
-  weight: ["300", "400", "500", "600"],
 });
 
 export const metadata: Metadata = {
