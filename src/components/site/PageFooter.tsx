@@ -35,7 +35,8 @@ export function PageFooter() {
           <div className="flex flex-col gap-5">
             <Logo />
             <p className="max-w-xs text-sm text-ink-muted leading-relaxed">
-              Custom AI agents, built and run for you.
+              AI Deployed embeds with your team to architect, build, deploy,
+              and run.
             </p>
           </div>
 

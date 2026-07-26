@@ -12,14 +12,14 @@ export type Commitment = {
 export const COMMITMENTS: readonly Commitment[] = [
   {
     t: "Approval gate",
-    d: "Every agent has an approval queue. Drafts land there first. Nothing leaves without you.",
+    d: "Every agent has an approval queue. Nothing leaves without your team.",
   },
   {
     t: "Full audit",
-    d: "Two synced audit logs. Every input, output, and decision — append-only, reconstructable.",
+    d: "Two synced logs. Every input, output, and decision — append-only, queryable.",
   },
   {
     t: "Data discipline",
-    d: "Sensitive fields are stripped before the model sees them. PII never reaches the model.",
+    d: "Sensitive fields stripped before the model. PII never reaches the model.",
   },
 ] as const;

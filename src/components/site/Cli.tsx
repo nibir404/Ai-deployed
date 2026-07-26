@@ -54,9 +54,9 @@ type Message =
 
 const SUGGESTIONS = [
   "What does AI Deployed do?",
-  "How much does it cost?",
-  "What industries do you serve?",
-  "How long does an engagement last?",
+  "How does governance work?",
+  "Where do agents run?",
+  "How does an engagement start?",
 ];
 
 const PANEL_W = 420;
@@ -297,7 +297,7 @@ export function Cli() {
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
             onKeyDown={onKeyDown}
-            placeholder="ask about services, pricing, industries…"
+            placeholder="ask about the platform, governance, engagement…"
             aria-label="Ask the AI CLI"
             className={cn(
               "flex-1 bg-transparent outline-none border-0",
@@ -333,9 +333,9 @@ function EmptyState({ onPick }: { onPick: (s: string) => void }) {
           session · welcome
         </p>
         <p className="mt-2 font-mono text-[12px] text-ink leading-relaxed">
-          Hi — I&apos;m the AI Deployed CLI. Ask me anything about our services,
-          pricing, industries, or how we work. I pull from the same content
-          as the site, so my answers stay accurate.
+          Hi — I&apos;m the AI Deployed CLI. Ask about the platform, governance,
+          or how an engagement works. I pull from the same content as the
+          site, so my answers stay accurate.
         </p>
       </div>
       <div>
@@ -462,7 +462,7 @@ function composeAnswer(topic: SiteTopic): string {
     }
   }
   lines.push("");
-  lines.push("Anything else? Try: services, pricing, industries, engagement.");
+  lines.push("Anything else? Try: platform, governance, engagement.");
   return lines.join("\n");
 }
 
@@ -474,13 +474,13 @@ function composeFallback(query: string): string {
     ``,
     `Try one of these:`,
     `· "what does AI Deployed do"`,
-    `· "pricing" / "how much does it cost"`,
-    `· "industries" / "engagement"`,
-    `· "how long does an engagement last"`,
+    `· "how does governance work"`,
+    `· "where do agents run"`,
+    `· "how does an engagement start"`,
     ``,
     `Or reach out directly:`,
     `↳ Book consultation  /contact`,
     ``,
-    `Tip: keywords like "services", "pricing", "industries", "engagement", "case", "stats", and "FAQ" all map to specific topics.`,
+    `Tip: keywords like "platform", "governance", "engagement", "FDE", "queue", "audit", and "FAQ" all map to specific topics.`,
   ].join("\n");
 }

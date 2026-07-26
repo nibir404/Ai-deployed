@@ -7,12 +7,12 @@ import { ContactForm } from "@/components/forms/ContactForm";
 export const metadata: Metadata = {
   title: "Contact — AI Deployed",
   description:
-    "Tell us about your context. A senior engineer will respond within one business day.",
+    "Tell us about your context. A senior engineer responds within one business day.",
 };
 
 const META = [
   { k: "Response", v: "From a senior engineer" },
-  { k: "First call", v: "Short, with a founder or engineer" },
+  { k: "First call", v: "Short, with an engineer" },
   { k: "Format", v: "Video or in-person" },
   { k: "Cost", v: "No fee, no obligation" },
 ];
@@ -23,7 +23,7 @@ export default function ContactPage() {
       <PageHero
         eyebrow="Contact"
         title="Start the conversation."
-        description="Tell us about your context. A senior engineer will respond — no slide decks, no qualification calls, no sales pipeline."
+        description="Tell us about your context. A senior engineer responds."
       />
 
       <section className="py-[120px] border-b hairline">
@@ -45,7 +45,7 @@ export default function ContactPage() {
               <div className="mt-12 card-surface p-6 md:p-8">
                 <Eyebrow>Direct</Eyebrow>
                 <p className="mt-4 text-sm text-ink-muted leading-relaxed">
-                  Prefer email? Reach the engineering team directly:
+                  Prefer email? Reach the team directly:
                 </p>
                 <a
                   href="mailto:engineering@aideployed.com"

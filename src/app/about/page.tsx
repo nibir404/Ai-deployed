@@ -8,26 +8,25 @@ import Link from "next/link";
 import { ArrowUpRight } from "@/components/site/icons";
 import { cn } from "@/lib/cn";
 import { COMMITMENTS } from "@/lib/copy/commitments";
-import { COMPANY_NOTE_LONG } from "@/lib/copy/companyNote";
 
 export const metadata: Metadata = {
   title: "About — AI Deployed",
   description:
-    "A small team of engineers and operators in California. We design, build, and run custom AI agents for businesses that would rather review the output than staff the project.",
+    "AI Deployed embeds with your team to architect, build, deploy, and run AI and software systems across cloud, private, and tightly controlled environments.",
 };
 
 const PRINCIPLES = [
   {
-    t: "Operated",
-    d: "An agent you do not run is a pilot. We run the runtime, monitor the queue, and keep the configuration in step with how your business actually moves.",
+    t: "Embedded",
+    d: "An agent you do not run is a pilot. We run the runtime, monitor the queue, and keep the configuration in step with how your business moves.",
   },
   {
     t: "Governed",
-    d: "Every output is checked before it leaves the queue. Every action is logged. The policy stack fails closed — your rules are not a filter, they are a gate.",
+    d: "Every output is checked before it leaves the queue. Every action is logged. The policy stack fails closed.",
   },
   {
     t: "Accountable",
-    d: "We own the outcome. If the agent does not perform, we change the configuration, the model, or the policy — and we tell you what we changed.",
+    d: "We own the outcome. If the agent does not perform, we change the configuration, the model, or the policy.",
   },
 ];
 
@@ -35,8 +34,8 @@ const PRODUCTS = [
   {
     id: "ai-deployed",
     t: "AI Deployed",
-    sub: "Custom AI agents, built and run for you.",
-    body: "Each agent is designed for one specific job, runs against your data, and operates under an approval gate you control. Built, configured, and operated by our team.",
+    sub: "Embedded AI and software, built and run.",
+    body: "Each agent is scoped to one job, runs against your data, and operates under an approval gate you control. Built, configured, and run by our team.",
     href: "/platform",
     hrefLabel: "See the platform",
   },
@@ -44,7 +43,7 @@ const PRODUCTS = [
     id: "compliance",
     t: "Compliance",
     sub: "Governance tooling for AI in production.",
-    body: "The same policy stack, audit logs, and fail-closed behavior we use internally, available for teams that operate their own agents. Optional, unified with AI Deployed.",
+    body: "The same policy stack, audit logs, and fail-closed behavior we use internally. Available for teams that run their own agents.",
     href: "/governance",
     hrefLabel: "Read the governance details",
   },
@@ -55,8 +54,8 @@ export default function AboutPage() {
     <main id="main">
       <PageHero
         eyebrow="About"
-        title="A small team. Custom agents. We do the work."
-        description="AI Deployed is a team of engineers and operators in California. We design, build, and run the agents for you. Your team reviews the queue. We handle the rest."
+        title="Embedded. Architect, build, run."
+        description="AI Deployed embeds with your team to architect, build, deploy, and run AI and software systems across cloud, private, and tightly controlled environments."
       />
 
       {/* Why we exist */}
@@ -78,18 +77,14 @@ export default function AboutPage() {
             </div>
             <div className="lg:col-span-6 lg:col-start-7 space-y-5 text-body text-ink-muted leading-relaxed">
               <p>
-                The AI tooling market is full of platforms that hand you a
-                builder and call it done. We have watched customers stall —
-                not because the model is wrong, but because operating AI in
-                production is a job, and the job is not done by the buyer.
+                Most AI tools hand you a builder and call it done. We have
+                watched customers stall — not because the model is wrong, but
+                because operating AI in production is a job, and the job is
+                not done by the buyer.
               </p>
               <p>
-                We exist to do that job. We build the agent, run the agent,
-                govern the agent, and report back. The customer reviews the
-                queue and approves the work.
-              </p>
-              <p>
-                It is a small idea. It turns out to be the missing layer.
+                We do that job. We architect, build, run, and govern the
+                agent. Your team reviews the queue.
               </p>
             </div>
           </div>
@@ -100,10 +95,10 @@ export default function AboutPage() {
       <section className="relative border-b hairline py-[100px] md:py-[120px] overflow-hidden">
         <Container className="relative">
           <div className="max-w-4xl">
-            <Eyebrow>What we believe</Eyebrow>
+            <Eyebrow>Principles</Eyebrow>
             <blockquote className="mt-8 font-display text-section leading-[0.98] tracking-[-0.035em] text-ink font-medium">
               &ldquo;AI in business needs to be{" "}
-              <span className="text-[var(--color-accent)]">operated</span> and{" "}
+              <span className="text-[var(--color-accent)]">embedded</span> and{" "}
               <span className="text-[var(--color-accent)]">governed</span> —
               not just deployed.&rdquo;
             </blockquote>
@@ -137,11 +132,8 @@ export default function AboutPage() {
               size="section"
               className="mt-6 leading-[0.96] tracking-[-0.035em]"
             >
-              Two products. One belief.
+              Two products. One stack.
             </DisplayHeading>
-            <p className="mt-6 text-body text-ink-muted leading-relaxed max-w-xl">
-              Separately useful. Optionally unified.
-            </p>
           </div>
 
           <div className="mt-12 grid grid-cols-1 lg:grid-cols-2 gap-px bg-[var(--color-line)]">
@@ -187,8 +179,7 @@ export default function AboutPage() {
               <p className="mt-2 text-body text-ink leading-relaxed max-w-2xl">
                 The platform&apos;s policy stack, audit logs, and approval gate
                 work the same way whether you run our agents or your own. One
-                governance surface, one set of audit trails, one
-                &ldquo;approved by&rdquo; record.
+                governance surface, one audit trail.
               </p>
             </div>
             <Link href="/platform" className="btn-pill shrink-0">
@@ -205,7 +196,7 @@ export default function AboutPage() {
       <section className="relative border-b hairline py-[100px] md:py-[120px]">
         <Container className="relative">
           <div className="max-w-3xl">
-            <Eyebrow>What we commit to</Eyebrow>
+            <Eyebrow>Commitments</Eyebrow>
             <DisplayHeading
               as="h2"
               size="section"
@@ -236,30 +227,6 @@ export default function AboutPage() {
         </Container>
       </section>
 
-      {/* Where we are */}
-      <section className="relative border-b hairline py-[100px] md:py-[120px]">
-        <Container className="relative">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-16">
-            <div className="lg:col-span-5">
-              <Eyebrow>Where we are</Eyebrow>
-              <DisplayHeading
-                as="h2"
-                size="section"
-                className="mt-6 leading-[0.96] tracking-[-0.035em]"
-              >
-                California.{" "}
-                <span className="text-ink-muted">Building deliberately.</span>
-              </DisplayHeading>
-            </div>
-            <div className="lg:col-span-6 lg:col-start-7 space-y-5 text-body text-ink-muted leading-relaxed">
-              {COMPANY_NOTE_LONG.map((p, i) => (
-                <p key={i}>{p}</p>
-              ))}
-            </div>
-          </div>
-        </Container>
-      </section>
-
       {/* Closing CTA */}
       <section className="relative border-b hairline py-[100px] md:py-[140px] overflow-hidden">
         <Container className="relative">
@@ -270,11 +237,10 @@ export default function AboutPage() {
                 size="section"
                 className="leading-[0.96] tracking-[-0.035em]"
               >
-                If this is what you are looking for —
+                If this is what you&apos;re looking for —
               </DisplayHeading>
               <p className="mt-6 text-body text-ink-muted leading-relaxed max-w-xl">
-                We&apos;d like to hear about your context. There is no
-                qualification call, no sales pipeline. One conversation
+                We&apos;d like to hear about your context. One conversation
                 with one of the engineers who would do the work.
               </p>
             </div>
@@ -286,7 +252,7 @@ export default function AboutPage() {
                 <span className="btn-pill__label">Start a conversation</span>
               </Link>
               <ButtonLink href="/platform" variant="secondary">
-                See how the platform works
+                See the platform
               </ButtonLink>
             </div>
           </div>

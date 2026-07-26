@@ -50,12 +50,11 @@ export function EngagementSteps() {
             size="section"
             className="mt-6 leading-[0.96] tracking-[-0.035em]"
           >
-            From discovery to a working agent in production.
+            From discovery to an agent in production.
           </DisplayHeading>
           <p className="mt-6 text-body text-ink-muted leading-relaxed max-w-xl">
-            Four steps. Most engagements are running in production by week
-            four. After that, we operate the agent for you and tune the
-            configuration as your business changes.
+            Four steps. Running in production by week four. After that, we
+            run the agent and tune the configuration as your business changes.
           </p>
         </div>
 

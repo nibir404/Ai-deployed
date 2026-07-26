@@ -57,3 +57,5 @@ coverage/
 *.pfx
 secrets/
 credentials/
+.vercel
+.env*

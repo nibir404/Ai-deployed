@@ -21,23 +21,22 @@ export default function PrivacyPage() {
         <Container>
           <div className="max-w-3xl space-y-6 text-body text-ink-muted leading-relaxed">
             <p>
-              We collect the minimum data needed to design, build, and operate
-              the agents you have asked us to run. We do not sell data. We do
-              not use your data to train models we do not operate for you.
+              We collect the minimum data needed to architect, build, deploy,
+              and run the systems you have asked us to run. We do not sell
+              data. We do not use your data to train models we do not operate
+              for you.
             </p>
             <p>
-              The audit log captures every input the agent reads and every
-              output it produces. The log is append-only and is exportable on
-              request.
+              The audit log captures every input and output. Append-only,
+              exportable on request.
             </p>
             <p>
-              Sensitive fields are stripped or redacted before the model sees
-              them. PII is never sent to the model.
+              Sensitive fields stripped before the model. PII is never sent to
+              the model.
             </p>
             <p>
-              For a full copy of our privacy policy, including data retention,
-              sub-processors, and regional rights, write to us at the address
-              listed in the footer.
+              For the full privacy policy — data retention, sub-processors,
+              regional rights — write to us at the address in the footer.
             </p>
           </div>
         </Container>

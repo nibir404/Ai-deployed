@@ -22,7 +22,7 @@ export function FinalCta() {
       <Container className="relative">
 
         <div className="max-w-4xl mx-auto text-center">
-          <Eyebrow>Start the conversation</Eyebrow>
+          <Eyebrow>Start</Eyebrow>
           <DisplayHeading
             as="h2"
             size="section"
@@ -31,8 +31,7 @@ export function FinalCta() {
             Let&apos;s <span className="text-ink">talk</span>.
           </DisplayHeading>
           <p className="mt-8 text-ink-muted text-base md:text-lg leading-relaxed max-w-2xl mx-auto">
-            A short conversation. We will tell you when we are not the
-            right fit.
+            A short conversation. We&apos;ll tell you when we&apos;re not the right fit.
           </p>
         </div>
 

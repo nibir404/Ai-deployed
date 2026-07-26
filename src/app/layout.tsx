@@ -37,18 +37,18 @@ const geist = localFont({
 export const metadata: Metadata = {
   metadataBase: new URL("https://ai-deployed.example.com"),
   title: {
-    default: "AI Deployed — Custom AI agents, built and run for you",
+    default: "AI Deployed — Embedded AI and software, built and run for you",
     template: "%s · AI Deployed",
   },
   description:
-    "AI Deployed designs, builds, and operates custom AI agents for your business. We embed with your team, scope each agent to one job, and keep humans in the approval loop. Based in California.",
+    "AI Deployed embeds with your team to architect, build, deploy, and operationalize AI and software systems across cloud, private, and tightly controlled environments.",
   applicationName: "AI Deployed",
   keywords: [
     "AI Agents",
-    "Custom AI",
-    "AI Deployment",
+    "Embedded Engineering",
     "AI in Production",
     "AI Governance",
+    "Cloud & On-Prem",
     "Approval Workflows",
     "Forward Deployed Engineers",
     "AI Operations",
@@ -64,15 +64,15 @@ export const metadata: Metadata = {
     locale: "en_US",
     url: "/",
     siteName: "AI Deployed",
-    title: "AI Deployed — Custom AI agents, built and run for you",
+    title: "AI Deployed — Embedded AI and software, built and run for you",
     description:
-      "We design, build, and operate custom AI agents for your business. Each agent is scoped to one job, governed by your rules, and reviewed by your team before anything ships.",
+      "AI Deployed embeds with your team to architect, build, deploy, and operationalize AI and software systems across cloud, private, and tightly controlled environments.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Deployed — Custom AI agents, built and run for you",
+    title: "AI Deployed — Embedded AI and software, built and run for you",
     description:
-      "We design, build, and operate custom AI agents for your business. Each agent is scoped to one job, governed by your rules, and reviewed by your team before anything ships.",
+      "AI Deployed embeds with your team to architect, build, deploy, and operationalize AI and software systems across cloud, private, and tightly controlled environments.",
   },
   robots: { index: true, follow: true },
   alternates: { canonical: "/" },

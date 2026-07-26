@@ -7,51 +7,31 @@ const PRINCIPLES = [
   {
     t: "Custom build, not a generic assistant.",
     body: (
-      <>
-        <p>
-          Each agent is scoped to one job — a goal, a tool allowlist, a set
-          of guardrails, an approval mode. We do not hand you a builder and
-          call it done. We design the configuration with you, against your
-          existing systems, until it is right.
-        </p>
-        <p>
-          If the configuration is wrong, the agent is wrong. We treat
-          configuration as the product.
-        </p>
-      </>
+      <p>
+        Each agent is scoped to one job — a goal, a tool allowlist, guardrails,
+        and an approval mode. We design the configuration with you, against
+        your systems.
+      </p>
     ),
   },
   {
     t: "An approval gate you control.",
     body: (
-      <>
-        <p>
-          Every agent operates under an approval queue. Drafts land there
-          first. The agent never sends, writes, or triggers directly.
-        </p>
-        <p>
-          You decide the approval mode per agent — auto, review, or strict —
-          and the governance layer enforces it. We cannot bypass it from our
-          side.
-        </p>
-      </>
+      <p>
+        Every agent operates under an approval queue. Drafts land there first.
+        The agent never sends, writes, or triggers directly. We cannot bypass
+        it from our side.
+      </p>
     ),
   },
   {
-    t: "We run it. We operate it. We own it.",
+    t: "We architect, build, run.",
     body: (
-      <>
-        <p>
-          Your team reviews the queue. We handle the rest — runtime,
-          monitoring, configuration drift, model updates. You never have
-          to operate an agent you did not build.
-        </p>
-        <p>
-          If the agent does not perform, we change the configuration, the
-          model, or the policy. You get a weekly report and an approval
-          queue.
-        </p>
-      </>
+      <p>
+        Your team reviews the queue. We handle the runtime, monitoring,
+        configuration drift, and model updates. If the agent does not perform,
+        we change the configuration, the model, or the policy.
+      </p>
     ),
   },
 ];

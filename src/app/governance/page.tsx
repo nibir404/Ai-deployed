@@ -53,23 +53,23 @@ function Section({ id, eyebrow, title, body }: SectionProps) {
 const CHECKS = [
   {
     t: "Voice match",
-    d: "Output reads as your voice — not a generic model. Tuned to your tone, register, and vocabulary.",
+    d: "Output reads as your voice. Tuned to your tone, register, vocabulary.",
   },
   {
     t: "Claim verification",
-    d: "Any factual claim in the draft is checked against the linked source before the draft is queued.",
+    d: "Any factual claim is checked against the linked source before the draft is queued.",
   },
   {
     t: "Policy compliance",
-    d: "Per-agent rules — what the agent can read, write, and trigger — are enforced before generation.",
+    d: "Per-agent rules — read, write, trigger — enforced before generation.",
   },
   {
     t: "Confidentiality",
-    d: "Sensitive fields are stripped or redacted before the model sees them. PII is never sent to the model.",
+    d: "Sensitive fields stripped before the model. PII never sent to the model.",
   },
   {
     t: "Brand consistency",
-    d: "Approved terminology, product names, and prohibited language are enforced across every output.",
+    d: "Approved terminology and prohibited language enforced across every output.",
   },
 ];
 
@@ -78,8 +78,8 @@ export default function GovernancePage() {
     <main id="main">
       <PageHero
         eyebrow="Governance"
-        title="Every output is checked, every action is logged."
-        description="The governance layer behind every agent we run — what gets checked, how it fails closed, and where the audit trail lives."
+        title="Every output checked, every action logged."
+        description="The governance layer behind every agent we run — what gets checked, how it fails closed, where the audit trail lives."
       />
 
       <Section
@@ -93,9 +93,8 @@ export default function GovernancePage() {
         body={
           <>
             <p>
-              The policy stack runs at generation time, not after. Five
-              categories of check, configurable per agent — so the governance
-              is fit to the job, not a generic filter.
+              The policy stack runs at generation time, not after. Five checks,
+              configurable per agent — fit to the job, not a generic filter.
             </p>
           </>
         }
@@ -143,11 +142,10 @@ export default function GovernancePage() {
             <p>
               Every check returns one of three outcomes. Pass lets the draft
               move on. Warn surfaces a note in the queue — the draft still
-              goes out. Block stops the draft entirely; nothing leaves the
-              queue.
+              goes out. Block stops the draft entirely.
             </p>
             <p>
-              The severity is configurable per agent and per policy. A voice
+              Severity is configurable per agent and per policy. A voice
               mismatch might <span className="text-ink">warn</span> on one
               agent and <span className="text-ink">block</span> on another.
               You decide what is a hard rule and what is a soft one.
@@ -168,13 +166,12 @@ export default function GovernancePage() {
           <>
             <p>
               The policy layer is not optional. If it cannot be reached —
-              network failure, service outage, schema error — every agent
-              fails closed. Drafts are not produced. Actions are not taken.
-              Your team is notified.
+              network failure, outage, schema error — every agent fails
+              closed. Drafts are not produced. Actions are not taken.
             </p>
             <p>
-              We chose fail-closed over fail-open deliberately. A missed draft
-              is recoverable. A draft that bypassed policy is not.
+              Fail-closed, not fail-open. A missed draft is recoverable. A
+              draft that bypassed policy is not.
             </p>
           </>
         }
@@ -192,15 +189,14 @@ export default function GovernancePage() {
         body={
           <>
             <p>
-              Every rule lives in the policy store — versioned, scoped, and
-              auditable. Organizational policies apply to every agent.
-              Agent-specific policies override at the agent level. Changes
-              are admin-managed and recorded in the audit log.
+              Every rule lives in the policy store — versioned, scoped,
+              auditable. Org-wide applies to every agent. Agent-specific
+              overrides at the agent level. Changes are admin-managed and
+              logged.
             </p>
             <p>
-              Roll back a policy change in one click. Diff any version
-              against its predecessor. Export the full set for compliance
-              review.
+              Roll back in one click. Diff any version against its
+              predecessor. Export the full set for compliance review.
             </p>
           </>
         }
@@ -220,14 +216,14 @@ export default function GovernancePage() {
         body={
           <>
             <p>
-              We keep two synced audit logs — one internal, one exportable.
-              Every input, output, and decision is recorded with timestamp,
-              actor, and context. The logs are append-only.
+              Two synced logs — one internal, one exportable. Every input,
+              output, and decision is recorded with timestamp, actor, and
+              context. Append-only.
             </p>
             <p>
-              When you need to answer a compliance question — <em>what did
-              this agent do, when, and why?</em> — the answer is in the
-              trail. Filterable by agent, actor, action, and time.
+              When you need to answer a compliance question —{" "}
+              <em>what did this agent do, when, and why?</em> — the answer is
+              in the trail. Filterable by agent, actor, action, time.
             </p>
           </>
         }
@@ -244,13 +240,13 @@ export default function GovernancePage() {
         body={
           <>
             <p>
-              The governance layer is not consumer content moderation. It is
-              not a marketing safety net. It does not promise to catch every
-              edge case, and it does not replace the judgment of your team.
+              Not consumer content moderation. Not a marketing safety net.
+              Does not catch every edge case. Does not replace the judgment
+              of your team.
             </p>
             <p>
-              The agents operate under an approval gate. Every output is a
-              draft until a human approves it. That is the contract.
+              Agents operate under an approval gate. Every output is a draft
+              until a human approves it. That is the contract.
             </p>
           </>
         }
@@ -264,10 +260,10 @@ export default function GovernancePage() {
               <div className="max-w-2xl">
                 <Eyebrow>Security review</Eyebrow>
                 <p className="mt-4 text-body text-ink leading-relaxed">
-                  We share our policy schema, audit-log export format, and
+                  We share the policy schema, audit-log export format, and
                   fail-closed behavior on request. If your security team
-                  needs to review the platform before an engagement, we will
-                  walk through it with them.
+                  needs to review before an engagement, we&apos;ll walk through
+                  it with them.
                 </p>
               </div>
               <Link href="/contact" className="btn-pill shrink-0">

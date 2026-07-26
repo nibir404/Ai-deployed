@@ -5,7 +5,6 @@ import Link from "next/link";
 import { Logo } from "./Logo";
 import { NavLink } from "./NavLink";
 import { ThemeToggle } from "./ThemeToggle";
-import { ArrowUpRight } from "./icons";
 import { cn } from "@/lib/cn";
 
 const NAV = [
@@ -48,7 +47,7 @@ export function Header() {
           : "html.light:border-b-0",
       )}
     >
-      <div className="container-editorial flex items-center justify-between h-16 md:h-20">
+      <div className="container-editorial flex items-center justify-between h-20 md:h-24">
         <div className="flex items-center gap-10">
           <Logo />
           <nav className="hidden lg:flex items-center gap-7" aria-label="Primary">
@@ -62,15 +61,6 @@ export function Header() {
 
         <div className="flex items-center gap-5">
           <ThemeToggle className="hidden md:inline-flex" />
-          <Link
-            href="/contact"
-            className="btn-pill hidden md:inline-flex"
-          >
-            <span className="btn-pill__icon" aria-hidden>
-              <ArrowUpRight size={14} />
-            </span>
-            <span className="btn-pill__label">Sign in</span>
-          </Link>
 
           <button
             type="button"
@@ -101,16 +91,6 @@ export function Header() {
             ))}
             <div className="mt-4 flex items-center gap-4">
               <ThemeToggle />
-              <Link
-                href="/contact"
-                onClick={() => setOpen(false)}
-                className="btn-pill"
-              >
-                <span className="btn-pill__icon" aria-hidden>
-                  <ArrowUpRight size={14} />
-                </span>
-                <span className="btn-pill__label">Sign in</span>
-              </Link>
             </div>
           </div>
         </div>

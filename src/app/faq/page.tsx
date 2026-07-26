@@ -15,35 +15,35 @@ export const metadata: Metadata = {
 const QUESTIONS = [
   {
     q: "What does AI Deployed actually do?",
-    a: "We design, build, and run custom AI agents for businesses. Each agent is scoped to one specific job, runs against your data, and operates under an approval gate you control. You review the queue — we do the rest.",
+    a: "We architect, build, deploy, and run AI and software systems for your business. Each agent is scoped to one job, runs against your data, and operates under an approval gate you control. You review the queue — we do the rest.",
   },
   {
     q: "How is this different from buying an AI tool?",
-    a: "An AI tool gives you software. We give you an outcome. The agents are configured for your business, operated by our team, and tuned as your business changes. There is no builder for you to learn.",
+    a: "An AI tool gives you software. We give you an outcome — the agent is configured for your business, run by our team, and tuned as your business changes.",
   },
   {
     q: "What kinds of businesses do you work with?",
-    a: "Businesses where AI is operationally important — where there is real work for an agent to do every day, and where governance matters. The shape of the work varies; the commitment does not.",
+    a: "Businesses where AI is operationally important — real work for an agent every day, governance that matters.",
   },
   {
-    q: "What does &ldquo;operated&rdquo; mean?",
-    a: "We own the runtime after launch — picking the model, tuning retries, watching the queue, and shipping configuration updates as your business changes. If the model drifts, we change it. If the policy needs to evolve, we update it. You see a weekly report and an approval queue.",
+    q: "What does &ldquo;run&rdquo; mean?",
+    a: "We own the runtime after launch — model selection, retries, queue monitoring, configuration updates. If the model drifts, we change it. If the policy needs to evolve, we update it.",
   },
   {
     q: "What does the approval gate look like?",
-    a: "Every agent has a queue. Drafts land there first. The agent never sends, writes, or triggers directly. Your team reviews the queue, edits if needed, and approves.",
+    a: "Every agent has a queue. Drafts land there first. The agent never sends, writes, or triggers directly. Your team reviews, edits, approves.",
   },
   {
     q: "Can I keep using my existing tools?",
-    a: "Yes. Agents plug into the systems you already use — email, CRM, support, internal APIs. We do the wiring, and the audit log captures every call.",
+    a: "Yes. Agents plug into the systems you already use — email, CRM, support, internal APIs. We do the wiring. The audit log captures every call.",
   },
   {
     q: "How long does an engagement last?",
-    a: "Engagements are ongoing by default. We tune the configurations as your business changes, and the cost is structured around the work the agent does — not a project end-date.",
+    a: "Ongoing by default. We tune the configuration as your business changes. The cost is structured around the work the agent does.",
   },
   {
     q: "How do we start?",
-    a: "A discovery conversation. We learn about the work you want an agent to do, your existing systems, and your governance requirements. If we are not the right fit, we will say so.",
+    a: "A discovery conversation. We learn the work, your systems, your governance requirements. If we&apos;re not the right fit, we&apos;ll say so.",
   },
 ];
 

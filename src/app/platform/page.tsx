@@ -11,7 +11,7 @@ import { cn } from "@/lib/cn";
 export const metadata: Metadata = {
   title: "Platform — AI Deployed",
   description:
-    "One platform for building, running, and governing AI agents in production.",
+    "Architect, build, deploy, run, and govern AI and software systems — across cloud, private, and tightly controlled environments.",
 };
 
 /* Sticky section anchor nav — appears below the hero and sticks to
@@ -172,10 +172,9 @@ export default function PlatformPage() {
               .
             </DisplayHeading>
             <p className="mt-8 text-body text-ink-muted leading-relaxed max-w-2xl">
-              Each agent is designed for one specific job, runs against your
-              data, and operates under an approval gate you control. The
-              platform handles the runtime, the policy stack, and the audit
-              trail — so your team only reviews the work that matters.
+              Each agent is scoped to one job, runs against your data, and
+              operates under an approval gate you control. Runtime, policy,
+              and audit — handled. Your team reviews what matters.
             </p>
           </div>
         </Container>
@@ -206,20 +205,19 @@ export default function PlatformPage() {
         eyebrow="Build"
         title={
           <>
-            Each agent designed for one specific job.{" "}
-            <span className="text-ink-muted">In your business, against your rules.</span>
+            Each agent scoped to one job.{" "}
+            <span className="text-ink-muted">In your environment, against your rules.</span>
           </>
         }
         body={
           <p>
-            Agents are not generic assistants. Each one is configured around a
-            single goal — a job you need done — with the tools, data, and
-            guardrails scoped to that job. We build the agent with you, against
-            your existing systems, until the configuration is right.
+            Each agent is configured around a single goal, with the tools,
+            data, and guardrails scoped to that job. We build with you, against
+            your systems.
           </p>
         }
         bullets={[
-          "Goal-scoped — one agent per job, not a multi-purpose assistant.",
+          "Goal-scoped — one agent per job.",
           "Tool allowlist — only the systems and APIs the agent needs.",
           "Guardrails per agent — what it can read, write, and trigger.",
           "Configurable approval mode — auto, review, or strict.",
@@ -264,16 +262,16 @@ export default function PlatformPage() {
         }
         body={
           <p>
-            Every agent has an approval queue. Drafts land there first — the
-            agent never sends, writes, or triggers directly. Your team reviews
-            the queue, makes edits if needed, and approves.
+            Every agent has an approval queue. Drafts land there first. The
+            agent never sends, writes, or triggers directly. Your team reviews,
+            edits, and approves.
           </p>
         }
         bullets={[
           "Per-agent approval mode — auto, review, or strict.",
           "Editable drafts — your team can change anything before it goes out.",
           "Bulk actions — approve similar items together.",
-          "Slack and email notifications on every pending item.",
+          "Notifications on every pending item.",
         ]}
         reverse
         mock={
@@ -334,17 +332,15 @@ export default function PlatformPage() {
         }
         body={
           <p>
-            The policy stack runs before the agent produces a draft. Voice
-            match, claim verification, policy compliance, confidentiality, and
-            brand consistency are checked at the policy layer — not after the
-            fact.
+            The policy stack runs before the draft — not after. Voice, claims,
+            policy, confidentiality, brand are checked at the policy layer.
           </p>
         }
         bullets={[
-          "Three policy scopes — organizational, agent-specific, execution-time.",
-          "Per-agent severity — pass, warn, block configurable per policy.",
-          "Fails closed — if the policy layer is unavailable, the agent does not run.",
-          "Versioned policies — every change is logged and reversible.",
+          "Three scopes — organizational, agent-specific, execution-time.",
+          "Per-agent severity — pass, warn, block.",
+          "Fails closed — if the policy layer is down, the agent does not run.",
+          "Versioned policies — every change logged and reversible.",
         ]}
         mock={
           <MockCard url="ai-deployed.com / runbook" title="Customer reply">
@@ -411,16 +407,16 @@ export default function PlatformPage() {
         }
         body={
           <p>
-            Two synced audit logs capture every input, output, and decision.
-            The logs are append-only and queryable — when you need to know what
-            the agent did, and why, the answer is in the trail.
+            Two synced logs capture every input, output, and decision.
+            Append-only, queryable — the answer to what the agent did, and
+            why, is in the trail.
           </p>
         }
         bullets={[
-          "Append-only logs — nothing is rewritten, nothing is deleted.",
-          "Two syncs — internal log and an exportable audit record.",
-          "Filterable by agent, actor, action type, and time.",
-          "Reconstructable — rebuild any agent run from inputs and outputs.",
+          "Append-only — nothing rewritten, nothing deleted.",
+          "Two syncs — internal and exportable.",
+          "Filterable by agent, actor, action, time.",
+          "Reconstructable — rebuild any run from inputs and outputs.",
         ]}
         reverse
         mock={
@@ -482,7 +478,7 @@ export default function PlatformPage() {
         body={
           <p>
             Agents plug into the systems your team already uses. We do the
-            wiring — OAuth, scopes, rate limits, retries — and the audit log
+            wiring — OAuth, scopes, rate limits, retries. The audit log
             captures every call.
           </p>
         }
@@ -490,7 +486,7 @@ export default function PlatformPage() {
           "Email — Gmail, Outlook, SES, Postmark.",
           "CRM — Salesforce, HubSpot, Pipedrive.",
           "Support — Zendesk, Intercom, Front, Help Scout.",
-          "Internal — REST and GraphQL APIs, with auth handled by the platform.",
+          "Internal — REST and GraphQL, auth handled by the platform.",
         ]}
         mock={
           <MockCard url="ai-deployed.com / systems" title="Customer reply">
@@ -541,23 +537,22 @@ export default function PlatformPage() {
           <>
             We run it. You review it.{" "}
             <span className="text-ink-muted">
-              The runtime, monitoring, and ongoing improvement are ours.
+              Runtime and monitoring, ours.
             </span>
           </>
         }
         body={
           <p>
-            You do not need a platform team to operate this. We handle
-            model selection, retries, monitoring, and configuration drift
-            so the agents stay sharp after launch. You see a regular
-            report and a queue to review.
+            We handle the runtime — model selection, retries, monitoring,
+            configuration drift — so the agents stay sharp after launch. You
+            see a report and a queue.
           </p>
         }
         bullets={[
           "Runtime — model selection, retries, timeouts, fallbacks.",
           "Monitoring — health, latency, cost, error rate per agent.",
           "Weekly reports — what the agents did, where they needed you.",
-          "Configuration updates — policies, tools, and prompts tuned monthly.",
+          "Configuration updates — policies, tools, prompts tuned monthly.",
         ]}
         reverse
         mock={
@@ -616,22 +611,22 @@ export default function PlatformPage() {
         eyebrow="Measure"
         title={
           <>
-            See what the agent did, and where it needed you most.{" "}
+            See what the agent did, and where it needed you.{" "}
             <span className="text-ink-muted">
-              Regular reporting on outputs, approvals, and where judgment was applied.
+              Outputs, approvals, where judgment was applied.
             </span>
           </>
         }
         body={
           <p>
-            The report tells you what the agent ran, how often your team
-            approved without changes, and where the work needed human judgment.
-            You see the trend, not just the count.
+            Reports show what the agent ran, how often your team approved
+            without changes, and where judgment was applied. The trend, not
+            just the count.
           </p>
         }
         bullets={[
           "Outputs over time — volume, mix, change rate.",
-          "Approval rate — what your team approves as-is vs. edits.",
+          "Approval rate — approved as-is vs. edits.",
           "Where judgment was applied — which drafts needed edits and why.",
           "Trend — week over week, month over month.",
         ]}
@@ -692,8 +687,7 @@ export default function PlatformPage() {
               See how the platform fits your business.
             </DisplayHeading>
             <p className="mt-6 text-body text-ink-muted leading-relaxed max-w-xl mx-auto">
-              We&apos;ll walk through the platform with your context, your
-              tools, and your data. No demo data, no generic walkthrough.
+              A walkthrough using your context, your tools, your data.
             </p>
             <div className="mt-10 flex flex-wrap items-center justify-center gap-3">
               <Link href="/contact" className="btn-pill">

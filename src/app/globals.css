@@ -213,6 +213,20 @@
       scroll-behavior: auto !important;
     }
   }
+
+  /* Logo swap — show dark source on light theme, light source on dark */
+  .logo-light {
+    display: inline-block;
+  }
+  .logo-dark {
+    display: none;
+  }
+  html.light .logo-light {
+    display: none;
+  }
+  html.light .logo-dark {
+    display: inline-block;
+  }
 }
 
 @layer utilities {

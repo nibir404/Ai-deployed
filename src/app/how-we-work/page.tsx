@@ -9,12 +9,12 @@ import { ENGAGEMENT_PHASES } from "@/lib/copy/engagementSteps";
 export const metadata: Metadata = {
   title: "How an AI Deployed engagement works",
   description:
-    "Four steps from a discovery call to a custom AI agent running in production.",
+    "Four steps from discovery to an agent running in production.",
 };
 
 const PRINCIPLES = [
   {
-    t: "Embedded delivery",
+    t: "Embedded",
     b: "We sit with your team. Knowledge transfer is built in by design.",
   },
   {
@@ -36,8 +36,8 @@ export default function HowWeWorkPage() {
     <main id="main">
       <PageHero
         eyebrow="How it works"
-        title="From a discovery call to an agent in production."
-        description="Four steps. Most engagements are running in production by week four. After that, we run the agent for you and tune the configuration as your business changes."
+        title="From discovery to an agent in production."
+        description="Four steps. Running in production by week four. After that, we run the agent and tune the configuration as your business changes."
         image={{
           src: ASSETS.hero.controlRoom.lg,
           alt: "Operations control room",
@@ -132,8 +132,8 @@ export default function HowWeWorkPage() {
             <Eyebrow>What we ask of clients</Eyebrow>
             <p className="mt-8 font-display text-display text-ink leading-snug">
               Access to your teams. Patience with the work. Commitment to
-              outcome over output. In return, we bring engineers who ship, who
-              transfer what they build, and who stay accountable end-to-end.
+              outcome over output. Engineers who ship, transfer what they
+              build, stay accountable end-to-end.
             </p>
           </div>
         </Container>

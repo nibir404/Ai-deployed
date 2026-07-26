@@ -6,27 +6,27 @@ import { StackReveal } from "@/components/site/primitives/StackReveal";
 const CASES = [
   {
     t: "Support",
-    d: "Triage and respond to inbound support. Drafts queued for your review before anything is sent.",
+    d: "Triage inbound. Draft replies for your team to approve.",
   },
   {
     t: "Sales",
-    d: "Personalized follow-ups after every demo. Voice matched to your team, edited only where needed.",
+    d: "Personalized follow-ups after every demo. Matched to your voice.",
   },
   {
     t: "Operations",
-    d: "Reorder low-stock SKUs, route approvals to the right lead, and keep the ops inbox clean.",
+    d: "Reorder low-stock SKUs, route approvals, keep the ops inbox clean.",
   },
   {
     t: "Analytics",
-    d: "Summarize weekly pipeline, surface risk callouts, and produce board-ready notes from your data.",
+    d: "Weekly pipeline summaries, risk callouts, board-ready notes.",
   },
   {
     t: "Finance",
-    d: "Reconcile invoices, flag anomalies, and draft approvals for the controller — never the other way around.",
+    d: "Reconcile invoices, flag anomalies, draft approvals for the controller.",
   },
   {
     t: "Marketing",
-    d: "Newsletter drafts, subject-line tests, social scheduling. Reviewed before anything goes out.",
+    d: "Newsletter drafts, subject-line tests, social scheduling.",
   },
 ];
 
@@ -50,12 +50,12 @@ export function UseCases() {
             size="section"
             className="mt-6 leading-[0.96] tracking-[-0.035em]"
           >
-            Built for specific jobs.{" "}
-            <span className="text-ink-muted">Built for your business.</span>
+            Built for one job.{" "}
+            <span className="text-ink-muted">Built for your environment.</span>
           </DisplayHeading>
           <p className="mt-6 text-body text-ink-muted leading-relaxed max-w-xl">
-            Six functions where an AI agent does real, repeatable work —
-            scoped to the job, governed by your rules, reviewed by your team.
+            Six functions. Each agent scoped to the work, governed by your
+            rules, reviewed by your team.
           </p>
         </div>
 

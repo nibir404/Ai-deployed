@@ -38,17 +38,17 @@ export function Hero() {
 
       <Container className="relative z-10 flex-1 flex flex-col">
         <div className="flex-1 flex flex-col items-center justify-center text-center max-w-4xl mx-auto py-[120px] md:py-[140px]">
-          <Eyebrow>AI Deployed · Custom agents</Eyebrow>
+          <Eyebrow>AI Deployed · Embedded</Eyebrow>
           <DisplayHeading
             as="h1"
             size="hero"
             className="mt-8 font-medium leading-[0.95] tracking-[-0.035em]"
           >
-            Custom AI agents.{" "}
-            <span className="text-ink-muted">Built and run for you.</span>
+            Embed with your team.{" "}
+            <span className="text-ink-muted">Architect, build, run.</span>
           </DisplayHeading>
           <p className="mt-10 text-body text-ink-muted leading-relaxed max-w-2xl">
-            AI in your business, built by us, run safely for you.
+            AI and software systems, in your environment, under your governance.
           </p>
 
           <div className="mt-10 flex flex-wrap items-center justify-center gap-3">

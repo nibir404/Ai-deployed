@@ -25,8 +25,7 @@ export function Commitments() {
             size="section"
             className="mt-6 leading-[0.96] tracking-[-0.035em]"
           >
-            The operational guarantees{" "}
-            <span className="text-ink-muted">behind every engagement.</span>
+            The operational guarantees.
           </DisplayHeading>
         </div>
 

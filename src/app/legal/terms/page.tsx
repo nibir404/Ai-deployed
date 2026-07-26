@@ -21,19 +21,19 @@ export default function TermsPage() {
         <Container>
           <div className="max-w-3xl space-y-6 text-body text-ink-muted leading-relaxed">
             <p>
-              These terms cover the design, build, and operation of AI agents
-              by AI Deployed for your business. The full agreement is shared
-              during the engagement — this page is a short summary.
+              These terms cover the architecture, build, deployment, and
+              operation of AI and software systems by AI Deployed for your
+              business. The full agreement is shared during the engagement —
+              this page is a short summary.
             </p>
             <p>
-              You own the agent configuration, the audit log, and any output
-              that is approved. We operate the runtime on your behalf. The
-              approval gate, the policy stack, and the audit trail are yours.
+              You own the configuration, the audit log, and approved output.
+              We operate the runtime on your behalf. Approval gate, policy
+              stack, and audit trail are yours.
             </p>
             <p>
-              For a full copy of our terms of service, including liability,
-              termination, and warranties, write to us at the address listed
-              in the footer.
+              For the full terms of service — liability, termination,
+              warranties — write to us at the address in the footer.
             </p>
           </div>
         </Container>

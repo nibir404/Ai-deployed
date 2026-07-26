@@ -74,7 +74,7 @@ const PHASES: Phase[] = [
     Icon: Target,
     oneLine: "Shadow the team. Map the work. Write the diagnosis.",
     detail:
-      "The FDE joins your standup, shadows the team for one sprint, and writes a one-page diagnosis of the actual bottleneck — not the one that was on the slide deck.",
+      "The FDE joins your standup, shadows the team for one sprint, and writes a one-page diagnosis of the actual bottleneck.",
     metric: { label: "Diagnosis", value: "v0.3" },
     progress: 25,
     deliverables: [
@@ -89,7 +89,7 @@ const PHASES: Phase[] = [
     Icon: Workflow,
     oneLine: "Sit in your tools. Pair with the team that owns the work.",
     detail:
-      "Three days a week on-site, in your repos, in your chat. Repo access, CI green, a draft PR template. The team owns the FDE's first review.",
+      "Three days a week on-site, in your repos, in your chat. Repo access, CI green, a draft PR template. Your team owns the first review.",
     metric: { label: "Days on-site", value: "Tue · Wed · Thu" },
     progress: 50,
     deliverables: [
@@ -104,7 +104,7 @@ const PHASES: Phase[] = [
     Icon: GitBranch,
     oneLine: "Small PRs against the systems you already use.",
     detail:
-      "Every change is a PR, every PR is reviewed by your team. No parallel side-project. The fix lives in your repo from day one and your team can ship it without the FDE.",
+      "Every change is a PR, every PR is reviewed by your team. The fix lives in your repo from day one.",
     metric: { label: "PRs merged", value: "11" },
     progress: 70,
     deliverables: [
@@ -119,7 +119,7 @@ const PHASES: Phase[] = [
     Icon: Settings,
     oneLine: "Runbook, training, named owner. Then the FDE steps back.",
     detail:
-      "A 12-page runbook in your wiki. Two 45-minute training sessions, recorded. The named owner signs off — your team runs the work end-to-end.",
+      "A runbook in your wiki. Two recorded training sessions. A named owner signs off — your team runs the work end-to-end.",
     metric: { label: "Owner signoff", value: "1" },
     progress: 95,
     deliverables: [
@@ -134,7 +134,7 @@ const PHASES: Phase[] = [
     Icon: Shield,
     oneLine: "A two-week support window. Reachable, not on retainer.",
     detail:
-      "The FDE is reachable for two weeks after handoff. One regression in the first week — a timezone edge case — patched in 90 minutes, reviewed by your team.",
+      "The FDE is reachable for two weeks after handoff. Regressions are patched and reviewed by your team.",
     metric: { label: "Regressions fixed", value: "1 / 1" },
     progress: 100,
     deliverables: [
@@ -149,7 +149,7 @@ const PHASES: Phase[] = [
     Icon: Sparkles,
     oneLine: "The next bottleneck is on the wall. The team is sharper for it.",
     detail:
-      "When you call us back, the FDE diagnoses the next bottleneck the same way — and your team writes the one-pager this time. The muscle is already there.",
+      "When you call us back, the FDE diagnoses the next bottleneck — your team runs the work.",
     metric: { label: "Engagements / yr", value: "3" },
     progress: 0,
     deliverables: [
@@ -538,9 +538,9 @@ function EngagementWalkthrough() {
                   Engagement closed
                 </div>
                 <p className="mt-1 text-sm text-ink-muted leading-relaxed">
-                  The four-week engagement is complete. The team owns the
-                  work, the runbook is in the wiki, and the FDE is reachable
-                  for the two-week follow-up window. Hit{" "}
+                  The engagement is complete. Your team owns the work, the
+                  runbook is in the wiki, and the FDE is reachable for the
+                  two-week follow-up. Hit{" "}
                   <span className="text-ink">Run again</span> to walk through
                   it from the top.
                 </p>
@@ -564,46 +564,46 @@ type CapCard = {
 const PEOPLE_CAPS: CapCard[] = [
   {
     Icon: Briefcase,
-    title: "Senior engineers, on-site",
-    body: "Every engagement is staffed with named senior engineers — the same people on the call are the people doing the work. No pyramid, no subcontractors.",
+    title: "Senior engineers, embedded",
+    body: "Named senior engineers on every engagement — the same people on the call are the people doing the work.",
   },
   {
     Icon: Target,
     title: "Diagnosis before code",
-    body: "The FDE shadows the team for a sprint, writes a one-page diagnosis, and only then opens a PR. The bottleneck is the unit of work — not the feature.",
+    body: "The FDE shadows the team for a sprint, writes a one-page diagnosis, and only then opens a PR.",
   },
   {
     Icon: Shield,
-    title: "Code review & handoff",
-    body: "Every PR is reviewed by your team. The engagement ends when your team can run the work end-to-end without the FDE. Runbook, training, signoff.",
+    title: "Review and handoff",
+    body: "Every PR is reviewed by your team. The engagement ends when your team runs the work without the FDE.",
   },
   {
     Icon: Sparkles,
     title: "Quietly opinionated",
-    body: "We have strong views on the modern stack, the right amount of AI, and the right amount of process. We bring them — and we change them when your team pushes back.",
+    body: "Strong views on the modern stack and the right amount of AI — we bring them and adjust when your team pushes back.",
   },
 ];
 
 const STACK_CAPS: CapCard[] = [
   {
     Icon: Layers,
-    title: "Modern web & APIs",
-    body: "TypeScript end-to-end, Next.js, Go, Python. Postgres, Redis, queues, search. The boring stack that ships, on the platforms your team already uses.",
+    title: "Web and APIs",
+    body: "TypeScript end-to-end, Next.js, Go, Python. Postgres, Redis, queues, search. On the platforms your team already uses.",
   },
   {
     Icon: Database,
     title: "Data plumbing",
-    body: "Merge three legacy sources into one queryable warehouse. Fix the schema. Ship the migration. Hand off the runbook so the next schema change is yours.",
+    body: "Merge legacy sources into one queryable warehouse. Fix the schema. Ship the migration. Hand off the runbook.",
   },
   {
     Icon: Cpu,
-    title: "AI where it actually helps",
-    body: "Embeddings for search, LLMs for triage, agents for the queue. We bring the configuration, the guardrails, the audit log — and we hand them off.",
+    title: "AI where it helps",
+    body: "Embeddings for search, LLMs for triage, agents for the queue. We bring the configuration, guardrails, and audit log.",
   },
   {
     Icon: Network,
     title: "Internal tools that ship",
-    body: "The lightweight admin tool the team actually needs but never had time to build. Live in two weeks, in your repo, behind your auth, with a maintainable shape.",
+    body: "The lightweight admin tool the team needs but never built. Live in two weeks, in your repo, behind your auth.",
   },
 ];
 
@@ -636,8 +636,8 @@ function CapabilityGrid() {
           size="section"
           className="mt-6 leading-[0.96] tracking-[-0.035em]"
         >
-          How a forward-deployed engagement{" "}
-          <span className="text-ink-muted">actually delivers.</span>
+          What an embedded engagement{" "}
+          <span className="text-ink-muted">delivers.</span>
         </DisplayHeading>
       </div>
 
@@ -674,24 +674,23 @@ export function LiveDemo() {
   return (
     <section
       id="demo"
-      aria-label="What an FDE engagement looks like"
+      aria-label="What an embedded engagement looks like"
       className="relative py-[100px] md:py-[140px]"
     >
       <Container className="relative">
         <div className="max-w-3xl">
-          <Eyebrow>Engagement walkthrough</Eyebrow>
+          <Eyebrow>Engagement</Eyebrow>
           <DisplayHeading
             as="h2"
             size="section"
             className="mt-6 leading-[0.96] tracking-[-0.035em]"
           >
-            How a forward-deployed engagement{" "}
-            <span className="text-ink-muted">actually runs.</span>
+            How an embedded engagement{" "}
+            <span className="text-ink-muted">runs.</span>
           </DisplayHeading>
           <p className="mt-6 text-body text-ink-muted leading-relaxed max-w-xl">
-            Six phases, one card. Hit play and walk through the engagement as
-            it would actually run — diagnose, embed, ship, hand off, follow up,
-            and re-engage on the next bottleneck.
+            Six phases, one card. Hit play to walk through the engagement —
+            diagnose, embed, ship, hand off, follow up, re-engage.
           </p>
         </div>
 
