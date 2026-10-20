@@ -17,6 +17,7 @@ export function Tilt({ children, max = 8, style, className }: { children: React.
         ref={ref}
         style={{ rotateX: rx, rotateY: ry, transformStyle: "preserve-3d", width: "100%", height: "100%" }}
         onPointerMove={(e) => {
+        if (e.pointerType !== "mouse") return; // no tilt/pull on touch or pen
           const r = ref.current!.getBoundingClientRect();
           px.set((e.clientX - r.left) / r.width);
           py.set((e.clientY - r.top) / r.height);

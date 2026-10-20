@@ -88,7 +88,7 @@ export function BeforeAfter() {
           style={{ backgroundColor: "var(--c-accent)", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: "20px", padding: "24px", position: "absolute", top: 0, bottom: 0, right: 0, left: `${pos}%`, overflow: "hidden", transition: ease }}
         >
           {AFTER.map(([v, l], i) => (
-            <motion.div key={l} initial={{ opacity: 0, x: 16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} transition={{ delay: 0.2 + i * 0.08, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}>
+            <motion.div key={l} initial={{ opacity: 0, x: 16 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true, margin: "0px 0px -14% 0px" }} transition={{ delay: 0.2 + i * 0.08, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}>
               <Stat v={v} l={l} after />
             </motion.div>
           ))}

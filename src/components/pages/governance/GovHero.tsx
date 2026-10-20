@@ -1,12 +1,17 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useState } from "react";
-import { motion, useReducedMotion } from "framer-motion";
 import { RevealScope } from "@/components/motion/Reveal";
 import { Magnetic } from "@/components/motion/Magnetic";
-import { Tilt } from "@/components/motion/Tilt";
 import s from "./Gov.module.css";
+
+function PyramidPng() {
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src="/assets/5GXWK3A963HBCHG5ZEKNP2Q4G1.png" alt="" style={{ display: "block", width: "100%", height: "auto", aspectRatio: "600 / 400" }} />;
+}
+const PyramidScene = dynamic(() => import("@/components/iso-scenes/PyramidScene"), { ssr: false, loading: () => <PyramidPng /> });
 
 export const gridBg =
   "linear-gradient(var(--c-line) 1px, transparent 1px) 0% 0% / 40px 40px, linear-gradient(90deg, var(--c-line) 1px, transparent 1px) 0% 0% / 40px 40px var(--c-bg-alt)";
@@ -16,7 +21,6 @@ const mono: React.CSSProperties = { fontFamily: "var(--font-mono)", fontSize: "1
 export function GovHero() {
   const [copied, setCopied] = useState(false);
   const [hover, setHover] = useState(false);
-  const reduce = useReducedMotion();
 
   const copy = async () => {
     try {
@@ -53,24 +57,10 @@ export function GovHero() {
         </div>
       </div>
       <div className={s.media} style={{ alignItems: "center", background: gridBg, boxSizing: "border-box", display: "flex", flexBasis: "0%", flexGrow: 1, justifyContent: "center", minWidth: 0, overflow: "clip", padding: "40px" }}>
-        <div data-reveal="scale" data-parallax="0.08" style={{ width: "100%", display: "flex", justifyContent: "center" }}>
-          <Tilt max={7} className={s.illus}>
-            <motion.div
-              onHoverStart={() => setHover(true)}
-              onHoverEnd={() => setHover(false)}
-              animate={reduce ? undefined : { y: hover ? -10 : [0, -6, 0] }}
-              transition={hover ? { type: "spring", stiffness: 160, damping: 14 } : { duration: 5, repeat: Infinity, ease: "easeInOut" }}
-              style={{ width: "100%", height: "100%", position: "relative" }}
-            >
-              <motion.div
-                animate={{ scale: hover ? 1.03 : 1, filter: hover ? "drop-shadow(0 24px 22px rgba(0,0,0,.18))" : "drop-shadow(0 0 0 rgba(0,0,0,0))" }}
-                transition={{ type: "spring", stiffness: 160, damping: 18 }}
-                style={{ backgroundImage: "url(/assets/5GXWK3A963HBCHG5ZEKNP2Q4G1.png)", backgroundPosition: "50%", backgroundRepeat: "no-repeat", backgroundSize: "100% 100%", width: "100%", height: "100%" }}
-                role="img"
-                aria-label="Isometric stack of policy layers protecting the agent"
-              />
-            </motion.div>
-          </Tilt>
+        <div data-reveal="scale" style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+          <div className={s.illusLive} onMouseEnter={() => setHover(true)} onMouseLeave={() => setHover(false)} role="img" aria-label="Isometric stack of five policy layers with a locked approval cube on top; a blocked bot below">
+            <PyramidScene explode={hover} fallback={<PyramidPng />} />
+          </div>
         </div>
       </div>
     </RevealScope>

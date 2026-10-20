@@ -72,11 +72,23 @@ export function Capabilities() {
   const [done, setDone] = useState(0);
   const taRef = useRef<HTMLTextAreaElement>(null);
 
+  // Auto-advance only while the block is on screen.
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [onScreen, setOnScreen] = useState(false);
   useEffect(() => {
-    if (paused) return;
+    const el = boxRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setOnScreen(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+
+  useEffect(() => {
+    if (paused || !onScreen) return;
     const t = setTimeout(() => setTab((v) => (v + 1) % TABS.length), DURATION);
     return () => clearTimeout(t);
-  }, [tab, paused]);
+  }, [tab, paused, onScreen]);
+  const hold = paused || !onScreen;
 
   useEffect(() => {
     if (editing) taRef.current?.focus();
@@ -106,7 +118,7 @@ export function Capabilities() {
           One platform for building, running and governing AI agents in production. Your team reviews what matters.
         </p>
       </div>
-      <div className={s.capRow} style={{ borderTop: "1px solid var(--c-line)", display: "flex" }}>
+      <div ref={boxRef} className={s.capRow} style={{ borderTop: "1px solid var(--c-line)", display: "flex" }}>
         <div data-reveal="left" className={s.capTabs} style={{ borderRight: "1px solid var(--c-line)", display: "flex", flexDirection: "column", flexShrink: 0 }} onPointerEnter={() => setPaused(true)} onPointerLeave={() => setPaused(false)}>
           {TABS.map((t, i) => {
             const on = i === tab;
@@ -144,10 +156,10 @@ export function Capabilities() {
                       <div className={s.capTabBody} style={{ display: "flex", gap: "8px", paddingLeft: "34px", paddingTop: "18px" }}>
                         <div style={{ position: "relative", flexGrow: 1, height: 2, backgroundColor: "var(--c-border)" }}>
                           <motion.div
-                            key={`${tab}-${paused}`}
-                            initial={{ width: paused ? 120 : 0 }}
-                            animate={{ width: paused ? 120 : "100%" }}
-                            transition={{ duration: paused ? 0.3 : DURATION / 1000, ease: "linear" }}
+                            key={`${tab}-${hold}`}
+                            initial={{ width: hold ? 120 : 0 }}
+                            animate={{ width: hold ? 120 : "100%" }}
+                            transition={{ duration: hold ? 0.3 : DURATION / 1000, ease: "linear" }}
                             style={{ position: "absolute", left: 0, top: 0, height: 2, backgroundColor: "var(--c-accent)" }}
                           />
                         </div>

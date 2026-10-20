@@ -227,8 +227,18 @@ const PIPE = [
 function Mock4({ go }: { go: boolean }) {
   const [bars, setBars] = useState(BASE_BARS);
   const [lit, setLit] = useState(0);
+  const boxRef = useRef<HTMLDivElement>(null);
+  const [visible, setVisible] = useState(false);
+  // Only tick the live demo while it is on screen.
   useEffect(() => {
-    if (!go) return;
+    const el = boxRef.current;
+    if (!el) return;
+    const io = new IntersectionObserver(([e]) => setVisible(e.isIntersecting));
+    io.observe(el);
+    return () => io.disconnect();
+  }, []);
+  useEffect(() => {
+    if (!go || !visible) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce) {
       setLit(PIPE.length);
@@ -246,9 +256,9 @@ function Mock4({ go }: { go: boolean }) {
       clearInterval(pipe);
       clearInterval(live);
     };
-  }, [go]);
+  }, [go, visible]);
   return (
-    <div className={css.mockCol} style={{ gap: "12px" }}>
+    <div ref={boxRef} className={css.mockCol} style={{ gap: "12px" }}>
       <div style={{ backgroundColor: "var(--c-band)", boxSizing: "border-box", display: "flex", flexDirection: "column", gap: "12px", padding: "16px" }}>
         <div className={css.prodHead}>
           <div style={{ alignItems: "center", display: "flex", gap: "8px" }}>
@@ -373,6 +383,8 @@ export function Steps() {
                 start: "center center",
                 end: "+=60%",
                 pin: true,
+                anticipatePin: 1,
+                invalidateOnRefresh: true,
                 onToggle: (self) => self.isActive && setActive(i),
               });
               ScrollTrigger.create({
@@ -393,7 +405,7 @@ export function Steps() {
             gsap.fromTo(
               root.querySelector("[data-rail]"),
               { scaleY: 0 },
-              { scaleY: 1, ease: "none", scrollTrigger: { trigger: root, start: "top center", end: "bottom center", scrub: true } },
+              { scaleY: 1, ease: "none", scrollTrigger: { trigger: root, start: "top center", end: "bottom center", scrub: 0.8, invalidateOnRefresh: true } },
             );
           }
         },

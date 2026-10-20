@@ -46,13 +46,21 @@ export function TabBar() {
     // 05–07 share one row: split its scroll range into thirds.
     const row = document.getElementById("integrate")?.parentElement;
     if (row) {
+      let third = -1;
       triggers.push(
         ScrollTrigger.create({
           trigger: row,
           start: topLine,
           end: bottomLine,
-          onUpdate: (self) => setActive(4 + Math.min(2, Math.floor(self.progress * 3))),
-          onToggle: (self) => self.isActive && setActive(4),
+          onUpdate: (self) => {
+            // only re-render when the third changes, not every scroll frame
+            const next = 4 + Math.min(2, Math.floor(self.progress * 3));
+            if (self.isActive && next !== third) setActive((third = next));
+          },
+          onToggle: (self) => {
+            third = -1;
+            if (self.isActive) setActive((third = 4 + Math.min(2, Math.floor(self.progress * 3))));
+          },
         }),
       );
     }
@@ -70,7 +78,7 @@ export function TabBar() {
     setActive(i);
     const headerH = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 102;
     const offset = -(headerH + (navRef.current?.offsetHeight ?? 50) - 2);
-    if (lenis) lenis.scrollTo(el, { offset });
+    if (lenis) lenis.scrollTo(el, { offset, duration: 1.1 });
     else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY + offset, behavior: "smooth" });
     history.replaceState(null, "", `#${TABS[i]}`);
   };

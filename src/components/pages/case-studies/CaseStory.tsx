@@ -55,8 +55,9 @@ export function CaseStory() {
         if (!el) return;
         ScrollTrigger.create({
           trigger: el,
-          start: "top 45%",
-          end: "bottom 45%",
+          start: "top center",
+          end: "bottom center",
+          invalidateOnRefresh: true,
           onToggle: (self) => self.isActive && setActive(id),
         });
       });
@@ -67,9 +68,13 @@ export function CaseStory() {
   const go = (id: string) => {
     const el = document.getElementById(id);
     if (!el) return;
-    const off = -(parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 102) - 32;
+    // header + the sticky TOC strip (mobile) so the heading lands just below them
+    const header = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--header-h")) || 102;
+    const toc = root.current?.querySelector("nav");
+    const bar = toc && getComputedStyle(toc).position === "sticky" && toc.getBoundingClientRect().width > window.innerWidth * 0.6 ? toc.offsetHeight : 32;
+    const off = -(header + bar);
     setActive(id);
-    if (lenis) lenis.scrollTo(el, { offset: off, duration: 1.2 });
+    if (lenis) lenis.scrollTo(el, { offset: off, duration: 1.1 });
     else el.scrollIntoView({ behavior: "smooth", block: "start" });
   };
 
@@ -148,8 +153,8 @@ export function CaseStory() {
                   <motion.div
                     initial={{ scaleX: 0 }}
                     whileInView={{ scaleX: r.v / 40 }}
-                    viewport={{ once: true, margin: "0px 0px -10% 0px" }}
-                    transition={{ duration: 1.1, delay: i * 0.12, ease: [0.16, 1, 0.3, 1] }}
+                    viewport={{ once: true, margin: "0px 0px -14% 0px" }}
+                    transition={{ duration: 0.9, delay: i * 0.08, ease: [0.22, 1, 0.36, 1] }}
                     style={{ position: "absolute", inset: 0, transformOrigin: "0 50%", background: i === WEEKS.length - 1 ? "var(--c-accent)" : "var(--c-faint)" }}
                   />
                 </div>

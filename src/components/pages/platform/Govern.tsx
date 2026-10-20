@@ -33,9 +33,15 @@ export function Govern() {
     () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       const q = gsap.utils.selector(ref);
-      const tl = gsap.timeline({ scrollTrigger: { trigger: ref.current, start: "top 75%" } });
+      const steps = q("[data-step]");
+      // .hover-lift has a CSS transform transition: switch it off while GSAP owns the transform, then hand it back.
+      gsap.set(steps, { transition: "none" });
+      const tl = gsap.timeline({
+        scrollTrigger: { trigger: ref.current, start: "top 80%", once: true },
+        onComplete: () => void gsap.set(steps, { clearProps: "transform,opacity,transition" }),
+      });
       gsap.set(q("[data-badge]"), { opacity: 0, scale: 0.4 });
-      q("[data-step]").forEach((el, i) => {
+      steps.forEach((el, i) => {
         const isConn = el.hasAttribute("data-conn");
         if (isConn) tl.from(el, { scaleY: 0, transformOrigin: "top", duration: 0.25, ease: "none" });
         else {

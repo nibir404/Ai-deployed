@@ -50,8 +50,8 @@ export function Residency() {
           <div className="home-map-img" style={{ position: "absolute", top: 0, height: "100%", left: pct(99, W), width: pct(1080, W), backgroundImage: "url(/assets/5W6X99AC6V6SCN8VTANQMB7KQH.png)", backgroundPosition: "50%", backgroundRepeat: "no-repeat", backgroundSize: "100% 100%" }} />
           <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="none" style={{ position: "absolute", inset: 0, width: "100%", height: "100%", pointerEvents: "none" }} aria-hidden>
             {/* blocked cross-border route */}
-            <motion.path d="M664 405 L1094 190" fill="none" stroke="#D9534F" strokeWidth="1.5" strokeDasharray="5 5" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true }} transition={{ duration: 1.2, delay: 0.4 }} />
-            <motion.path d="M872 293 l10 10 M882 293 l-10 10" fill="none" stroke="#D9534F" strokeWidth="2" initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true }} transition={{ delay: 1.4 }} style={{ transformOrigin: "877px 298px" }} />
+            <motion.path d="M664 405 L1094 190" fill="none" stroke="#D9534F" strokeWidth="1.5" strokeDasharray="5 5" initial={{ pathLength: 0 }} whileInView={{ pathLength: 1 }} viewport={{ once: true, margin: "0px 0px -14% 0px" }} transition={{ duration: 1.2, delay: 0.4 }} />
+            <motion.path d="M872 293 l10 10 M882 293 l-10 10" fill="none" stroke="#D9534F" strokeWidth="2" initial={{ opacity: 0, scale: 0 }} whileInView={{ opacity: 1, scale: 1 }} viewport={{ once: true, margin: "0px 0px -14% 0px" }} transition={{ delay: 1.4 }} style={{ transformOrigin: "877px 298px" }} />
             {/* selected region: route to Japan that dies at the border */}
             <motion.path
               key={sel}
@@ -67,7 +67,7 @@ export function Residency() {
             <motion.rect key={`r-${sel}`} x={cx - 6} y={cy - 6} width={12} height={12} fill="none" stroke="var(--c-accent)" strokeWidth={1.5} initial={{ scale: 1, opacity: 1 }} animate={{ scale: 4, opacity: 0 }} transition={{ duration: 1.6, repeat: Infinity, ease: "easeOut" }} style={{ transformOrigin: `${cx}px ${cy}px` }} />
           </svg>
 
-          <motion.div initial={{ opacity: 0, y: -6 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: 1.5 }} className={s.mapTag} style={{ backgroundColor: "#D9534F", left: pct(830, W), top: pct(316, H), paddingBlock: 5, paddingInline: 8 }}>
+          <motion.div initial={{ opacity: 0, y: -6 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "0px 0px -14% 0px" }} transition={{ delay: 1.5 }} className={s.mapTag} style={{ backgroundColor: "#D9534F", left: pct(830, W), top: pct(316, H), paddingBlock: 5, paddingInline: 8 }}>
             <span style={{ color: "#FFFFFF", fontFamily: mono, fontSize: "11px", letterSpacing: "0.04em", lineHeight: "14px" }}>NO CROSS-BORDER COPIES</span>
           </motion.div>
 
@@ -81,7 +81,7 @@ export function Residency() {
                 onClick={() => setSel(p.id)}
                 initial={{ opacity: 0, scale: 0.6 }}
                 whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "0px 0px -14% 0px" }}
                 transition={{ delay: 0.3 + i * 0.08, type: "spring", stiffness: 300, damping: 18 }}
                 className={s.pin}
                 style={{ left: pct(p.left, W), top: pct(p.top, H), zIndex: on ? 3 : 2 }}

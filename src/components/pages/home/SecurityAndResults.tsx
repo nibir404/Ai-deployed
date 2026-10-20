@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
+import dynamic from "next/dynamic";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { RevealScope } from "@/components/motion/Reveal";
-import { Tilt } from "@/components/motion/Tilt";
 import s from "./Home.module.css";
 
 const mono = "var(--font-mono)";
@@ -18,12 +18,11 @@ const FAQ = [
   ["Can our security team review first?", "Yes. We share the architecture, data-flow diagrams and policy configuration before anything is deployed, and your team signs off on each change."],
 ];
 
-const TAGS = [
-  { t: "YOUR DATA", bg: "var(--c-accent)", c: "#FFFFFF", left: 5.6, top: -3 },
-  { t: "YOUR BOUNDARY", bg: "var(--c-band)", c: "var(--c-band-text)", left: 5.6, top: 47.9 },
-  { t: "EGRESS BLOCKED", bg: "#D9534F", c: "#FFFFFF", left: 76, top: 31.9 },
-  { t: "NO THIRD-PARTY APIS", bg: "var(--c-band)", c: "var(--c-band-text)", left: 73.3, top: 82.8 },
-];
+const BoundaryScene = dynamic(() => import("@/components/iso-scenes/BoundaryScene"), { ssr: false, loading: () => <BoundaryPng /> });
+
+function BoundaryPng() {
+  return <div role="img" aria-label="Isometric diagram: your data stays inside your boundary" className={s.secImg} style={{ backgroundImage: "url(/assets/7Q516TW2VWG615ZM3NPTSM8T8A.png)" }} />;
+}
 
 export function Security() {
   const [open, setOpen] = useState(0);
@@ -64,7 +63,7 @@ export function Security() {
                   <AnimatePresence initial={false}>
                     {on && (
                       <motion.div initial={{ height: 0, opacity: 0 }} animate={{ height: "auto", opacity: 1 }} exit={{ height: 0, opacity: 0 }} transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }} style={{ overflow: "hidden" }}>
-                        <div style={{ color: "var(--c-muted)", fontFamily: sans, fontSize: "15px", lineHeight: "23px", maxWidth: "480px", marginTop: -10, paddingBottom: 18 }}>{a}</div>
+                        <div style={{ color: "var(--c-muted)", fontFamily: sans, fontSize: "15px", lineHeight: "23px", maxWidth: "480px", paddingTop: 2, paddingBottom: 18 }}>{a}</div>
                       </motion.div>
                     )}
                   </AnimatePresence>
@@ -97,22 +96,7 @@ export function Security() {
           }}
         >
           <div className={s.secArt}>
-            <Tilt max={6}>
-              <motion.div animate={{ y: [0, -6, 0] }} transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }} className={s.secImg} style={{ backgroundImage: "url(/assets/7Q516TW2VWG615ZM3NPTSM8T8A.png)" }} />
-            </Tilt>
-            {TAGS.map((t, i) => (
-              <motion.div
-                key={t.t}
-                className={s.secTag}
-                initial={{ opacity: 0, scale: 0.6 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ delay: 0.4 + i * 0.12, type: "spring", stiffness: 320, damping: 18 }}
-                style={{ backgroundColor: t.bg, left: `${t.left}%`, top: `${t.top}%` }}
-              >
-                <span style={{ color: t.c, fontFamily: mono, fontSize: "10px", letterSpacing: "0.04em", lineHeight: "12px" }}>{t.t}</span>
-              </motion.div>
-            ))}
+            <BoundaryScene fallback={<BoundaryPng />} />
           </div>
           <div data-reveal style={{ backgroundColor: "var(--c-surface)", border: "1px solid var(--c-border)", display: "flex", flexDirection: "column" }} data-reveal-stagger>
             {[

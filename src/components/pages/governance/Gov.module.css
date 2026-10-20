@@ -54,3 +54,7 @@
   .btns > *, .btns a, .btns button { width: 100% !important; justify-content: center; min-height: 44px; }
   .listRow { min-height: 44px; align-items: center !important; }
 }
+
+/* live isometric scenes (width-sized; the kit keeps the art aspect) */
+.illusLive { width: 100%; max-width: 600px; }
+.illusLive2 { width: 100%; max-width: 640px; }

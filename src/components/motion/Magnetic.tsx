@@ -16,6 +16,7 @@ export function Magnetic({ children, strength = 0.3, style, className }: { child
       className={className}
       style={{ display: "inline-flex", ...style, x: sx, y: sy }}
       onPointerMove={(e) => {
+        if (e.pointerType !== "mouse") return; // no tilt/pull on touch or pen
         const r = ref.current!.getBoundingClientRect();
         x.set((e.clientX - r.left - r.width / 2) * strength);
         y.set((e.clientY - r.top - r.height / 2) * strength);

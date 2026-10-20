@@ -48,7 +48,7 @@ export function Quote() {
         opacity: 1,
         stagger: 0.1,
         ease: "none",
-        scrollTrigger: { trigger: ref.current, start: "top 80%", end: "bottom 40%", scrub: 0.6 },
+        scrollTrigger: { trigger: ref.current, start: "top 80%", end: "bottom 40%", scrub: 0.8, invalidateOnRefresh: true },
       });
     },
     { scope: ref },

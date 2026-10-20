@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Instrument_Sans, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import "./dark-icons.css";
 import { ThemeProvider, themeInitScript } from "@/components/providers/ThemeProvider";
 import { SmoothScroll } from "@/components/providers/SmoothScroll";
 import { Header } from "@/components/layout/Header";

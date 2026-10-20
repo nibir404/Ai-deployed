@@ -6,6 +6,13 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { useTheme } from "@/components/providers/ThemeProvider";
 import { useLenis } from "@/components/providers/SmoothScroll";
+import dynamic from "next/dynamic";
+
+const MiniIso = dynamic(() => import("@/components/hero-iso/IsoScene"), { ssr: false, loading: () => <MiniIsoPng /> });
+function MiniIsoPng() {
+  // eslint-disable-next-line @next/next/no-img-element
+  return <img src="/assets/3ZM8TTHEWYG6A6EJJXY21RCTCW.png" alt="" style={{ height: 160, width: 272, display: "block" }} />;
+}
 
 const mono = "var(--font-mono)";
 const sans = "var(--font-sans)";
@@ -142,15 +149,17 @@ function MegaMenu({ onClose }: { onClose: () => void }) {
       </div>
       <Link href="/platform" onClick={onClose} className="r-hide" style={{ backgroundColor: "var(--c-band)", display: "flex", flexDirection: "column", gap: 16, justifyContent: "space-between", padding: 24, width: 320, flexShrink: 0 }}>
         <div style={{ color: "#9C9C96", fontFamily: mono, fontSize: 11, lineHeight: "14px" }}>FEATURED</div>
-        <motion.img
+        <motion.div
           initial={{ scale: 0.9, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ delay: 0.2, duration: 0.7, ease: [0.22, 1, 0.36, 1] }}
           whileHover={{ y: -6 }}
-          src="/assets/3ZM8TTHEWYG6A6EJJXY21RCTCW.png"
-          alt="Isometric view of the platform"
+          role="img"
+          aria-label="Isometric view of the platform"
           style={{ height: 160, width: 272 }}
-        />
+        >
+          <MiniIso variant="mini" fallback={<MiniIsoPng />} />
+        </motion.div>
         <div style={{ color: "#F2F2EE", fontFamily: sans, fontSize: 16, lineHeight: "22px" }}>See the full platform tour, layer by layer.</div>
         <div style={{ color: "#D6F25C", fontFamily: mono, fontSize: 11, letterSpacing: "0.06em", lineHeight: "14px" }}>
           OPEN PLATFORM <span className="arrow">→</span>

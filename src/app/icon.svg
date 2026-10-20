@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" shape-rendering="crispEdges">
+  <rect width="32" height="32" fill="#3B43D6"/>
+  <!-- pixel arrow from the AI→Deployed wordmark -->
+  <g fill="#FFFFFF">
+    <rect x="7" y="14" width="14" height="4"/>
+    <rect x="15" y="8" width="4" height="4"/>
+    <rect x="19" y="11" width="4" height="4"/>
+    <rect x="21" y="14" width="4" height="4"/>
+    <rect x="19" y="17" width="4" height="4"/>
+    <rect x="15" y="20" width="4" height="4"/>
+  </g>
+  <rect x="7" y="7" width="4" height="4" fill="#D6F25C"/>
+</svg>

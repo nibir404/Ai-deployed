@@ -51,9 +51,9 @@ export function Triple() {
       duration: 0.7,
       ease: "power3.out",
       stagger: 0.06,
-      scrollTrigger: { trigger: bars.current, start: "top 90%" },
+      scrollTrigger: { trigger: bars.current, start: "top 86%", once: true },
     });
-    gsap.from(sq.current, { scale: 0, transformOrigin: "center", duration: 0.4, delay: 1.4, ease: "back.out(3)", scrollTrigger: { trigger: sq.current, start: "top 90%" } });
+    gsap.from(sq.current, { scale: 0, transformOrigin: "center", duration: 0.4, delay: 1.4, ease: "back.out(3)", scrollTrigger: { trigger: sq.current, start: "top 86%", once: true } });
   });
 
   return (

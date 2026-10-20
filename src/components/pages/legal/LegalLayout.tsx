@@ -1,11 +1,16 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { RevealScope } from "@/components/motion/Reveal";
 import { useLenis } from "@/components/providers/SmoothScroll";
 import css from "./Legal.module.css";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const mono = "var(--font-mono)";
 const sans = "var(--font-sans)";
@@ -31,26 +36,37 @@ export function LegalLayout({ doc }: { doc: LegalDoc }) {
   const lenis = useLenis();
   const [active, setActive] = useState(doc.sections[0].id);
 
-  useEffect(() => {
+  // One ScrollTrigger per section, toggled at the viewport centre so exactly one is active.
+  useGSAP(() => {
     const els = doc.sections.map((s) => document.getElementById(s.id)).filter(Boolean) as HTMLElement[];
-    const onScroll = () => {
-      const line = window.innerHeight * 0.35;
-      let cur = els[0]?.id;
-      for (const el of els) if (el.getBoundingClientRect().top <= line) cur = el.id;
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4) cur = els[els.length - 1]?.id;
-      if (cur) setActive(cur);
-    };
-    onScroll();
-    window.addEventListener("scroll", onScroll, { passive: true });
-    return () => window.removeEventListener("scroll", onScroll);
-  }, [doc.sections]);
+    els.forEach((el) => {
+      ScrollTrigger.create({
+        trigger: el,
+        start: "top center",
+        end: "bottom center",
+        invalidateOnRefresh: true,
+        onToggle: (self) => self.isActive && setActive(el.id),
+      });
+    });
+    // The last sections may never reach the centre line: pin the highlight to the last one at the very bottom.
+    const last = els[els.length - 1];
+    if (last) {
+      ScrollTrigger.create({
+        start: () => ScrollTrigger.maxScroll(window) - 4,
+        end: "max",
+        invalidateOnRefresh: true,
+        onEnter: () => setActive(last.id),
+      });
+    }
+  }, { dependencies: [doc.sections], revertOnUpdate: true });
 
   const jump = (id: string) => (e: React.MouseEvent) => {
     e.preventDefault();
     const el = document.getElementById(id);
     if (!el) return;
-    const off = window.innerWidth < 1100 ? 130 : 120;
-    if (lenis) lenis.scrollTo(el, { offset: -off });
+    const off = window.innerWidth < 1100 ? 130 : 120; // header + sticky TOC strip
+    setActive(id);
+    if (lenis) lenis.scrollTo(el, { offset: -off, duration: 1.1 });
     else window.scrollTo({ top: el.getBoundingClientRect().top + window.scrollY - off, behavior: "smooth" });
     document.querySelector(`[data-toc="${id}"]`)?.scrollIntoView({ block: "nearest", inline: "center" });
     history.replaceState(null, "", `#${id}`);

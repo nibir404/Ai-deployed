@@ -48,11 +48,17 @@ export function Process() {
     () => {
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
       setActive(0);
+      let last = 0;
       ScrollTrigger.create({
         trigger: root.current,
         start: "top 70%",
         end: "bottom 60%",
-        onUpdate: (st) => setActive(Math.min(3, Math.floor(st.progress * 4))),
+        invalidateOnRefresh: true,
+        // only re-render when the step actually changes, not on every scroll frame
+        onUpdate: (st) => {
+          const next = Math.min(3, Math.floor(st.progress * 4));
+          if (next !== last) setActive((last = next));
+        },
       });
     },
     { scope: root },
