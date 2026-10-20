@@ -1,0 +1,56 @@
+/* Responsive overrides. Base (1440) values live inline; these win via !important below 1100px. */
+.h1 { font-size: clamp(40px, 4.5vw, 64px) !important; line-height: 1.06 !important; }
+.h2 { font-size: clamp(34px, 3.4vw, 48px) !important; line-height: 1.125 !important; }
+.h3 { font-size: clamp(28px, 2.5vw, 36px) !important; line-height: 1.17 !important; }
+.illus { width: 100%; max-width: 600px; height: auto; aspect-ratio: 600 / 400; }
+.illus2 { width: 100%; max-width: 640px; height: auto; aspect-ratio: 640 / 373; }
+.flowScroll { overflow-x: auto; }
+
+
+@media (max-width: 1099px) {
+  .split { flex-direction: column !important; min-height: 0 !important; }
+  .split > * { width: 100% !important; flex-basis: auto !important; border-right: 0 !important; }
+  .split > * + * { border-top: 1px solid var(--c-line); }
+  .splitRev { flex-direction: column-reverse !important; }
+  .side { padding: 64px 24px !important; }
+  .media { padding: 40px 24px !important; }
+  .head { flex-direction: column !important; align-items: flex-start !important; padding: 64px 24px 40px !important; }
+  .head > p { width: 100% !important; max-width: 560px !important; }
+  .tableHead, .row { padding-inline: 24px !important; }
+  .tableHead > :nth-child(2), .desc { width: 360px !important; }
+  .flowPane { padding: 72px 24px 40px !important; }
+  .band { flex-direction: column !important; }
+  .band > * { width: 100% !important; padding: 56px 24px !important; border-right: 0 !important; }
+  .band > * + * { border-top: 1px solid var(--c-band-line); padding-top: 0 !important; }
+}
+
+@media (max-width: 767px) {
+  .side { padding: 56px 20px !important; }
+  .media { padding: 24px 16px !important; }
+  .head { padding: 56px 20px 32px !important; }
+  .tableHead { display: none !important; }
+  /* checks rows become cards */
+  .rows { display: flex; flex-direction: column; gap: 12px; padding: 0 20px 32px; }
+  .row {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    gap: 10px !important;
+    padding: 18px !important;
+    border: 1px solid var(--c-line) !important;
+    background: var(--c-surface);
+  }
+  .row > * { width: 100% !important; padding-right: 0 !important; min-width: 0 !important; }
+  .chips { width: 100% !important; }
+  .chips > * { flex: 1 !important; text-align: center !important; min-height: 44px !important; display: flex !important; align-items: center !important; justify-content: center !important; }
+  .flowPane { padding: 72px 20px 32px !important; }
+  .flowRow { flex-direction: column !important; align-items: stretch !important; }
+  .flowRow > [data-wire] { width: 1px !important; height: 20px !important; margin-left: 24px; border-top: 0 !important; }
+  .flowRow > [data-wire][data-dashed] { border-left: 1px dashed #d9534f !important; background: none !important; }
+  .flowRow > [data-wire] span { display: none; }
+  .toggle { min-height: 44px !important; }
+  .band > * { padding: 48px 20px !important; }
+  .band > * + * { padding-top: 0 !important; }
+  .btns { flex-direction: column; align-items: stretch !important; }
+  .btns > *, .btns a, .btns button { width: 100% !important; justify-content: center; min-height: 44px; }
+  .listRow { min-height: 44px; align-items: center !important; }
+}

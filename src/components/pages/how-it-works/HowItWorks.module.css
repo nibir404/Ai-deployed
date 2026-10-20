@@ -1,0 +1,318 @@
+/* Layout for How it works. Desktop values match Paper 1:1 at 1440. */
+.sec {
+  border: 1px solid var(--c-line);
+  border-top: 0;
+  box-sizing: border-box;
+  width: min(1280px, 100%);
+}
+
+/* Hero */
+.hero {
+  composes: sec;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 112px 56px 72px;
+}
+.heroH1 {
+  margin: 0;
+  font-weight: 400;
+  max-width: 760px;
+  font-size: clamp(38px, 4.72vw, 68px);
+  line-height: 1.06;
+  letter-spacing: -0.035em;
+}
+.heroAside {
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 20px;
+  padding-bottom: 8px;
+  width: 360px;
+}
+
+/* Steps */
+.steps {
+  position: relative;
+  width: min(1280px, 100%);
+}
+.rail {
+  position: absolute;
+  left: 420px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  z-index: 2;
+  pointer-events: none;
+}
+.row {
+  composes: sec;
+  display: flex;
+  width: 100%;
+  background: var(--c-bg);
+}
+.stepText {
+  border-right: 1px solid var(--c-line);
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  gap: 24px;
+  padding: 72px 56px;
+  width: 420px;
+  transition: opacity 0.6s var(--ease-out);
+}
+.stepTitle {
+  font-size: clamp(28px, 2.5vw, 36px) !important;
+  line-height: 1.17 !important;
+}
+.mock {
+  background: var(--c-bg-alt);
+  display: flex;
+  flex: 1 1 0%;
+  min-width: 0;
+  padding: 56px;
+}
+.mockCol {
+  composes: mock;
+  flex-direction: column;
+}
+.queue {
+  flex-shrink: 0;
+  width: 300px;
+  align-self: flex-start;
+}
+.spacer {
+  flex-shrink: 0;
+  width: 24px;
+  height: 24px;
+}
+.archRow {
+  display: flex;
+  gap: 8px;
+}
+.security {
+  flex-shrink: 0;
+  width: 180px;
+}
+.kanban {
+  composes: mock;
+  gap: 8px;
+}
+.kcol {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+.pipe {
+  display: flex;
+  gap: 8px;
+}
+.pipe > * {
+  min-width: 0;
+}
+.prodHead {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+/* Team */
+.teamHead {
+  padding: 120px 56px 56px;
+}
+.h2 {
+  margin: 0;
+  font-weight: 400;
+  font-size: clamp(32px, 3.34vw, 48px);
+  line-height: 1.125;
+  letter-spacing: -0.03em;
+}
+.teamGrid {
+  border-top: 1px solid var(--c-line);
+  display: flex;
+}
+.teamCard {
+  border-right: 1px solid var(--c-line);
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: 20px;
+  padding: 32px;
+}
+.teamCard:last-child,
+.pcard:last-child {
+  border-right: 0;
+}
+.avatar {
+  position: relative;
+  overflow: hidden;
+}
+.lid {
+  position: absolute;
+  top: 20.6px;
+  width: 4.2px;
+  height: 4.2px;
+  opacity: 0;
+  animation: blink 4.2s steps(1) infinite;
+}
+@keyframes blink {
+  0%, 93%, 98%, 100% { opacity: 0; }
+  94%, 97% { opacity: 1; }
+}
+
+/* Principles */
+.pGrid {
+  border-top: 1px solid var(--c-line);
+  display: flex;
+}
+.pcard {
+  border-right: 1px solid var(--c-line);
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  gap: 12px;
+  padding: 32px 28px;
+  transition: background-color 0.3s var(--ease-out);
+}
+.pcard:hover {
+  background: var(--c-bg-alt);
+}
+
+.float {
+  animation: hiwFloat 5s ease-in-out infinite;
+}
+@keyframes hiwFloat {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-4px); }
+}
+.tick {
+  animation: hiwTick 0.5s var(--ease-out);
+}
+@keyframes hiwTick {
+  from { opacity: 0; transform: translateY(6px); }
+  to { opacity: 1; transform: none; }
+}
+.pulse {
+  animation: hiwPulse 1.4s steps(2) infinite;
+}
+@keyframes hiwPulse {
+  50% { opacity: 0.25; }
+}
+
+/* ---------- Tablet ---------- */
+@media (max-width: 1099px) {
+  .hero {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 64px 24px 56px;
+  }
+  .heroAside {
+    width: 100%;
+    max-width: 520px;
+  }
+  .rail {
+    display: none;
+  }
+  .row {
+    flex-direction: column;
+  }
+  .stepText {
+    width: 100%;
+    border-right: 0;
+    border-bottom: 1px solid var(--c-line);
+    padding: 56px 24px 40px;
+    opacity: 1 !important;
+  }
+  .mock {
+    padding: 32px 24px;
+  }
+  .teamHead {
+    padding: 64px 24px 40px;
+  }
+  .teamGrid {
+    flex-direction: column;
+  }
+  .teamCard {
+    border-right: 0;
+    border-bottom: 1px solid var(--c-line);
+    padding: 28px 24px;
+  }
+  .teamCard:last-child {
+    border-bottom: 0;
+  }
+  .pGrid {
+    flex-wrap: wrap;
+  }
+  .pcard {
+    flex: 1 1 50%;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .pcard:nth-child(2n) {
+    border-right: 0;
+  }
+  .pcard:nth-child(n + 3) {
+    border-bottom: 0;
+  }
+}
+
+/* ---------- Mobile ---------- */
+@media (max-width: 767px) {
+  .hero {
+    padding: 56px 20px 48px;
+  }
+  .stepText {
+    padding: 48px 20px 32px;
+  }
+  .mock {
+    padding: 24px 20px;
+  }
+  .mock1 {
+    flex-direction: column;
+  }
+  .queue {
+    width: 100%;
+  }
+  .archRow {
+    flex-direction: column;
+  }
+  .security {
+    width: 100%;
+  }
+  .kanban {
+    flex-wrap: wrap;
+  }
+  .kcol {
+    flex: 1 1 calc(50% - 4px);
+  }
+  .pipe {
+    flex-wrap: wrap;
+  }
+  .pipe > * {
+    flex: 1 1 calc(33% - 8px) !important;
+  }
+  .teamHead {
+    padding: 56px 20px 32px;
+  }
+  .teamCard {
+    padding: 24px 20px;
+  }
+  .pcard {
+    flex: 1 1 100%;
+    border-right: 0;
+    border-bottom: 1px solid var(--c-line) !important;
+    padding: 24px 20px;
+  }
+  .pcard:last-child {
+    border-bottom: 0 !important;
+  }
+}
+
+.cta {
+  min-height: 36px;
+}
+@media (max-width: 767px) {
+  .cta {
+    min-height: 44px;
+  }
+}

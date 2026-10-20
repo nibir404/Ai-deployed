@@ -1,23 +1,24 @@
-import { Hero } from "@/components/home/Hero";
-import { WhyFde } from "@/components/home/WhyFde";
-import { LiveDemo } from "@/components/home/LiveDemo";
-import { UseCases } from "@/components/home/UseCases";
-import { Differentiators } from "@/components/home/Differentiators";
-import { EngagementSteps } from "@/components/home/EngagementSteps";
-import { Commitments } from "@/components/home/Commitments";
-import { FinalCta } from "@/components/home/FinalCta";
+import { PageShell } from "@/components/layout/PageShell";
+import { Hero, Sectors } from "@/components/pages/home/Hero";
+import { Capabilities } from "@/components/pages/home/Capabilities";
+import { Process, UseCases } from "@/components/pages/home/ProcessAndUseCases";
+import { Security, Results } from "@/components/pages/home/SecurityAndResults";
+import { Residency } from "@/components/pages/home/Residency";
+import s from "@/components/pages/home/Home.module.css";
 
-export default function HomePage() {
+export default function Home() {
   return (
-    <main id="main">
-      <Hero />
-      <WhyFde />
-      <LiveDemo />
-      <UseCases />
-      <Differentiators />
-      <EngagementSteps />
-      <Commitments />
-      <FinalCta />
-    </main>
+    <PageShell>
+      <div className={s.home} style={{ display: "flex", flexDirection: "column", alignItems: "center" }}>
+        <Hero />
+        <Sectors />
+        <Capabilities />
+        <Process />
+        <UseCases />
+        <Security />
+        <Residency />
+        <Results />
+      </div>
+    </PageShell>
   );
 }

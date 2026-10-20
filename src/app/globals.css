@@ -1,775 +1,466 @@
-@import "tailwindcss";
+/* ---------- Design tokens (from Paper "01 · Design System") ---------- */
+:root {
+  --color-paper: #ededea;
+  --color-surface: #f6f6f3;
+  --color-grid: #dcdcd7;
+  --color-muted: #5c5c58;
+  --color-ink: #000000;
+  --color-graphite: #1b1b1b;
+  --color-cobalt: #3b43d6;
+  --color-chartreuse: #d6f25c;
+  --color-signal-red: #d9534f;
+  --color-signal-amber: #e8a23a;
+  --color-violet: #8b6cf0;
+  --color-teal: #3fa9a0;
+  --color-phase-diagnose: #e8a23a;
+  --color-phase-architect: #7b3fe0;
+  --color-phase-embed: #3b43d6;
+  --color-phase-build: #3a80c8;
+  --color-phase-run: #3e8e66;
+  --color-phase-handoff: #1b1b1b;
+  --color-dark-ground: #0f0f0e;
+  --color-dark-surface: #1a1a19;
+  --color-dark-line: #2f2f2c;
+  --color-dark-muted: #9c9c96;
+  --color-dark-text: #f2f2ee;
+  --color-dark-cobalt: #6a71f2;
 
-@theme {
-  /* Palette — dark first */
-  --color-bg: #0a0a0a;
-  --color-surface: #111111;
-  --color-card: #171717;
-  --color-ink: #ffffff;
-  --color-ink-muted: #a1a1a1;
-  --color-ink-dim: #6b6b6b;
-  --color-line: rgba(255, 255, 255, 0.08);
-  --color-line-strong: rgba(255, 255, 255, 0.14);
+  --text-label: 13px;
+  --text-small: 15px;
+  --text-body: 18px;
+  --text-lead: 24px;
+  --text-h3: 32px;
+  --text-h2: 56px;
+  --text-h1: 96px;
+  --tracking-display: -0.04em;
+  --tracking-label: 0.08em;
+  --leading-body: 28px;
+  --leading-h2: 58px;
+  --leading-h1: 94px;
+  --container-content: 1280px;
+  --spacing-1: 4px;
+  --spacing-2: 8px;
+  --spacing-3: 16px;
+  --spacing-4: 24px;
+  --spacing-5: 48px;
+  --spacing-6: 96px;
+  --radius-none: 0px;
+  --radius-sm: 2px;
 
-  /* Monochromatic accent system — Charcoal / Dark Silver /
-     Platinum / White Smoke. The "accent" slot is the LIGHT end
-     (Platinum) so it remains visible when used as a text or
-     border color against the dark base; the "accent-ink" slot
-     is the deep Charcoal we paint on top of platinum fills.
-     This swap keeps the existing JSX usage (`bg-[var(--color-accent)]`,
-     `text-[var(--color-accent-ink)]`, `border-[var(--color-accent)]`)
-     working without per-file edits — it just remaps the colors
-     from lime to platinum/charcoal. */
-  --color-accent: #e7e7e7;          /* Platinum — visible on dark */
-  --color-accent-soft: #707070;     /* Dark Silver — secondary accents */
-  --color-accent-rgb: 231, 231, 231;
-  --color-accent-glow: rgba(231, 231, 231, 0.18);
-  --color-accent-dim: rgba(231, 231, 231, 0.08);
-  --color-accent-ink: #323131;      /* Charcoal — text on platinum */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
 
-  /* Extended palette tokens for utilities that need the light end */
-  --color-platinum: #e7e7e7;
-  --color-platinum-rgb: 231, 231, 231;
-  --color-smoke: #efefef;
-  --color-charcoal: #323131;
-  --color-silver: #707070;
-
-  /* Light overrides — re-target the base tokens so arbitrary-value
-     utilities (text-ink, bg-[var(--color-ink)], etc.) automatically
-     pick up light values without per-component rewrites. The
-     `*-light` aliases below are kept for backward compatibility.
-     Palette: paper-white cream — warmer than #fff, less clinical. */
-  --color-bg-light: #f6f1e7;
-  --color-surface-light: #efe9dc;
-  --color-card-light: #fbf8f1;
-  --color-ink-light: #1a1611;
-  --color-ink-muted-light: #574e3e;
-  --color-ink-dim-light: #7d7363;
-  --color-line-light: rgba(26, 22, 17, 0.10);
-  --color-line-strong-light: rgba(26, 22, 17, 0.18);
-
-  /* Type */
-  --font-display: "Geist", ui-sans-serif, system-ui, -apple-system,
-    "Segoe UI", sans-serif;
-  --font-body: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-    sans-serif;
-  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", "Menlo",
-    monospace;
-
-  /* Scale (fluid clamps) — reduced per responsive overhaul */
-  --text-hero: clamp(2.25rem, 1rem + 3.5vw, 4rem);         /* 36px → 64px @1440 */
-  --text-section: clamp(1.75rem, 1.25rem + 2.5vw, 3.5rem); /* 28px → 56px */
-  --text-display: clamp(1.5rem, 1.125rem + 1.5vw, 2.25rem); /* 24px → 36px */
-  --text-h3: clamp(1.125rem, 1rem + 0.5vw, 1.375rem);      /* 18px → 22px */
-  --text-body: clamp(0.9375rem, 0.875rem + 0.25vw, 1.0625rem); /* 15px → 17px */
-  --text-eyebrow: 0.75rem;
-  --text-mono-sm: 0.8125rem;
-
-  /* Tracking */
-  --tracking-display: -0.035em;
-  --tracking-body: -0.011em;
-  --tracking-eyebrow: 0.16em;
-
-  /* Spacing */
-  --space-section: 120px;
-  --space-gutter: clamp(1rem, 0.75rem + 1vw, 1.75rem);
-
-  /* Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 14px;
-
-  /* Layout */
-  --container-max: 1280px;
+  /* ---------- Semantic theme roles (light) ---------- */
+  --c-bg: #ededea;
+  --c-bg-alt: #e6e6e2;
+  --c-line: #dcdcd7;
+  --c-text: #111111;
+  --c-faint: #9c9c96;
+  --c-muted: #5c5c58;
+  --c-border: #cfcfca;
+  --c-surface: #f6f6f3;
+  --c-accent: #3b43d6;
+  --c-accent-text: #3b43d6;
+  --c-disabled: #bdbdb8;
+  /* Always-dark bands (black sections in light mode) */
+  --c-band: #111111;
+  --c-band-text: #f2f2ee;
+  --c-band-line: #2a2a28;
+  --logo-filter: none;
+  color-scheme: light;
 }
 
-@layer base {
+:root[data-theme="dark"] {
+  --c-bg: #0f0f0e;
+  --c-bg-alt: #151514;
+  --c-line: #2a2a28;
+  --c-text: #f2f2ee;
+  --c-faint: #75756f;
+  --c-muted: #a8a8a2;
+  --c-border: #363633;
+  --c-surface: #1a1a19;
+  --c-accent: #4a52e0;
+  --c-accent-text: #8a90f7;
+  --c-disabled: #44443f;
+  --c-band: #1a1a19;
+  --c-band-text: #f2f2ee;
+  --c-band-line: #2f2f2c;
+  --logo-filter: brightness(0%) invert(95%);
+  color-scheme: dark;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  background: var(--c-bg);
+  color: var(--c-text);
+}
+
+body {
+  font-family: var(--font-sans), system-ui, sans-serif;
+  font-size: 12px;
+  line-height: 16px;
+  font-synthesis: none;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-wrap: anywhere;
+  overflow-x: clip;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 0;
+  padding: 0;
+  cursor: pointer;
+}
+
+::selection {
+  background: var(--color-chartreuse);
+  color: #111111;
+}
+
+/* Lenis */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+.lenis.lenis-smooth {
+  scroll-behavior: auto !important;
+}
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+/* Page frame: designs are 1440 wide with a 1280 content column */
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: var(--c-bg);
+}
+.col {
+  width: min(1280px, 100%);
+}
+.full {
+  width: 100%;
+}
+
+/* Logo image switches in dark mode, same as the Paper dark artboards */
+.logo-img {
+  filter: var(--logo-filter);
+}
+
+/* ---------- Theme transition ---------- */
+/* View Transitions API: the new theme is revealed by a growing pixel/circle
+   mask from the toggle (see ThemeProvider). */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+::view-transition-new(root) {
+  z-index: 2;
+}
+::view-transition-old(root) {
+  z-index: 1;
+}
+/* Fallback for browsers without view transitions */
+html.theme-fading,
+html.theme-fading * {
+  transition:
+    background-color 0.6s var(--ease-out),
+    border-color 0.6s var(--ease-out),
+    color 0.6s var(--ease-out),
+    fill 0.6s var(--ease-out),
+    stroke 0.6s var(--ease-out) !important;
+}
+
+/* ---------- Interaction helpers ---------- */
+.link-underline {
+  position: relative;
+}
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: -3px;
+  height: 1px;
+  background: currentColor;
+  transform: scaleX(0);
+  transform-origin: right;
+  transition: transform 0.45s var(--ease-out);
+}
+.link-underline:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.btn {
+  --mx: 50%;
+  --my: 50%;
+  position: relative;
+  overflow: hidden;
+  isolation: isolate;
+  transition:
+    transform 0.45s var(--ease-out),
+    box-shadow 0.45s var(--ease-out),
+    background-color 0.3s var(--ease-out),
+    border-color 0.3s var(--ease-out),
+    color 0.3s var(--ease-out);
+}
+/* Fill grows as a circle from the exact point the pointer entered (ButtonFX sets --mx/--my). */
+.btn::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  background: var(--btn-fill, var(--c-text));
+  clip-path: circle(0% at var(--mx) var(--my));
+  transition: clip-path 0.6s var(--ease-out);
+}
+/* Light sweep across the face. */
+.btn::after {
+  content: "";
+  position: absolute;
+  inset: -2px;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(105deg, transparent 35%, rgba(255, 255, 255, 0.35) 50%, transparent 65%);
+  transform: translateX(-130%);
+}
+.btn:hover::before,
+.btn:focus-visible::before {
+  clip-path: circle(150% at var(--mx) var(--my));
+}
+.btn:hover::after {
+  transform: translateX(130%);
+  transition: transform 0.9s var(--ease-out) 0.1s;
+}
+/* Offset pixel shadow, the brand's hard-edged lift. */
+.btn:hover,
+.btn:focus-visible {
+  transform: translate(-3px, -3px);
+  box-shadow: 3px 3px 0 0 var(--btn-shadow, var(--color-chartreuse));
+}
+.btn:active {
+  transform: translate(0, 0);
+  box-shadow: 0 0 0 0 var(--btn-shadow, var(--color-chartreuse));
+  transition-duration: 0.12s;
+}
+.btn:focus-visible {
+  outline: 2px solid var(--c-accent);
+  outline-offset: 3px;
+}
+.btn-primary {
+  --btn-fill: #111111;
+  --btn-shadow: var(--color-chartreuse);
+}
+:root[data-theme="dark"] .btn-primary {
+  --btn-fill: #f2f2ee;
+}
+:root[data-theme="dark"] .btn-primary:hover,
+:root[data-theme="dark"] .btn-primary:hover * {
+  color: #0f0f0e !important;
+  stroke: currentColor;
+}
+:root[data-theme="dark"] .btn-primary:hover svg path {
+  stroke: #0f0f0e !important;
+}
+.btn-ghost {
+  --btn-fill: var(--c-text);
+  --btn-shadow: var(--c-accent);
+}
+.btn-ghost:hover,
+.btn-ghost:hover * {
+  color: var(--c-bg) !important;
+  border-color: var(--c-text) !important;
+}
+/* Arrow exits right and re-enters from the left. */
+.btn .arrow {
+  display: inline-block;
+}
+.btn:hover .arrow {
+  animation: btn-arrow 0.55s var(--ease-out);
+}
+@keyframes btn-arrow {
+  0% { transform: translateX(0); opacity: 1; }
+  45% { transform: translateX(14px); opacity: 0; }
+  46% { transform: translateX(-14px); opacity: 0; }
+  100% { transform: translateX(0); opacity: 1; }
+}
+/* Pixel sparks spawned by ButtonFX. */
+.btn-spark {
+  position: fixed;
+  width: 5px;
+  height: 5px;
+  pointer-events: none;
+  z-index: 9998;
+}
+
+.hover-row {
+  transition: background-color 0.3s var(--ease-out);
+}
+.hover-row:hover {
+  background-color: var(--c-bg-alt);
+}
+
+.hover-lift {
+  transition:
+    transform 0.5s var(--ease-out),
+    box-shadow 0.5s var(--ease-out);
+}
+.hover-lift:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 18px 40px -24px rgba(0, 0, 0, 0.35);
+}
+
+/* Reveal defaults (GSAP takes over once mounted) */
+[data-reveal] {
+  will-change: transform, opacity;
+}
+
+/* Cursor-follow dot */
+.cursor-dot {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 8px;
+  height: 8px;
+  background: var(--c-accent);
+  pointer-events: none;
+  z-index: 9999;
+  mix-blend-mode: difference;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ---------- Responsive safety (designs are desktop 1440) ---------- */
+@media (max-width: 1100px) {
+  .r-stack {
+    flex-direction: column !important;
+  }
+  .r-stack > * {
+    width: 100% !important;
+    flex-basis: auto !important;
+  }
+  .r-hide {
+    display: none !important;
+  }
+  .r-pad {
+    padding-inline: 24px !important;
+  }
+  .r-wrap {
+    flex-wrap: wrap !important;
+  }
+  .r-text-h1 {
+    font-size: 56px !important;
+    line-height: 58px !important;
+  }
+}
+
+/* ---------- Shared chrome responsiveness ---------- */
+:root {
+  --header-h: 102px;
+}
+html {
+  scroll-padding-top: var(--header-h);
+}
+.hdr-desktop {
+  display: block;
+}
+.hdr-mobile {
+  display: none;
+}
+.cta-section {
+  padding: 160px 56px !important;
+}
+.cta-title {
+  font-size: clamp(40px, 4.5vw, 64px) !important;
+  line-height: 1.06 !important;
+}
+.footer-main {
+  padding: 56px 80px !important;
+}
+.footer-bottom {
+  padding: 20px 80px !important;
+}
+
+@media (max-width: 1099px) {
   :root {
-    color-scheme: dark;
+    --header-h: 60px;
   }
-
-  html {
-    background: var(--color-bg);
-    color: var(--color-ink);
-    font-family: var(--font-body);
-    letter-spacing: var(--tracking-body);
-    -webkit-font-smoothing: antialiased;
-    -moz-osx-font-smoothing: grayscale;
-    text-rendering: optimizeLegibility;
-    scroll-behavior: smooth;
-  }
-
-  html.light {
-    color-scheme: light;
-    /* Re-target the base tokens so every consumer (text-ink,
-       bg-[var(--color-ink)], text-ink-muted, etc.) follows the theme
-       without per-component overrides. */
-    --color-bg: var(--color-bg-light);
-    --color-surface: var(--color-surface-light);
-    --color-card: var(--color-card-light);
-    --color-ink: var(--color-ink-light);
-    --color-ink-muted: var(--color-ink-muted-light);
-    --color-ink-dim: var(--color-ink-dim-light);
-    --color-line: var(--color-line-light);
-    --color-line-strong: var(--color-line-strong-light);
-    /* In light mode the "accent" slot flips from the light end
-       (platinum) to the dark end (charcoal) so it stays visible on
-       the paper-cream background. Every consumer of --color-accent
-       automatically follows: text emphasis, borders, the lime
-       ribbons on Pricing/EngagementModels, the hover invert, etc.
-       --color-accent-ink inverts (cream paper on charcoal fill)
-       so the text on accent fills remains readable. */
-    --color-accent: var(--color-charcoal);
-    --color-accent-soft: var(--color-silver);
-    --color-accent-rgb: 50, 49, 49;
-    --color-accent-glow: rgba(50, 49, 49, 0.18);
-    --color-accent-dim: rgba(50, 49, 49, 0.08);
-    --color-accent-ink: var(--color-bg-light);
-    /* --color-platinum flips to charcoal too so `accent-text` (which
-       uses platinum directly) reads as a dark highlight on paper
-       instead of an invisible near-white-on-cream. */
-    --color-platinum: var(--color-charcoal);
-    --color-platinum-rgb: 50, 49, 49;
-    background: var(--color-bg);
-    color: var(--color-ink);
-  }
-
-  body {
-    background: var(--color-bg);
-    color: var(--color-ink);
-    min-height: 100dvh;
-    overflow-x: hidden;
-  }
-
-  html.light body {
-    background: var(--color-bg-light);
-    color: var(--color-ink-light);
-  }
-
-  ::selection {
-    background: var(--color-ink);
-    color: var(--color-bg);
-  }
-
-  html.light ::selection {
-    background: var(--color-ink-light);
-    color: var(--color-bg-light);
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    font-family: var(--font-display);
-    letter-spacing: var(--tracking-display);
-    font-weight: 500;
-    line-height: 0.96;
-  }
-
-  a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  button {
-    background: transparent;
-    color: inherit;
-    border: 0;
-    font: inherit;
-    cursor: pointer;
-  }
-
-  /* Hairlines default */
-  hr {
-    border: 0;
-    border-top: 1px solid var(--color-line);
-  }
-
-  html.light hr {
-    border-top-color: var(--color-line-light);
-  }
-
-  /* Focus rings */
-  :focus-visible {
-    outline: 2px solid var(--color-ink);
-    outline-offset: 2px;
-    border-radius: 2px;
-  }
-
-  html.light :focus-visible {
-    outline-color: var(--color-ink-light);
-  }
-
-  /* Reduced motion */
-  @media (prefers-reduced-motion: reduce) {
-    *,
-    *::before,
-    *::after {
-      animation-duration: 0.001ms !important;
-      animation-iteration-count: 1 !important;
-      transition-duration: 0.001ms !important;
-      scroll-behavior: auto !important;
-    }
-  }
-
-  /* Logo swap — show dark source on light theme, light source on dark */
-  .logo-light {
-    display: inline-block;
-  }
-  .logo-dark {
+  .hdr-desktop {
     display: none;
   }
-  html.light .logo-light {
-    display: none;
+  .hdr-mobile {
+    display: flex;
   }
-  html.light .logo-dark {
-    display: inline-block;
+  .cta-section {
+    padding: 112px 24px !important;
+  }
+  .footer-main {
+    padding: 48px 24px !important;
+    flex-direction: column !important;
+  }
+  .footer-bottom {
+    padding: 20px 24px !important;
   }
 }
-
-@layer utilities {
-  .container-editorial {
+@media (max-width: 767px) {
+  .cta-section {
+    padding: 96px 20px 120px !important;
+  }
+  .cta-pixels {
+    display: none;
+  }
+  .footer-main {
+    padding: 40px 20px !important;
+  }
+  .footer-cols {
+    gap: 32px !important;
+    flex-wrap: wrap;
+  }
+  .footer-bottom {
+    flex-direction: column;
+    gap: 6px;
+    padding: 16px 20px !important;
+  }
+  .cta-buttons {
+    flex-direction: column;
     width: 100%;
-    max-width: var(--container-max);
-    margin-inline: auto;
-    padding-inline: var(--space-gutter);
+    max-width: 320px;
   }
-
-  .font-display {
-    font-family: var(--font-display);
-    letter-spacing: var(--tracking-display);
-  }
-
-  .font-body {
-    font-family: var(--font-body);
-    letter-spacing: var(--tracking-body);
-  }
-
-  .font-mono {
-    font-family: var(--font-mono);
-  }
-
-  .text-hero {
-    font-size: var(--text-hero);
-    line-height: 0.92;
-    letter-spacing: var(--tracking-display);
-  }
-
-  .text-section {
-    font-size: var(--text-section);
-    line-height: 0.96;
-    letter-spacing: var(--tracking-display);
-  }
-
-  .text-display {
-    font-size: var(--text-display);
-    line-height: 1.04;
-    letter-spacing: var(--tracking-display);
-  }
-
-  .text-h3 {
-    font-size: var(--text-h3);
-    line-height: 1.2;
-    letter-spacing: var(--tracking-display);
-  }
-
-  .text-body {
-    font-size: var(--text-body);
-    line-height: 1.6;
-    letter-spacing: var(--tracking-body);
-  }
-
-  .eyebrow {
-    font-family: var(--font-mono);
-    font-size: var(--text-eyebrow);
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-eyebrow);
-    color: var(--color-ink-muted);
-  }
-
-  html.light .eyebrow {
-    color: var(--color-ink-muted-light);
-  }
-
-  .hairline {
-    border-color: var(--color-line);
-  }
-
-  html.light .hairline {
-    border-color: var(--color-line-light);
-  }
-
-  .surface {
-    background: var(--color-surface);
-  }
-
-  html.light .surface {
-    background: var(--color-surface-light);
-  }
-
-  .card-surface {
-    background: var(--color-card);
-  }
-
-  html.light .card-surface {
-    background: var(--color-card-light);
-  }
-
-  /* ---------------------------------------------------------------------
-   * Monochromatic accent utilities
-   *
-   * Pair with text-ink, text-ink-muted, etc. — they only set the
-   * accent color/border/glow, not the surrounding typography. With
-   * a grayscale palette, "accent" reads as a tonal highlight:
-   *   - text emphasis: platinum (slightly cooler than pure white —
-   *     a quiet "patina" highlight that reads as emphasis without
-   *     being loud, distinguished from `text-ink` headings)
-   *   - filled surfaces: platinum (with charcoal text on top)
-   *   - lines / borders: platinum (visible on the dark base)
-   * ------------------------------------------------------------------- */
-  .accent-text {
-    color: var(--color-platinum);
-  }
-
-  .accent-bg {
-    background: var(--color-accent);
-    color: var(--color-accent-ink);
-  }
-
-  .accent-border {
-    border-color: var(--color-accent);
-  }
-
-  .accent-line {
-    background: var(--color-accent);
-  }
-
-  /* Radial glow used behind hero / CTAs. Sits behind content; pair
-     with `-z-0` on the glow and `relative` on the parent. The glow
-     is a soft platinum wash — no chromatic color, just a hint of
-     luminance that lifts the headline off the page. */
-  .glow-accent {
-    background-image: radial-gradient(
-      ellipse 80% 60% at 50% 0%,
-      rgba(var(--color-platinum-rgb), 0.18) 0%,
-      transparent 60%
-    );
-  }
-
-  .glow-accent-radial {
-    background-image: radial-gradient(
-      circle at center,
-      rgba(var(--color-platinum-rgb), 0.18) 0%,
-      transparent 60%
-    );
-  }
-
-  /* ---------------------------------------------------------------------
-   * Glossy CTA — primary button
-   *
-   * Squared-but-soft radius (4px), glossy vertical gradient body
-   * (charcoal → near-black with a subtle top highlight for a glassy
-   * 3D read). Body text uses the same Inter font as the rest of the
-   * site, so the CTA never looks like a different typographic
-   * system.
-   *
-   * Theme awareness is achieved through the design tokens: the rest
-   * gradient is anchored to `--color-ink` (white in dark, dark in
-   * light) and the hover gradient is anchored to `--color-bg` (the
-   * page color). The text uses `--color-bg` so it's always the page
-   * color opposite the rest-state body. Both pseudo-elements sit
-   * behind the text and the icon tile; their opacities cross-fade on
-   * hover so the visible body color shifts smoothly without snapping
-   * — the native `background` shorthand and `background-image` are
-   * not animatable, which is why we go through opacity instead.
-   *
-   * Text and icon tile are explicitly promoted to z-index 1 so
-   * they always paint above the gradient layers, including bare
-   * text nodes that cannot receive a `z-index` of their own
-   * (the icon tile selector covers the child element, the
-   * parent `position: relative` + `isolation: isolate` keeps
-   * the text node's paint order above the pseudo-elements).
-   *
-   * The accompanying `.glow-pill` utility is kept for legacy sections
-   * but is no longer tied to the CTA color.
-   * ------------------------------------------------------------------- */
-  .btn-pill {
-    /* Rest gradient anchored to ink, hover gradient anchored to bg.
-       Both token-driven so the inversion auto-flips with theme. */
-    --btn-rest-from: color-mix(
-      in srgb,
-      var(--color-ink) 92%,
-      var(--color-bg) 8%
-    );
-    --btn-rest-mid: var(--color-ink);
-    --btn-rest-to: color-mix(
-      in srgb,
-      var(--color-ink) 88%,
-      var(--color-bg) 12%
-    );
-    --btn-hover-from: var(--color-bg);
-    --btn-hover-mid: var(--color-bg);
-    --btn-hover-to: color-mix(
-      in srgb,
-      var(--color-bg) 92%,
-      var(--color-ink) 8%
-    );
-    --btn-text: var(--color-bg);
-    --btn-tile-bg: var(--color-bg);
-    --btn-tile-fg: var(--color-ink);
-    --btn-ring: color-mix(in srgb, var(--color-ink) 18%, transparent);
-    --btn-shadow-1: color-mix(in srgb, var(--color-bg) 60%, transparent);
-    --btn-shadow-2: color-mix(in srgb, var(--color-bg) 60%, transparent);
-    --btn-highlight: color-mix(in srgb, var(--color-ink) 16%, transparent);
-    --btn-press: color-mix(in srgb, var(--color-bg) 40%, transparent);
-
-    /* Shared timing. Easing is a soft "standard" curve (close to
-       Material's standard) — silky, never abrupt. The body
-       cross-fade gets the longest duration; the transform is
-       quicker so the lift still feels responsive. */
-    --btn-ease: cubic-bezier(0.4, 0, 0.2, 1);
-    --btn-dur-body: 480ms;
-    --btn-dur-icon: 360ms;
-    --btn-dur-lift: 280ms;
-    --btn-dur-shadow: 380ms;
-
-    position: relative;
-    display: inline-flex;
-    align-items: center;
-    gap: 0.625rem;
-    padding: 0.5rem 1.25rem 0.5rem 0.5rem;
-    font-family: var(--font-body);
-    font-size: 0.9375rem;
-    line-height: 1;
-    text-transform: none;
-    letter-spacing: -0.005em;
-    font-weight: 500;
-    color: var(--btn-text);
-    border: 0;
-    border-radius: 4px;
-    cursor: pointer;
-    background: transparent;
-    box-shadow:
-      inset 0 1px 0 var(--btn-highlight),
-      inset 0 -1px 0 var(--btn-press),
-      0 0 0 1px var(--btn-ring),
-      0 8px 24px -8px var(--btn-shadow-2);
-    transition:
-      color var(--btn-dur-body) var(--btn-ease),
-      box-shadow var(--btn-dur-shadow) var(--btn-ease),
-      transform var(--btn-dur-lift) var(--btn-ease);
-    will-change: transform, color;
-    isolation: isolate;
-  }
-  /* Rest-state gradient (full opacity at rest, fades out on hover). */
-  .btn-pill::before {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background-image: linear-gradient(
-      180deg,
-      var(--btn-rest-from) 0%,
-      var(--btn-rest-mid) 55%,
-      var(--btn-rest-to) 100%
-    );
-    opacity: 1;
-    pointer-events: none;
-    z-index: 0;
-    transition: opacity var(--btn-dur-body) var(--btn-ease);
-  }
-  /* Hover-state gradient (transparent at rest, fades in on hover). */
-  .btn-pill::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    border-radius: inherit;
-    background-image: linear-gradient(
-      180deg,
-      var(--btn-hover-from) 0%,
-      var(--btn-hover-mid) 55%,
-      var(--btn-hover-to) 100%
-    );
-    opacity: 0;
-    pointer-events: none;
-    z-index: 0;
-    transition: opacity var(--btn-dur-body) var(--btn-ease);
-  }
-  /* Children sit above both gradient layers. */
-  .btn-pill > * {
-    position: relative;
-    z-index: 1;
-  }
-  /* Hover — cross-fade the gradient layers and flip the text/tile
-     color (which is also token-driven, so it always lands the right
-     contrast). The body itself is unchanged in size; only the
-     visible gradient swaps, so the hover reads as a smooth tonal
-     shift rather than a jump. */
-  .btn-pill:hover,
-  .btn-pill:focus-visible {
-    --btn-text: var(--color-ink);
-    --btn-tile-bg: var(--color-ink);
-    --btn-tile-fg: var(--color-bg);
-    --btn-ring: color-mix(in srgb, var(--color-ink) 30%, transparent);
-    --btn-shadow-2: color-mix(in srgb, var(--color-bg) 35%, transparent);
-    --btn-highlight: color-mix(in srgb, var(--color-bg) 12%, transparent);
-    --btn-press: color-mix(in srgb, var(--color-ink) 12%, transparent);
-    transform: translateY(-1px);
-  }
-  .btn-pill:hover::before,
-  .btn-pill:focus-visible::before {
-    opacity: 0;
-  }
-  .btn-pill:hover::after,
-  .btn-pill:focus-visible::after {
-    opacity: 1;
-  }
-  .btn-pill:focus-visible {
-    outline: 2px solid var(--color-ink);
-    outline-offset: 3px;
-    border-radius: 4px;
-  }
-
-  /* Icon tile inset on the left — sits flush with the button's
-     squared (4px) corners. The icon glyph lives inside. Color tokens
-     are driven from the parent .btn-pill so the tile inverts together
-     with the body. A tiny delay (40ms) makes the tile "lead" the
-     body cross-fade by a hair, so the eye reads the icon flip first
-     and then the body catches up — feels more deliberate than a
-     simultaneous jump. */
-  .btn-pill__icon {
-    display: inline-flex;
-    align-items: center;
+  .cta-buttons > div,
+  .cta-buttons a {
+    width: 100%;
     justify-content: center;
-    width: 2rem;
-    height: 2rem;
-    border-radius: 4px;
-    background: var(--btn-tile-bg);
-    color: var(--btn-tile-fg);
-    flex-shrink: 0;
-    transition:
-      background var(--btn-dur-icon) var(--btn-ease) 40ms,
-      color var(--btn-dur-icon) var(--btn-ease) 40ms;
-  }
-  /* Text label — wrapped in its own span so the bare text inside the
-     anchor isn't painted beneath the absolute-positioned ::before
-     gradient. Forms its own stacking layer via the .btn-pill > * rule
-     above and inherits --btn-text from the parent. */
-  .btn-pill__label {
-    display: inline-block;
-    color: inherit;
-  }
-
-  /* Soft page-wash (kept for backwards compatibility with FinalCta
-     and any other section that wants a colored aura around the
-     button). Now neutral charcoal so it doesn't fight the button. */
-  .glow-pill {
-    background-image: radial-gradient(
-      ellipse 50% 60% at 50% 50%,
-      rgba(255, 255, 255, 0.05) 0%,
-      transparent 70%
-    );
-  }
-
-  /* Card hover — flips the card to platinum with charcoal text. */
-  .hover-accent-invert {
-    transition: background-color 220ms ease, color 220ms ease,
-      border-color 220ms ease;
-  }
-  .hover-accent-invert:hover {
-    background: var(--color-accent);
-    color: var(--color-accent-ink);
-    border-color: var(--color-accent);
-  }
-
-  .hover-accent-border {
-    transition: border-color 220ms ease, box-shadow 220ms ease;
-  }
-  .hover-accent-border:hover {
-    border-color: var(--color-accent);
-    box-shadow: 0 0 0 1px var(--color-accent);
-  }
-
-  .hover-accent-glow {
-    transition: box-shadow 280ms ease, transform 280ms ease;
-  }
-  .hover-accent-glow:hover {
-    box-shadow:
-      0 0 0 1px var(--color-accent),
-      0 8px 32px -8px var(--color-accent-glow);
-  }
-
-  /* Underline accent — 2px platinum that grows from the left on hover. */
-  .accent-underline {
-    position: relative;
-  }
-  .accent-underline::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -4px;
-    height: 2px;
-    width: 0;
-    background: var(--color-accent);
-    transition: width 280ms cubic-bezier(0.22, 1, 0.36, 1);
-  }
-  .accent-underline:hover::after,
-  .group:hover .accent-underline::after {
-    width: 100%;
-  }
-
-  .text-muted {
-    color: var(--color-ink-muted);
-  }
-
-  html.light .text-muted {
-    color: var(--color-ink-muted-light);
-  }
-
-  /* Skip link */
-  .skip-link {
-    position: absolute;
-    inset-inline-start: 1rem;
-    inset-block-start: 1rem;
-    padding: 0.5rem 0.75rem;
-    background: var(--color-ink);
-    color: var(--color-bg);
-    font-family: var(--font-mono);
-    font-size: 0.75rem;
-    text-transform: uppercase;
-    letter-spacing: var(--tracking-eyebrow);
-    transform: translateY(-200%);
-    transition: transform 0.2s ease;
-    z-index: 100;
-  }
-
-  .skip-link:focus-visible {
-    transform: translateY(0);
-  }
-
-  html.light .skip-link {
-    background: var(--color-ink-light);
-    color: var(--color-bg-light);
-  }
-
-  /* ---------------------------------------------------------------------
-   * Hero noise overlay
-   * SVG feTurbulence generates monochromatic grain at render time — no
-   * extra HTTP request, scales infinitely, and stays sharp on any DPR.
-   * The blend mode (`overlay` in dark, `multiply` in light) lets the
-   * noise interact with the underlying image's luminance rather than
-   * just stacking as flat gray.
-   * ------------------------------------------------------------------- */
-  .hero-noise {
-    /* Base frequency ~0.9 gives a fine grain; octaves add natural
-       variation without becoming visually busy. */
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='matrix' values='0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
-    background-size: 200px 200px;
-    /* Medium grain visibility (~10% effective). */
-    opacity: 0.1;
-    mix-blend-mode: overlay;
-    pointer-events: none;
-  }
-
-  html.light .hero-noise {
-    /* Invert feel on the paper-cream theme — `multiply` darkens whites
-       instead of lightening them, so the grain reads as ink dust. */
-    mix-blend-mode: multiply;
-    opacity: 0.12;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    .hero-noise {
-      /* Grain is static, but a small safety in case the blend mode ever
-         triggers a paint cost on low-power devices. */
-      display: none;
-    }
-  }
-
-  /* ---------------------------------------------------------------------
-   * Interactive field — cursor-following logo reveal
-   *
-   * The "AI Deployed" wordmark sits behind the dot field and is only
-   * visible inside a soft circular "flashlight" that follows the
-   * pointer. The mask center is driven by the `--mx` / `--my` CSS
-   * custom properties set inline on the wrapper, and the radius is
-   * `--mask-radius` (also inline).
-   *
-   * The two-stop radial gradient gives a hard inner core (where the
-   * wordmark is fully visible) and a feathered edge (where it fades
-   * into the dot field). Outside the gradient the element is fully
-   * transparent, so the dots are the only thing the user sees
-   * except directly under the cursor.
-   * ------------------------------------------------------------------- */
-  .logo-reveal-mask {
-    /* WebKit prefix first (Safari, older Chrome), then standard. */
-    -webkit-mask-image: radial-gradient(
-      circle var(--mask-radius, 140px) at var(--mx, -9999px) var(--my, -9999px),
-      #000 0%,
-      #000 35%,
-      rgba(0, 0, 0, 0.6) 65%,
-      transparent 100%
-    );
-    mask-image: radial-gradient(
-      circle var(--mask-radius, 140px) at var(--mx, -9999px) var(--my, -9999px),
-      #000 0%,
-      #000 35%,
-      rgba(0, 0, 0, 0.6) 65%,
-      transparent 100%
-    );
-    -webkit-mask-repeat: no-repeat;
-    mask-repeat: no-repeat;
-    /* Match the wrapper's coordinate system — the radial gradient is
-       in pixel space, not relative to the element's own box. */
-    -webkit-mask-origin: border-box;
-    mask-origin: border-box;
-  }
-
-  .logo-reveal-wordmark {
-    /* Subtle blend so the wordmark sits *within* the dot field rather
-       than punching a hard hole. `screen` lightens the field where the
-       logo overlaps in dark mode; `multiply` darkens it in light mode. */
-    mix-blend-mode: screen;
-  }
-
-  html.light .logo-reveal-wordmark {
-    mix-blend-mode: multiply;
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    /* Keep the reveal functional — it's a passive hover effect — but
-       disable the opacity fade-in transition for users who prefer no
-       motion. */
-    .logo-reveal-mask {
-      transition: none;
-    }
-  }
-
-  /* ---------------------------------------------------------------------
-   * Grid fill — close the last row of an odd-count card group.
-   *
-   * Some sections (Capabilities tabs, Case Studies index, …) have a
-   * card count that doesn't divide cleanly into the desktop column
-   * count (e.g. 5 cards in a 3-col grid → row 2 has 2 cards + a
-   * dangling empty cell). We mark the *last* card with
-   * `data-fill="<span>"` (via `gridFillProps` in
-   * `src/lib/gridFill.ts`) and these rules make it span the
-   * remaining columns of its row, so the last row is always full.
-   *
-   * Tailwind's responsive variants are escaped as `lg\:grid-cols-3`
-   * inside the selector.
-   * ------------------------------------------------------------------- */
-  @media (min-width: 1024px) {
-    .lg\:grid-cols-3 > [data-fill="2"] {
-      grid-column: span 2 / span 2;
-    }
-    .lg\:grid-cols-4 > [data-fill="2"] {
-      grid-column: span 2 / span 2;
-    }
-    .lg\:grid-cols-4 > [data-fill="3"] {
-      grid-column: span 3 / span 3;
-    }
+    height: 44px !important;
   }
 }

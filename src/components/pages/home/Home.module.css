@@ -1,0 +1,407 @@
+/* Home page layout. Desktop (>=1100) values match the 1440 Paper artboard exactly.
+   Inline styles in the components carry desktop values; rules here with !important
+   override them at smaller breakpoints. */
+
+.home {
+  --h-panel: #e4e4e0;
+  --h-dot: #c9c9c3;
+  overflow-x: clip;
+  width: 100%;
+}
+.home > * {
+  min-width: 0;
+  max-width: 100%;
+}
+:root[data-theme="dark"] .home {
+  --h-panel: #151514;
+  --h-dot: #2f2f2c;
+}
+
+/* ---------- shared ---------- */
+.h1 {
+  margin: 0;
+  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1.0556;
+  letter-spacing: -0.035em;
+  max-width: 780px;
+}
+.h2 {
+  margin: 0;
+  font-weight: 400;
+  font-family: var(--font-sans);
+  font-size: clamp(32px, 3.34vw, 48px);
+  line-height: 1.125;
+  letter-spacing: -0.03em;
+}
+.lede {
+  margin: 0;
+  color: var(--c-muted);
+  flex-shrink: 0;
+  font-family: var(--font-sans);
+  font-size: 17px;
+  line-height: 26px;
+  width: 360px;
+}
+.head {
+  align-items: flex-end;
+  display: flex;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 136px 56px 64px;
+}
+.btnRow {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.chip {
+  cursor: pointer;
+  padding: 8px 12px;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  line-height: 14px;
+  transition:
+    background-color 0.25s,
+    color 0.25s,
+    border-color 0.25s;
+}
+
+/* ---------- hero ---------- */
+.heroTop {
+  align-items: flex-end;
+  display: flex;
+  justify-content: space-between;
+  gap: 32px;
+  padding: 0 56px 96px;
+}
+.heroStage {
+  width: 100%;
+}
+.heroArt {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1278 / 700;
+}
+
+/* ---------- capabilities ---------- */
+.capTabs {
+  width: 520px;
+}
+.capQueue {
+  min-height: 420px;
+}
+
+/* ---------- process / use cases ---------- */
+.steps,
+.cases {
+  display: flex;
+}
+.step,
+.case {
+  flex: 1 1 0%;
+}
+
+/* ---------- security ---------- */
+.secRow {
+  display: flex;
+}
+.secLeft {
+  width: 640px;
+  padding: 136px 56px 96px;
+}
+.secRight {
+  padding: 48px 32px;
+}
+.secArt {
+  position: relative;
+  width: 576px;
+  max-width: 100%;
+}
+.secImg {
+  width: 100%;
+  aspect-ratio: 576 / 332;
+  background-position: 50%;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+.secTag {
+  position: absolute;
+  padding: 3px 6px;
+  line-height: 12px;
+  white-space: nowrap;
+}
+.faqBtn {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  padding-block: 18px;
+}
+.faqBtn:focus-visible {
+  outline: 1px solid var(--c-accent);
+}
+
+/* ---------- residency ---------- */
+.mapWrap {
+  position: relative;
+}
+.mapStage {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1278 / 770;
+  overflow: clip;
+}
+.mapTag {
+  position: absolute;
+  white-space: nowrap;
+}
+.pin {
+  all: unset;
+  cursor: pointer;
+  position: absolute;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  white-space: nowrap;
+}
+.regionList {
+  position: absolute;
+  left: 40px;
+  top: 40px;
+  width: 280px;
+  z-index: 4;
+}
+.regionRow {
+  all: unset;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 14px;
+  transition: background-color 0.25s;
+}
+
+/* ---------- results ---------- */
+.stats {
+  display: flex;
+}
+.stat {
+  flex: 1 1 0%;
+  display: flex;
+  flex-direction: column;
+  gap: 56px;
+  padding: 40px 40px 44px;
+}
+.statNum {
+  font-family: var(--font-sans);
+  font-size: clamp(56px, 6.1vw, 88px);
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+/* =================== tablet =================== */
+@media (max-width: 1099px) {
+  .head,
+  .heroTop {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding-inline: 24px !important;
+  }
+  .head {
+    padding-top: 96px !important;
+    padding-bottom: 48px !important;
+  }
+  .heroTop {
+    padding-bottom: 64px !important;
+  }
+  .heroTop > * {
+    width: 100% !important;
+  }
+  .lede {
+    width: 100% !important;
+    max-width: 560px;
+  }
+  .callout {
+    display: none !important;
+  }
+
+  .capRow {
+    flex-direction: column !important;
+  }
+  .capTabs {
+    width: 100% !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .capQueue {
+    padding: 40px 24px !important;
+    min-height: 0 !important;
+    width: 100%;
+    box-sizing: border-box;
+    flex-basis: auto !important;
+  }
+
+  .steps {
+    flex-wrap: wrap;
+  }
+  .step {
+    flex: 1 1 50% !important;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .step:nth-child(2n) {
+    border-right: none !important;
+  }
+  .ruler {
+    display: none !important;
+  }
+
+  .cases {
+    flex-wrap: wrap;
+  }
+  .case {
+    flex: 1 1 33.333% !important;
+    border-bottom: 1px solid var(--c-line);
+  }
+  .case:nth-child(3n) {
+    border-right: none !important;
+  }
+
+  .secRow {
+    flex-direction: column;
+  }
+  .secLeft {
+    width: 100% !important;
+    padding: 96px 24px 64px !important;
+    border-right: none !important;
+  }
+  .secRight {
+    padding: 48px 24px !important;
+    border-top: 1px solid var(--c-line);
+    align-items: center;
+  }
+
+  .regionList {
+    position: static !important;
+    width: auto !important;
+    margin: 24px;
+  }
+  .pinLabel {
+    font-size: 10px !important;
+  }
+
+  .stats {
+    flex-direction: column;
+  }
+  .stat {
+    border-right: none !important;
+    border-bottom: 1px solid var(--c-line);
+    gap: 32px !important;
+    padding: 32px 24px !important;
+  }
+  .sectors {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+    padding-inline: 24px !important;
+  }
+  .sectorList {
+    flex-wrap: wrap;
+    gap: 16px 32px !important;
+  }
+}
+
+/* =================== mobile =================== */
+@media (max-width: 767px) {
+  .head,
+  .heroTop,
+  .sectors {
+    padding-inline: 20px !important;
+  }
+  .head {
+    padding-top: 56px !important;
+    padding-bottom: 40px !important;
+  }
+  .heroTop {
+    padding-bottom: 48px !important;
+  }
+  .heroCaption {
+    flex-direction: column !important;
+    align-items: flex-start !important;
+  }
+  .btnRow > *,
+  .btnRow a,
+  .btnRow button {
+    height: 44px !important;
+  }
+  .capTab {
+    padding-inline: 20px !important;
+  }
+  .capTabBody {
+    padding-left: 0 !important;
+  }
+  .capQueue {
+    padding: 24px 16px !important;
+  }
+  .qBtn {
+    padding-block: 15px !important;
+  }
+
+  .step {
+    flex: 1 1 100% !important;
+    border-right: none !important;
+    padding-inline: 20px !important;
+  }
+
+  .cases {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+  .case {
+    flex: 0 0 78% !important;
+    scroll-snap-align: start;
+    border-right: 1px solid var(--c-line) !important;
+    border-bottom: none;
+  }
+
+  .secLeft {
+    padding: 56px 20px 48px !important;
+  }
+  .secRight {
+    padding: 32px 16px !important;
+  }
+  .secTag {
+    transform: scale(0.85);
+    transform-origin: left top;
+  }
+  .faqBtn {
+    min-height: 44px;
+  }
+
+  .pinLabel,
+  .mapTag {
+    display: none !important;
+  }
+  .pin {
+    padding: 14px;
+    margin: -14px;
+  }
+  .regionList {
+    margin: 20px;
+  }
+  .regionRow {
+    min-height: 44px;
+  }
+  .chip {
+    min-height: 44px;
+  }
+  .stat {
+    padding: 28px 20px !important;
+  }
+}
