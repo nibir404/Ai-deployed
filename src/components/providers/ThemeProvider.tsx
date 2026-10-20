@@ -36,7 +36,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       if (next === theme) return;
       const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
       const doc = document as Document & {
-        startViewTransition?: (cb: () => void) => { ready: Promise<void> };
+        startViewTransition?: (cb: () => void) => { ready: Promise<void>; finished: Promise<void> };
       };
 
       const commit = () => {
@@ -57,6 +57,8 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
       const r = Math.hypot(Math.max(x, window.innerWidth - x), Math.max(y, window.innerHeight - y));
 
       const vt = doc.startViewTransition(commit);
+      // A second toggle mid-animation aborts the first transition; that's expected, not an error.
+      vt.finished.catch(() => {});
       vt.ready.then(() => {
         // Stepped radius gives the reveal a pixel-grid feel that matches the brand.
         const steps = 14;
@@ -76,7 +78,7 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
           [{ filter: "brightness(1)" }, { filter: "brightness(0.85)" }],
           { duration: 900, easing: "ease-out", pseudoElement: "::view-transition-old(root)" } as KeyframeAnimationOptions,
         );
-      });
+      }).catch(() => {});
     },
     [theme],
   );

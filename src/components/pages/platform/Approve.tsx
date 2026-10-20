@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import { Tilt } from "@/components/motion/Tilt";
+import dynamic from "next/dynamic";
 import s from "./platform.module.css";
 import { CopyCol, IconList, Section, mono, sans } from "./ui";
 
@@ -15,6 +15,25 @@ const INITIAL: Item[] = [
   { id: 3, title: "Support reply · order #8841", status: "approved", ago: "2M AGO" },
 ];
 
+function GatePng() {
+  return (
+    <div
+      role="img"
+      aria-label="Isometric approval gate: drafts pass through a checkpoint before leaving"
+      style={{
+        backgroundImage: "url(/assets/31PS3GSQ8J2FW7KBPZWJARNAYG.png)",
+        backgroundPosition: "50%",
+        backgroundRepeat: "no-repeat",
+        backgroundSize: "100% 100%",
+        aspectRatio: "640 / 318",
+        width: "100%",
+      }}
+    />
+  );
+}
+
+const GateScene = dynamic(() => import("@/components/iso-scenes/GateScene"), { ssr: false, loading: () => <GatePng /> });
+
 const SUB: Record<Status, string> = {
   pending: "AGENT DRAFTED · AWAITING YOUR REVIEW",
   editing: "EDITING DRAFT · CHANGES NOT SENT",
@@ -26,8 +45,13 @@ export function Approve() {
   const [items, setItems] = useState(INITIAL);
   const pending = items.filter((i) => i.status !== "approved").length;
 
-  const set = (id: number, status: Status) =>
+  // Signals for the gate illustration: each APPROVE lifts the barrier, each EDIT turns the robot back.
+  const [signals, setSignals] = useState({ approve: 0, edit: 0 });
+  const set = (id: number, status: Status) => {
+    if (status === "approved") setSignals((x) => ({ ...x, approve: x.approve + 1 }));
+    else if (status === "editing") setSignals((x) => ({ ...x, edit: x.edit + 1 }));
     setItems((xs) => xs.map((x) => (x.id === id ? { ...x, status, ago: status === "approved" ? "JUST NOW" : x.ago } : x)));
+  };
 
   // When the queue is cleared, a fresh draft arrives after a moment.
   useEffect(() => {
@@ -43,23 +67,9 @@ export function Approve() {
         style={{ borderRight: "1px solid var(--c-line)", boxSizing: "border-box" }}
       >
         <div data-parallax="0.08" className={s.w640}>
-          <Tilt max={6}>
-            <div
-              data-reveal="scale"
-              className={s.float}
-              role="img"
-              aria-label="Isometric approval gate: drafts pass through a checkpoint before leaving"
-              style={{
-                backgroundImage: "url(/assets/31PS3GSQ8J2FW7KBPZWJARNAYG.png)",
-                backgroundPosition: "50%",
-                backgroundRepeat: "no-repeat",
-                backgroundSize: "100% 100%",
-                boxSizing: "border-box",
-                aspectRatio: "640 / 318",
-                width: "100%",
-              }}
-            />
-          </Tilt>
+          <div data-reveal="scale">
+            <GateScene approveSignal={signals.approve} editSignal={signals.edit} fallback={<GatePng />} />
+          </div>
         </div>
         <div
           data-reveal=""
